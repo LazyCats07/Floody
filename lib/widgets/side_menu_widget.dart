@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:website/const/constant.dart';
-import 'package:website/model/side_menu_data.dart';
+import 'package:website/data/side_menu_data.dart';
 
 class SideMenuWidget extends StatefulWidget {
   const SideMenuWidget({super.key});
