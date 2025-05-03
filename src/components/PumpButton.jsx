@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FormLabel, FormControl, FormGroup, FormControlLabel, Switch, Typography } from '@mui/material';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import { red } from '@mui/material/colors';
-import { ref, set } from "firebase/database"; // Import firebase function
+import { ref, set, onValue } from "firebase/database"; // Import firebase functions
 import { database } from "./firebase-config"; // Import database connection
 
 import "./CSS/Controller.css";  // Import CSS untuk responsivitas
@@ -34,6 +34,21 @@ export default function PumpButton() {
         console.error("Error updating pump status: ", error);
       });
   };
+
+  // Gunakan useEffect untuk mendengarkan perubahan status pompa di Firebase
+  React.useEffect(() => {
+    const pumpsRef = ['pump1', 'pump2', 'pump3'];  // Nama pompa yang ingin dipantau
+    pumpsRef.forEach((pump) => {
+      const pumpRef = ref(database, `Kontrol/${pump}`);
+      onValue(pumpRef, (snapshot) => {
+        const status = snapshot.val();
+        setState((prevState) => ({
+          ...prevState,
+          [pump]: status || false,  // Update status pompa dengan nilai yang ada di Firebase
+        }));
+      });
+    });
+  }, []);
 
   return (
     <FormControl component="fieldset" variant="standard" className="form-container">

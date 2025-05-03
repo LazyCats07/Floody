@@ -42,6 +42,7 @@ import Navbar from '../Navbar';
 import Sidenav from '../Sidenav';
 import LineChartSungai from '../LineChartSungai';
 import LineChartKolam from '../LineChartKolam';
+import PumpButton from '../../components/PumpButton';
   
 export default function Home() {
   const [tmaSungai, setTmaSungai] = useState(null);
@@ -294,6 +295,22 @@ export default function Home() {
                   </Stack>
                 </CardContent>
               </Card>
+
+              <Box height={20} />
+              <Card sx={{ maxWidth: 345 }}>
+                <CardContent>
+                  <Stack spacing={2} direction={'row'}>
+                    <div className="iconStyle">
+                    <BuildCircleIcon />
+                    </div>
+                    <div className="paddingAll">
+                      <span className='watersubValue'>Pompa Aktif</span>
+                      <PumpButton />
+                    </div>
+                  </Stack>
+                </CardContent>
+              </Card>
+
             </Grid>
           </Grid>
       </Box>  
