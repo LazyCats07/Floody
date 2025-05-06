@@ -1,23 +1,25 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { debounce } from 'lodash'; // Import lodash untuk debounce
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import TablePagination from '@mui/material/TablePagination';
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
+import Button from "@mui/material/Button";
+import { jsPDF } from "jspdf"; // Import jsPDF
+import "jspdf-autotable"; // Import autoTable plugin
 import { RealTimeDataList } from './RealTimeDataList'; // Import the RealTimeDataList function
 
 export default function DataList() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  // State to store real-time data for each category
-  const [curahHujanData, setCurahHujanData] = useState([]);
+  const [curahHujanBSData, setCurahHujanBSData] = useState([]);
+  const [curahHujanDKData, setCurahHujanDKData] = useState([]);
   const [debitCipalasariData, setDebitCipalasariData] = useState([]);
   const [debitCitarumData, setDebitCitarumData] = useState([]);
   const [debitHilirData, setDebitHilirData] = useState([]);
@@ -25,26 +27,33 @@ export default function DataList() {
   const [tmaKolamData, setTmaKolamData] = useState([]);
   const [tmaHilirData, setTmaHilirData] = useState([]);
   const [statusPompaData, setStatusPompaData] = useState([]);
-
-  // State for sorting (default to descending)
   const [sortConfig, setSortConfig] = useState({ key: "timestamp", direction: "desc" });
 
-  // UseEffect to fetch and update the real-time data from Firebase
   useEffect(() => {
-    const setters = {
-      curahHujan: setCurahHujanData,
-      debitCipalasari: setDebitCipalasariData,
-      debitCitarum: setDebitCitarumData,
-      debitHilir: setDebitHilirData,
-      tmaSungai: setTmaSungaiData,
-      tmaKolam: setTmaKolamData,
-      tmaHilir: setTmaHilirData,
-      statusPompa: setStatusPompaData,
-    };
+    // Debounced fetch function to optimize Firebase calls
+    const fetchData = debounce(async () => {
+      const setters = {
+        curahHujanBS: setCurahHujanBSData,
+        curahHujanDK: setCurahHujanDKData,
+        debitCipalasari: setDebitCipalasariData,
+        debitCitarum: setDebitCitarumData,
+        debitHilir: setDebitHilirData,
+        tmaSungai: setTmaSungaiData,
+        tmaKolam: setTmaKolamData,
+        tmaHilir: setTmaHilirData,
+        statusPompa: setStatusPompaData,
+      };
 
-    // Call RealTimeDataList to fetch data and pass setters for state updating
-    RealTimeDataList(setters);
-  }, []); // Empty dependency array means this effect runs only once when the component mounts
+      // Firebase query to fetch data based on a limit or filter
+      RealTimeDataList(setters);
+    }, 3000); // 1-second delay for debouncing the function
+
+    fetchData();
+
+    return () => {
+      fetchData.cancel(); // Clean up debouncing when the component unmounts
+    };
+  }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -55,42 +64,81 @@ export default function DataList() {
     if (sortConfig.key === column && sortConfig.direction === "asc") {
       newDirection = "desc";
     }
-
     setSortConfig({ key: column, direction: newDirection });
   };
-
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
+  // Format the timestamp to ensure it's sorted correctly
+  const formatTimestamp = (timestamp) => {
+    const formattedTimestamp = timestamp.replace(/_/g, ':').replace(/-/g, '/');
+    const date = new Date(formattedTimestamp);
+    return date;
+  };
+
   // Combine all data into rows for the table display
   const rows = [];
-  for (let i = 0; i < curahHujanData.length; i++) {
+  for (let i = 0; i < curahHujanBSData.length; i++) {
     rows.push({
-      timestamp: curahHujanData[i].timestamp,
-      curahHujan: curahHujanData[i].value,
-      debitCipalasari: debitCipalasariData[i] ? debitCipalasariData[i].value : '-',
-      debitCitarum: debitCitarumData[i] ? debitCitarumData[i].value : '-',
-      debitHilir: debitHilirData[i] ? debitHilirData[i].value : '-',
-      tmaSungai: tmaSungaiData[i] ? tmaSungaiData[i].value : '-',
-      tmaKolam: tmaKolamData[i] ? tmaKolamData[i].value : '-',
-      tmaHilir: tmaHilirData[i] ? tmaHilirData[i].value : '-',
-      statusPompa: statusPompaData[i] ? statusPompaData[i].value : '-', // Include Status Pompa here
+      timestamp: tmaKolamData[i]?.timestamp || '-',
+      curahHujanBS: curahHujanBSData[i]?.value || '-',
+      curahHujanDK: curahHujanDKData[i]?.value || '-',
+      debitCipalasari: debitCipalasariData[i]?.value || '-',
+      debitCitarum: debitCitarumData[i]?.value || '-',
+      debitHilir: debitHilirData[i]?.value || '-',
+      tmaSungai: tmaSungaiData[i]?.value || '-',
+      tmaKolam: tmaKolamData[i]?.value || '-',
+      tmaHilir: tmaHilirData[i]?.value || '-',
+      statusPompa: statusPompaData[i]?.value || '-',
     });
   }
 
-  // Sort the rows based on the sortConfig
+  // Sort the rows based on the timestamp
   rows.sort((a, b) => {
     const { key, direction } = sortConfig;
-    const valueA = a[key];
-    const valueB = b[key];
+    const dateA = formatTimestamp(a[key]);
+    const dateB = formatTimestamp(b[key]);
 
-    if (valueA < valueB) return direction === "asc" ? -1 : 1;
-    if (valueA > valueB) return direction === "asc" ? 1 : -1;
+    if (dateA < dateB) return direction === "asc" ? -1 : 1;
+    if (dateA > dateB) return direction === "asc" ? 1 : -1;
     return 0;
   });
+
+  // Function to generate PDF report
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text('Laporan Tinggi Air Polder', 20, 20);
+    doc.setFontSize(12);
+    doc.text('Data lingkungan polder terekam:', 20, 30);
+
+    // Prepare the table data
+    const tableData = rows.map((row) => [
+      row.timestamp,
+      row.curahHujanBS,
+      row.curahHujanDK,
+      row.debitCipalasari,
+      row.debitCitarum,
+      row.debitHilir,
+      row.tmaKolam,
+      row.tmaSungai,
+      row.tmaHilir,
+      row.statusPompa,
+    ]);
+
+    // Using autoTable plugin to add the table to the PDF
+    doc.autoTable({
+      startY: 40,
+      head: [['Waktu', 'Curah Hujan (mm)', 'Debit Cipalasari (L/min)', 'Debit Citarum (L/min)', 'Debit Hilir (L/min)', 'TMA Kolam Polder (m)', 'TMA Sungai Citarum (m)', 'TMA Hilir (m)', 'Status Pompa']],
+      body: tableData,
+    });
+
+    // Save the generated PDF
+    doc.save('laporan_tinggi_air_polder.pdf');
+  };
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -98,6 +146,12 @@ export default function DataList() {
         Data Lingkungan Polder
       </Typography>
       <Divider />
+
+      {/* Button to generate PDF report */}
+      <Button variant="contained" color="primary" onClick={generatePDF} sx={{ margin: "10px" }}>
+        Generate Laporan PDF
+      </Button>
+
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -105,8 +159,11 @@ export default function DataList() {
               <TableCell align="left" onClick={() => handleSort("timestamp")}>
                 Waktu {sortConfig.key === "timestamp" && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </TableCell>
-              <TableCell align="left" onClick={() => handleSort("curahHujan")}>
-                Curah Hujan Bandung (mm) {sortConfig.key === "curahHujan" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+              <TableCell align="left" onClick={() => handleSort("curahHujanBS")}>
+                Curah Hujan Bandung Bojongsoang (mm) {sortConfig.key === "curahHujanBS" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+              </TableCell>
+              <TableCell align="left" onClick={() => handleSort("curahHujanDK")}>
+                Curah Hujan Bandung Dayeuhkolot (mm) {sortConfig.key === "curahHujanDK" && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </TableCell>
               <TableCell align="left" onClick={() => handleSort("debitCipalasari")}>
                 Debit Cipalasari (L/min) {sortConfig.key === "debitCipalasari" && (sortConfig.direction === "asc" ? "↑" : "↓")}
@@ -135,14 +192,15 @@ export default function DataList() {
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
               <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                 <TableCell align="left">{row.timestamp}</TableCell>
-                <TableCell align="left">{row.curahHujan}</TableCell>
+                <TableCell align="left">{row.curahHujanBS}</TableCell>
+                <TableCell align="left">{row.curahHujanDK}</TableCell>
                 <TableCell align="left">{row.debitCipalasari}</TableCell>
                 <TableCell align="left">{row.debitCitarum}</TableCell>
                 <TableCell align="left">{row.debitHilir}</TableCell>
                 <TableCell align="left">{row.tmaKolam}</TableCell>
                 <TableCell align="left">{row.tmaSungai}</TableCell>
                 <TableCell align="left">{row.tmaHilir}</TableCell>
-                <TableCell align="left">{row.statusPompa}</TableCell> {/* Include Status Pompa in the row */}
+                <TableCell align="left">{row.statusPompa}</TableCell>
               </TableRow>
             ))}
           </TableBody>

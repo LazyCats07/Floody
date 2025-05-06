@@ -17,6 +17,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useAppStore } from '../appStore';
 import { useNavigate } from 'react-router-dom';
+import Home from './pages/Home';
 
 // import Logout from './Logout';
 
@@ -110,7 +111,7 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => navigate('/Login')}>Home</MenuItem>
+      <MenuItem onClick={() => navigate('/Home')}>Home</MenuItem>
       <MenuItem onClick={() => navigate('/Login')}>logout</MenuItem>
 
 
@@ -202,7 +203,7 @@ export default function Navbar() {
           </Search> */}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+            {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
@@ -215,7 +216,7 @@ export default function Navbar() {
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
             <IconButton
               size="large"
               edge="end"
