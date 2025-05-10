@@ -55,7 +55,8 @@ export default function Home() {
   const [debitSungai, setDebitSungai] = useState(null);
   const [debitKolam, setDebitKolam] = useState(null);
   const [debitHilir, setDebitHilir] = useState(null);
-  const [curahHujan, setCurahHujan] = useState(null);
+  const [curahHujanBS, setCurahHujanBS] = useState(null);
+  const [curahHujanDK, setCurahHujanDK] = useState(null);
   const [pompa, setPompa] = useState(null);
 
   useEffect(() => {
@@ -66,7 +67,8 @@ export default function Home() {
       debitSungai: setDebitSungai,
       debitKolam: setDebitKolam,
       debitHilir: setDebitHilir,
-      curahHujan: setCurahHujan,
+      curahHujanBS: setCurahHujanBS,
+      curahHujanDK: setCurahHujanDK,
       pompa: setPompa,
     });
   }, []); 
@@ -337,10 +339,10 @@ export default function Home() {
                     <div className="paddingAll">
 
                       {/* Tampilan Data Curah Hujan Dayeuhkolot */}
-                      <span className="waterValue">{renderCountUp(debitHilir, 'mm')}</span><br />
+                      <span className="waterValue">{renderCountUp(curahHujanBS, 'mm')}</span><br />
                       {/* Tampilan Data Curah Hujan Dayeuhkolot */}
 
-                      <span className='watersubValue'> Curah Hujan Dayeuhkolot</span>
+                      <span className='watersubValue'> Curah Hujan Bojongsoang</span>
                     </div>
                   </Stack>
                 </CardContent>
@@ -356,10 +358,10 @@ export default function Home() {
                     <div className="paddingAll">
 
                       {/* Tampilan Data Curah Hujan Bojongsoang */}
-                      <span className="waterValue">{renderCountUp(debitHilir, 'mm')}</span><br />
+                      <span className="waterValue">{renderCountUp(curahHujanDK, 'mm')}</span><br />
                       {/* Tampilan Data Curah Hujan Bojongsoang */}
 
-                      <span className='watersubValue'>Curah Hujan Bojongsoang</span>
+                      <span className='watersubValue'>Curah Hujan Dayeuhkolot</span>
                     </div>
                   </Stack>
                 </CardContent>

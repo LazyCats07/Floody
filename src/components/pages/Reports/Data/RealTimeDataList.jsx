@@ -7,8 +7,8 @@ export function RealTimeDataList(setters) {
 
   // Menggunakan ref untuk berbagai data yang diambil
   const dataRefs = {
-    curahHujanBS: ref(database, 'Polder/Curah_HujanBS'),
-    curahHujanDK: ref(database, 'Polder/Curah_HujanDK'),
+    // curahHujanBS: ref(database, 'Polder/Curah_HujanBS'),
+    // curahHujanDK: ref(database, 'Polder/Curah_HujanDK'),
     debitCipalasari: ref(database, 'Polder/Debit_Cipalasari'),
     debitCitarum: ref(database, 'Polder/Debit_Citarum'),
     debitHilir: ref(database, 'Polder/Debit_Hilir'),

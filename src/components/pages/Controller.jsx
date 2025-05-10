@@ -101,7 +101,7 @@ return (
             </Grid>
 
             <Grid size={4}>
-              <Card sx={{ height: 60 + "vh", maxWidth: 345 }}>
+              <Card sx={{ height: 60 + "vh" }}>
                 <CardContent>
                   <Typography gutterBottom variant="h6" component="div">
                     <b>Catatan</b>

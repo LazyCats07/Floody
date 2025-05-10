@@ -167,11 +167,6 @@ const LineChartKolam = () => {
   });
 };
 
-
-
-
-
-
   // Fetch data per tahun (group by year and average the values)
   const fetchDataPerTahun = () => {
     const dbRef = ref(database, "Polder/TMA_Sungai");
