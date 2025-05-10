@@ -114,7 +114,7 @@ export default function Home() {
             <Grid size={8}>
               <Stack spacing={2} direction={'row'}>
 
-              <Card sx={{ height: 60 + "vh", minWidth: 99.75 + "%" }}>
+              <Card sx={{ height: 70 + "vh", minWidth: 99.75 + "%" }}>
                 <CardContent>
                   <Typography gutterBottom variant="h6" component="div">
                     <b>Prosedur Operasi PINTU AIR & POMPA</b>
