@@ -21,6 +21,11 @@ import OpenWithIcon from '@mui/icons-material/OpenWith';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../appStore';
 import LogoutIcon from '@mui/icons-material/Logout';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import { ref, set } from "firebase/database";
+import { database } from "./firebase-config"; // Import your firebase config
+
+
 
 const drawerWidth = 240;
 
@@ -77,6 +82,25 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     ],
   })
 );
+
+// Reset Firebase control Logic
+const resetFirebaseControl = () => {
+  const controlRef = ref(database, 'Kontrol');
+
+  // Set the initial values for PintuAir and pumps
+  set(controlRef, {
+    PintuAir: 0,  // Resetting the PintuAir
+    pump1: false, // Turning off pump1
+    pump2: false, // Turning off pump2
+    pump3: false, // Turning off pump3
+  })
+    .then(() => {
+      console.log("Force shutdown complete, values reset.");
+    })
+    .catch((error) => {
+      console.error("Error resetting Firebase values:", error);
+    });
+};
 
 export default function Sidenav() {
   const theme = useTheme();
@@ -159,6 +183,30 @@ export default function Sidenav() {
               </ListItemIcon>
               <ListItemText
                 primary="Controller"
+                sx={{
+                  opacity: open ? 1 : 0,
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+        </List>
+
+        
+        {/* Force Shutdown */}
+        <List>
+          <ListItem disablePadding sx={{ display: 'block' }} onClick={resetFirebaseControl}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                px: 2.5,
+                justifyContent: open ? 'initial' : 'center',
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 0, justifyContent: 'center', mr: open ? 3 : 'auto' }}>
+                <PowerSettingsNewIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary="Force Shutdown"
                 sx={{
                   opacity: open ? 1 : 0,
                 }}

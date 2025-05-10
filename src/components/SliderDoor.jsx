@@ -1,32 +1,33 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import { ref, set } from "firebase/database"; // Import Firebase functions
+import { ref, set, onValue } from "firebase/database"; // Import Firebase functions
 import { database } from "./firebase-config"; // Import your firebase config
 import "./CSS/Controller.css"; // Import the CSS
 
 // Membuat marks untuk slider
 const marks = [
-  {
-    value: 0,
-    label: '0%',
-  },
-  {
-    value: 25,
-    label: '25%',
-  },
-  {
-    value: 50,
-    label: '50%',
-  },
-  {
-    value: 75,
-    label: '75%',
-  },
-  {
-    value: 100,
-    label: '100%',
-  }
+  { value: 0, label: '0%' },
+
+  { value: 10, label: '10%' },
+
+  { value: 20, label: '20%' },
+
+  { value: 30, label: '30%' },
+
+  { value: 40, label: '40%' },
+
+  { value: 50, label: '50%' },
+
+  { value: 60, label: '60%' },
+
+  { value: 70, label: '70%' },
+
+  { value: 80, label: '80%' },
+
+  { value: 90, label: '90%' },
+
+  { value: 100, label: '100%' }
 ];
 
 function valuetext(value) {
@@ -42,14 +43,27 @@ export default function SliderDoor() {
 
     // Kirimkan nilai ke Firebase di path "Kontrol/PintuAir"
     const controlRef = ref(database, 'Kontrol/PintuAir');
-    set(controlRef, newValue)  // Menyimpan nilai torsi ke Firebase
+    set(controlRef, newValue)  // Menyimpan nilai slider ke Firebase
       .then(() => {
-        console.log("Torsi berhasil diupdate ke Firebase:", newValue);
+        console.log("Slider value successfully updated to Firebase:", newValue);
       })
       .catch((error) => {
-        console.error("Gagal mengupdate torsi ke Firebase:", error);
+        console.error("Failed to update slider value to Firebase:", error);
       });
   };
+
+  // Gunakan useEffect untuk mendengarkan perubahan nilai slider dari Firebase
+  React.useEffect(() => {
+    const doorRef = ref(database, 'Kontrol/PintuAir');
+    
+    // Menggunakan onValue untuk mendengarkan perubahan nilai di Firebase
+    onValue(doorRef, (snapshot) => {
+      const newValue = snapshot.val();
+      if (newValue !== null) {
+        setValue(newValue); // Update nilai slider dengan nilai terbaru dari Firebase
+      }
+    });
+  }, []);  // Empty dependency array berarti hanya dijalankan sekali saat komponen pertama kali di-mount
 
   return (
     <Box sx={{ width: '100%', marginTop: 8 }} className="card-container">
@@ -59,7 +73,7 @@ export default function SliderDoor() {
         onChange={handleSliderChange} // Panggil fungsi saat slider digeser
         valueLabelDisplay="auto"
         valueLabelFormat={valuetext}
-        step={25}
+        step={5}
         marks={marks}
         className="slider"
       />

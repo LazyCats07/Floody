@@ -1,42 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-router-dom'; // Use Routes instead of Switch
-// import { ToastContainer } from "react-toastify";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Perbaiki impor BrowserRouter
+import './components/CSS/Login.css';
 
-//PAGE
+// PAGE
 import Home from './components/pages/Home';
 import Report from './components/pages/Reports/Report';
-// import Sungai from './components/pages/Reports/Sungai'
 import Controller from './components/pages/Controller';
-// import Login from './pages/Login/Login';
-// import Signup from "./components/pages/Login/Register";
+import Login from './components/pages/Login/Login';
+import SignUp from './components/pages/Login/Register';
+
 
 //KOMPONEN
-import Sidenav from './components/Sidenav';
+// Import hanya komponen yang diperlukan untuk aplikasi
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
     <>
-    <link
+      <link
         rel="stylesheet"
         href="https://fonts.googleapis.com/icon?family=Material+Icons"
       />
-      <BrowserRouter>
-      <Routes> 
-        {/* Login */}
-        {/* <Route path="/Login" element={<Login/>} />
-        <Route path="/Register" element={<Signup/>} /> */}
-
-        {/* Dashboard */}
-        <Route path="/" element={<Home />} />
-        <Route path="/Home" element={<Home />} />
-        <Route path="/Dashboard" element={<Home />} /> 
-        <Route path="/Report" element={<Report />} />
-        <Route path="/Controller" element={<Controller />} /> 
-      </Routes>
-    {/* <ToastContainer /> */}
-    </BrowserRouter>
-    </> 
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/Home" element={<Home />} />
+          <Route path="/Dashboard" element={<Home />} />
+          <Route path="/Report" element={<Report />} />
+          <Route path="/Controller" element={<Controller />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Register" element={<SignUp />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 

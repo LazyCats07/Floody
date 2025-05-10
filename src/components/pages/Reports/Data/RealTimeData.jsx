@@ -1,3 +1,4 @@
+// RealTimeData.jsx
 import { ref, onValue } from "firebase/database";
 import { database } from "../../../firebase-config";
 
@@ -6,27 +7,29 @@ export function RealTimeData(setters) {
   const dataRefs = {
     tmaSungai: ref(database, 'Polder/TMA_Sungai'),
     tmaKolam: ref(database, 'Polder/TMA_Kolam'),
+    tmaHilir: ref(database, 'Polder/TMA_Hilir'),
     debitSungai: ref(database, 'Polder/Debit_Citarum'),
     debitKolam: ref(database, 'Polder/Debit_Cipalasari'),
-    curahHujan: ref(database, 'Polder/Curah_Hujan'),
+    debitHilir: ref(database, 'Polder/Debit_Hilir'),
+    curahHujanBS: ref(database, 'Polder/Curah_HujanBS'),
+    curahHujanDK: ref(database, 'Polder/Curah_HujanDK'),
     pompa: ref(database, 'Polder/Status_Pompa'),
-    tmaHilir: ref(database, 'Polder/TMA_Hilir'),
+    pintuAir: ref(database, 'Kontrol/PintuAir') // Added this
   };
 
   Object.entries(dataRefs).forEach(([key, refPath]) => {
     onValue(refPath, (snapshot) => {
       const data = snapshot.val();
-
       if (data) {
-        const sortedKeys = Object.keys(data).sort(); // pastikan ambil data terbaru
+        const sortedKeys = Object.keys(data).sort();
         const lastKey = sortedKeys[sortedKeys.length - 1];
         const value = data[lastKey];
 
-        console.log(`[${key}] Last Key: ${lastKey}, Value: ${value}`); // debug
+        console.log(`[${key}] Last Key: ${lastKey}, Value: ${value}`);
 
-        if (setters[key]) setters[key](Number(value)); // pastikan nilai angka
+        if (setters[key]) setters[key](Number(value)); // Ensures it is numeric
       } else {
-        console.warn(`[${key}] Data tidak ditemukan.`);
+        console.warn(`[${key}] Data not found.`);
         if (setters[key]) setters[key](null);
       }
     });

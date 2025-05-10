@@ -5,7 +5,7 @@
 }
 body {
   /* background: #1c8ef9 !important; */
-  min-height: 100vh;
+  min-height: 100;
   display: flex;
   font-weight: 400;
   font-family: "Fira Sans", sans-serif;
@@ -49,9 +49,10 @@ html,
   margin: auto;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
-  padding: 40px 55px 45px 55px;
+  padding: 40px 55px 45px 55px;  /* Padding bisa disesuaikan */
   border-radius: 15px;
   transition: all 0.3s;
+  height: 500px; /* Menambahkan tinggi untuk card */
 }
 
 .auth-wrapper .form-control:focus {
@@ -59,7 +60,7 @@ html,
   box-shadow: none;
 }
 
-.auth-wrapper h3 {
+.auth-wrapper h1 {
   text-align: center;
   margin: 0;
   line-height: 1;
@@ -113,4 +114,34 @@ html,
     cursor: pointer;
     font-size: 18px;
     color: gray;
+}
+
+/* Styling untuk input fields */
+input[type="email"], input[type="password"], input[type="text"] {
+  width: 100%;
+  padding: 12px;  /* Menambahkan padding untuk memperbesar input */
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  color: #555;
+}
+
+.LoginButton {
+  width: 100%;
+  padding: 12px;  /* Menambahkan padding pada tombol */
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.Logo {
+  height: 100px;
+  width: auto; /* Agar proporsional */
+  display: block;
+  margin: 0 auto 20px auto; /* Menempatkan gambar di tengah secara horizontal dan memberi jarak bawah */
 }
