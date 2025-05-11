@@ -1,3 +1,24 @@
+/* Background untuk halaman Home */
+.HomeBG {
+  background: linear-gradient(145deg, #85c2ff, #0066ff); /* Gradasi biru yang memberikan kesan dimensi dan kedalaman */
+  /* padding: 20px; */
+  min-height: 100vh; /* Memastikan halaman ini mengambil seluruh tinggi layar */
+  /* display: block; */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px; /* Memberikan sudut melengkung agar lebih modern */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan untuk kesan kedalaman */
+  font-size: larger;
+}
+
+.HomeTitle{
+  color: white;
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: 700;
+
+}
+
 .paddingAll{
   padding: 10px 10px 10px 10px;
 }

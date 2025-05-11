@@ -23,7 +23,5 @@ export const db=getFirestore(app);
 // ⚠️ Fix: Pakai URL Realtime Database region Asia Tenggara (yang benar)
 export const database = getDatabase(app, "https://floody-252ef-default-rtdb.asia-southeast1.firebasedatabase.app");
 
-
-
 // export {auth,db};
 export default app;

@@ -60,6 +60,8 @@ export default function PrintData({ rows }) {
       <thead>
         <tr>
           <th>Waktu</th>
+          <th>Curah Hujan Bandung Bojongsoang (mm)</th>
+          <th>Curah Hujan Bandung Dayeuhkolot (mm)</th>
           <th>Debit Cipalasari (L/min)</th>
           <th>Debit Citarum (L/min)</th>
           <th>Debit Hilir (L/min)</th>
@@ -76,6 +78,8 @@ export default function PrintData({ rows }) {
       tableContent += `
         <tr>
           <td>${row.timestamp}</td>
+          <td>${row.curahHujanBS}</td>
+          <td>${row.curahHujanDK}</td>
           <td>${row.debitCipalasari}</td>
           <td>${row.debitCitarum}</td>
           <td>${row.debitHilir}</td>

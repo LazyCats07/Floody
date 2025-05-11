@@ -1,15 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ToastContainer, toast } from 'react-toastify'; // Pastikan ToastContainer diimport di sini
 import 'react-toastify/dist/ReactToastify.css'; // Pastikan Anda mengimpor CSS untuk toast
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../firebase-config";
 import { setDoc, doc } from "firebase/firestore";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Icons for password visibility
+
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [fname, setFname ] = useState("");
     const [lname, setLname ] = useState("");
+
+    const passwordInputRef = useRef(null); // Create ref for password input
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false); // Only for toggling password visibility
+
+    // Toggle password visibility without using state for showPassword
+    const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prevState) => !prevState);
+    if (passwordInputRef.current) {
+        passwordInputRef.current.type = isPasswordVisible ? 'password' : 'text'; // Directly change the input type
+    }
+    };
 
   // Fungsi untuk handle submit dan menampilkan toast
 const handleRegister = async (e) => {
@@ -83,15 +96,23 @@ const handleRegister = async (e) => {
                 onChange={(e) => setEmail(e.target.value)} />
             </div>
 
-            <div>
-              <label htmlFor="password">Password</label>
-              <input 
-                type="password" 
-                className='form-control' 
-                id="password" 
-                placeholder='Enter password' 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} />
+            {/* Password Input with Show/Hide Feature */}
+            <div className="mb-3 password-container">
+              <label>Password</label>
+              <div className="password-box">
+                <input
+                  ref={passwordInputRef} // Reference for the password input
+                  type={isPasswordVisible ? "text" : "password"} // Toggle password visibility
+                  className="form-control"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <span className="toggle-password" onClick={togglePasswordVisibility}>
+                  {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
             </div>
 
             <div className='d-grid'>

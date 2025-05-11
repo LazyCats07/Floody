@@ -17,8 +17,8 @@ import { RealTimeDataList } from './RealTimeDataList'; // Import your RealTimeDa
 export default function DataList() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  // const [curahHujanBSData, setCurahHujanBSData] = useState([]);
-  // const [curahHujanDKData, setCurahHujanDKData] = useState([]);
+  const [curahHujanBSData, setCurahHujanBSData] = useState([]);
+  const [curahHujanDKData, setCurahHujanDKData] = useState([]);
   const [debitCipalasariData, setDebitCipalasariData] = useState([]);
   const [debitCitarumData, setDebitCitarumData] = useState([]);
   const [debitHilirData, setDebitHilirData] = useState([]);
@@ -32,8 +32,8 @@ export default function DataList() {
   useEffect(() => {
     const fetchData = debounce(async () => {
       const setters = {
-        // curahHujanBS: setCurahHujanBSData,
-        // curahHujanDK: setCurahHujanDKData,
+        curahHujanBS: setCurahHujanBSData,
+        curahHujanDK: setCurahHujanDKData,
         debitCipalasari: setDebitCipalasariData,
         debitCitarum: setDebitCitarumData,
         debitHilir: setDebitHilirData,
@@ -104,8 +104,8 @@ export default function DataList() {
   // Apply the filter to remove rows with all zeros
   const filterNonEmptyRows = (rows) => {
     return rows.filter(row => 
-      // row.curahHujanBS !== 0 ||
-      // row.curahHujanDK !== 0 ||
+      row.curahHujanBS !== 0 ||
+      row.curahHujanDK !== 0 ||
       row.debitCipalasari !== 0 ||
       row.debitCitarum !== 0 ||
       row.debitHilir !== 0 ||
@@ -132,8 +132,8 @@ export default function DataList() {
       // Initialize group if not exists
       if (!groupedData[formattedTime]) {
         groupedData[formattedTime] = {
-          // curahHujanBS: [],
-          // curahHujanDK: [],
+          curahHujanBS: [],
+          curahHujanDK: [],
           debitCipalasari: [],
           debitCitarum: [],
           debitHilir: [],
@@ -145,8 +145,8 @@ export default function DataList() {
       }
 
       // Add values to the corresponding group
-      // groupedData[formattedTime].curahHujanBS.push(curahHujanBSData[i]?.value);
-      // groupedData[formattedTime].curahHujanDK.push(curahHujanDKData[i]?.value);
+      groupedData[formattedTime].curahHujanBS.push(curahHujanBSData[i]?.value);
+      groupedData[formattedTime].curahHujanDK.push(curahHujanDKData[i]?.value);
       groupedData[formattedTime].debitCipalasari.push(debitCipalasariData[i]?.value);
       groupedData[formattedTime].debitCitarum.push(debitCitarumData[i]?.value);
       groupedData[formattedTime].debitHilir.push(debitHilirData[i]?.value);
@@ -163,8 +163,8 @@ export default function DataList() {
 
       aggregatedData.push({
         timestamp: interval,
-        // curahHujanBS: calculateAverage(group.curahHujanBS),
-        // curahHujanDK: calculateAverage(group.curahHujanDK),
+        curahHujanBS: calculateAverage(group.curahHujanBS),
+        curahHujanDK: calculateAverage(group.curahHujanDK),
         debitCipalasari: calculateAverage(group.debitCipalasari),
         debitCitarum: calculateAverage(group.debitCitarum),
         debitHilir: calculateAverage(group.debitHilir),
@@ -205,7 +205,10 @@ export default function DataList() {
       <Box height={10} />
       {/* Print Button */}
       <PrintDataPDF rows={rows} />
-      <Box height={10} />
+      {/* <Box height={10} /> */}
+      <span style={{ fontSize: '12px', color: 'black', marginLeft: '10px'}}>
+        *Data dalam 31 hari terakhir
+      </span>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table" id="printable-table">
           <TableHead>
@@ -213,12 +216,12 @@ export default function DataList() {
               <TableCell align="left" onClick={() => handleSort("timestamp")}>
                 Waktu {sortConfig.key === "timestamp" && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </TableCell>
-              {/* <TableCell align="left" onClick={() => handleSort("curahHujanBS")}>
+              <TableCell align="left" onClick={() => handleSort("curahHujanBS")}>
                 Curah Hujan Bandung Bojongsoang (mm) {sortConfig.key === "curahHujanBS" && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </TableCell>
               <TableCell align="left" onClick={() => handleSort("curahHujanDK")}>
                 Curah Hujan Bandung Dayeuhkolot (mm) {sortConfig.key === "curahHujanDK" && (sortConfig.direction === "asc" ? "↑" : "↓")}
-              </TableCell> */}
+              </TableCell>
               <TableCell align="left" onClick={() => handleSort("debitCipalasari")}>
                 Debit Cipalasari (L/min) {sortConfig.key === "debitCipalasari" && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </TableCell>
@@ -246,8 +249,8 @@ export default function DataList() {
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
               <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                 <TableCell align="left">{row.timestamp}</TableCell>
-                {/* <TableCell align="left">{row.curahHujanBS}</TableCell>
-                <TableCell align="left">{row.curahHujanDK}</TableCell> */}
+                <TableCell align="left">{row.curahHujanBS}</TableCell>
+                <TableCell align="left">{row.curahHujanDK}</TableCell>
                 <TableCell align="left">{row.debitCipalasari}</TableCell>
                 <TableCell align="left">{row.debitCitarum}</TableCell>
                 <TableCell align="left">{row.debitHilir}</TableCell>

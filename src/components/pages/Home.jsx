@@ -108,8 +108,8 @@ export default function Home() {
     <Box height={50} />
     <Box sx={{ display: 'flex' }}>
     <Sidenav />
-      <Box component ="main" sx={{ flexGrow: 1, p: 3 }} marginLeft={2}>
-        <h1>Dashboard Kolam Polder Cipalasari 1</h1>
+      <Box component ="main" sx={{ flexGrow: 1, p: 3 }} marginLeft={2} className='HomeBG'>
+        <h1 className='HomeTitle' style={{ textAlign: 'center' }}>Dashboard Kolam Polder Cipalasari 1</h1>
           <Grid container spacing={2}>
             <Grid size={8}>
               <Stack spacing={2} direction={'row'}>
@@ -170,7 +170,7 @@ export default function Home() {
             </Grid>
 
             <Grid size={4}>
-              <Card sx={{ height: 60 + "vh", maxWidth: 345 }}>
+              <Card sx={{ height: 70 + "vh", maxWidth: 345 }}>
                 <CardContent>
                   <Typography gutterBottom variant="h6" component="div">
                     <b>Catatan</b>
@@ -202,7 +202,7 @@ export default function Home() {
             <Grid item size={8}>
               <Stack spacing={2} direction={'row'}>
 
-              <Card sx={{ minWidth: 32.2 + "%", height: 232 }}>
+              <Card sx={{ minWidth: 32.2 + "%", height: 250 }}>
                   <CardContent>
                     <div>
                       <FloodIcon />
@@ -216,7 +216,7 @@ export default function Home() {
                   </CardContent>
                 </Card>
 
-                <Card sx={{ minWidth: 32.2 + "%", height: 232 }}>
+                <Card sx={{ minWidth: 32.2 + "%", height: 250  }}>
                   <CardContent>
                     <div>
                       <FloodIcon />
@@ -231,7 +231,7 @@ export default function Home() {
                   </CardContent>
                 </Card>
 
-                <Card sx={{ minWidth: 32.2 + "%", height: 232 }}>
+                <Card sx={{ minWidth: 32.2 + "%", height: 250  }}>
                   <CardContent>
                     <div>
                       <FloodIcon />
