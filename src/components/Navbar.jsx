@@ -165,7 +165,7 @@ export default function Navbar() {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>Settings</p>
       </MenuItem>
     </Menu>
   );

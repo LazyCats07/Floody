@@ -11,8 +11,8 @@ export function RealTimeData(setters) {
     debitSungai: ref(database, 'Polder/Debit_Citarum'),
     debitKolam: ref(database, 'Polder/Debit_Cipalasari'),
     debitHilir: ref(database, 'Polder/Debit_Hilir'),
-    curahHujanBS: ref(database, 'Polder/Curah_HujanBS'),
-    curahHujanDK: ref(database, 'Polder/Curah_HujanDK'),
+    curahHujanBS: ref(database, 'Polder/bojongsoang'),
+    curahHujanDK: ref(database, 'Polder/dayeuhkolot'),
     pompa: ref(database, 'Polder/Status_Pompa'),
     pintuAir: ref(database, 'Kontrol/PintuAir') // Added this
   };

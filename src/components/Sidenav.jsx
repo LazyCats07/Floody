@@ -4,10 +4,10 @@ import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
+// import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+// import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
@@ -15,7 +15,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import WavesIcon from '@mui/icons-material/Waves';
+// import WavesIcon from '@mui/icons-material/Waves';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import OpenWithIcon from '@mui/icons-material/OpenWith';
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +24,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { ref, set } from "firebase/database";
 import { database } from "./firebase-config"; // Import your firebase config
+import './CSS/sideNav.css';
 
 
 
@@ -104,13 +105,11 @@ const resetFirebaseControl = () => {
 
 export default function Sidenav() {
   const theme = useTheme();
-  // const [open, setOpen] = React.useState(true);
   const navigate = useNavigate();
-  // const updateOpen = useAppStore((state) => state.updateOpen); 
   const open = useAppStore((state) => state.dopen); 
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex'}}>
       <CssBaseline />
       <Box height={100} />
       <Drawer variant="permanent" open={open}>
@@ -119,8 +118,7 @@ export default function Sidenav() {
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
-        <Divider />
-        <Divider />      
+        {/* <Divider />       */}
 
         {/* DASHBOARD SUB */}
         <List>

@@ -1,29 +1,35 @@
-import React, { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Pastikan Anda mengimpor CSS untuk toast
-import '../../CSS/Login.css';  // Pastikan CSS untuk login sudah diimpor
+import React, { useState, useRef } from 'react';
+import { ToastContainer, toast } from 'react-toastify';  // Make sure to import toast CSS
+import 'react-toastify/dist/ReactToastify.css';  // Ensure Toastify is correctly imported
+import '../../CSS/Login.css';  // Ensure path is correct
 import { signInWithEmailAndPassword } from "firebase/auth";
-// import SignInwithGoogle from "./SignInWithGoogle";
+import SignInwithGoogle from "./SignInWithGoogle";
 import { auth } from "../../firebase-config";
-
-
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";  // Icons for password visibility
+import { useNavigate } from 'react-router-dom';  // Import useNavigate
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
-  // Fungsi untuk handle submit dan menampilkan toast
-  const handleSubmit = async (e) => { // ⬅️ Perbaikan: Menjadikan fungsi async
+  const passwordInputRef = useRef(null);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const navigate = useNavigate();  // Initialize useNavigate
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prevState) => !prevState);
+    if (passwordInputRef.current) {
+      passwordInputRef.current.type = isPasswordVisible ? 'password' : 'text'; // Toggle input type
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password); // ⬅️ Perbaikan: Tambahkan `await`
+      await signInWithEmailAndPassword(auth, email, password);  // Firebase login
       console.log("User logged in successfully");
 
-      //   Pindah Window
-      window.location.href = "/Home";
-      // |||||||||||||||||||||||||||||||   
-
+      // Navigate to Home page
+      navigate('/Home');  // Use navigate instead of window.location.href
       toast.success("User logged in successfully", { position: "top-center" });
     } catch (error) {
       console.error("Login Error:", error.message);
@@ -36,39 +42,48 @@ function Login() {
       <div className="auth-wrapper">
         <div className="auth-inner">
           <form onSubmit={handleSubmit}>
-            {/* Menambahkan class Logo pada gambar */}
             <img src={require('../../images/logo.jpg')} alt="Logo Floody" className="Logo" />
             <h1>Login</h1>
 
             <div>
               <label htmlFor="email">Email Address</label>
-              <input 
-                type="email" 
-                className="form-control" 
-                id="email" 
-                placeholder="Enter email" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} />
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                placeholder="Enter email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
 
-            <div>
-              <label htmlFor="password">Password</label>
-              <input 
-                type="password" 
-                className="form-control" 
-                id="password" 
-                placeholder="Enter password" 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} />
+            <div className="mb-3 password-container">
+              <label>Password</label>
+              <div className="password-box">
+                <input
+                  ref={passwordInputRef}
+                  type={isPasswordVisible ? "text" : "password"}
+                  className="form-control"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <span className="toggle-password" onClick={togglePasswordVisibility}>
+                  {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
             </div>
 
             <div className="d-grid">
-              <button type="submit" className="btn btn-primary LoginButton">Submit</button>
+              <button type="submit" className="btn btn-primary LoginButton"><b>Submit</b></button>
             </div>
+
+            <SignInwithGoogle />
+
             <p className="forgot-password text-right">
               New user? <a href="/register">Register Here</a>
             </p>
-            {/* <SignInwithGoogle /> */}
           </form>
           <ToastContainer />
         </div>
