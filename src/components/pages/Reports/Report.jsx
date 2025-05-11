@@ -9,8 +9,6 @@ import './Data/DataList'
 import DataList from './Data/DataList';
 import '../../PumpButton'
 import '../../SliderDoor'
-import SliderDoor from '../../SliderDoor';
-import PumpButton from '../../PumpButton';
 
 
 

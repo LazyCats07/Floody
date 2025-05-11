@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { RealTimeData } from './Reports/Data/RealTimeData';
-import { ref, onValue, get } from "firebase/database";
+import { ref, onValue } from "firebase/database";
 import { database } from "../firebase-config";
 
 // MUI Components
@@ -12,10 +12,10 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 
 // Icons
-import WaterDropIcon from '@mui/icons-material/WaterDrop';
+// import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import WavesIcon from '@mui/icons-material/Waves';
-import HeightIcon from '@mui/icons-material/Height';
+// import HeightIcon from '@mui/icons-material/Height';
 import FloodIcon from '@mui/icons-material/Flood';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import LinearScaleIcon from '@mui/icons-material/LinearScale';
@@ -27,17 +27,17 @@ import "../CSS/Dash.css";
 // CountUp Component
 import CountUp from 'react-countup';
 
-// Firebase
-import { db } from "../firebase-config";
-import {
-  collection,
-  getDoc,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  onSnapshot
-} from "firebase/firestore";
+// // Firebase
+// import { db } from "../firebase-config";
+// import {
+//   collection,
+//   getDoc,
+//   addDoc,
+//   updateDoc,
+//   deleteDoc,
+//   doc,
+//   onSnapshot
+// } from "firebase/firestore";
 
 // Components
 import Navbar from '../Navbar';
@@ -45,7 +45,7 @@ import Sidenav from '../Sidenav';
 import LineChartSungai from '../LineChartSungai';
 import LineChartKolam from '../LineChartKolam';
 import PumpButton from '../../components/PumpButton';
-import { usePintuAirData } from './Reports/Data/PintuAirData';
+// import { usePintuAirData } from './Reports/Data/PintuAirData';
 
   
 export default function Home() {

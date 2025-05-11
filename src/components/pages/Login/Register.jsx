@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../firebase-config";
 import { setDoc, doc } from "firebase/firestore";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Icons for password visibility
+import { dropRight } from 'lodash';
 
 
 function Login() {
@@ -57,6 +58,7 @@ const handleRegister = async (e) => {
       <div className='auth-wrapper'>
         <div className='auth-inner'>
           <form onSubmit={handleRegister}>
+            <img src={require('../../images/logo.jpg')} alt="Logo Floody" className="Logo" />
             <h3>Sign Up</h3>
             
             <div className="mb-3">
@@ -116,7 +118,7 @@ const handleRegister = async (e) => {
             </div>
 
             <div className='d-grid'>
-              <button type='submit' className='btn btn-primary'>Submit</button>
+              <button type='submit' className='btn btn-primary' style={{ alignItems: 'right' }}>Sign Up</button>
             </div>
 
 

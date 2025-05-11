@@ -82,7 +82,7 @@ function Login() {
             <SignInwithGoogle />
 
             <p className="forgot-password text-right">
-              New user? <a href="/register">Register Here</a>
+              New user? <a href="SignUp">Register Here</a>
             </p>
           </form>
           <ToastContainer />
