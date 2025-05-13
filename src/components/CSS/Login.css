@@ -129,21 +129,34 @@ input[type="email"], input[type="password"], input[type="text"] {
 
 .LoginButton {
   width: 100%;
-  padding: 12px;  /* Menambahkan padding pada tombol */
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  color: white;
+  height: 40px;
+  font-weight: 500;
+  font-family: 'Fira Sans', sans-serif;
+  border-radius: 20px;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: #fff;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;  /* Smooth transition for color and scaling */
+}
+
+.LoginButton:hover {
+  background-color: #0056b3;  /* Darker shade of blue on hover */
+  transform: scale(1.05);  /* Slightly enlarge the button on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Add subtle shadow on hover */
 }
 
 .Logo {
+  padding: 5px 5px 5px 5px;
   height: 100px;
   width: auto; /* Agar proporsional */
   display: block;
   margin: 0 auto 20px auto; /* Menempatkan gambar di tengah secara horizontal dan memberi jarak bawah */
+}
+
+.FloodyLogo{
+  margin-top: 30px;
+  margin-bottom: -30px;
 }
 
 

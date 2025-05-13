@@ -1,26 +1,32 @@
 /* Background untuk halaman Home */
 .HomeBG {
-  background: linear-gradient(145deg, #85c2ff, #0066ff); /* Gradasi biru yang memberikan kesan dimensi dan kedalaman */
+  background: linear-gradient(135deg, #8f8fff, #2200ff); /* Gradasi biru yang memberikan kesan dimensi dan kedalaman */
   /* padding: 20px; */
-  min-height: 100vh; /* Memastikan halaman ini mengambil seluruh tinggi layar */
+  /* min-height: 100vh; Memastikan halaman ini mengambil seluruh tinggi layar */
   /* display: block; */
-  flex-direction: column;
+  /* flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 12px; /* Memberikan sudut melengkung agar lebih modern */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan untuk kesan kedalaman */
-  font-size: larger;
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan untuk kesan kedalaman */
+  /* font-size: larger; */
 }
 
 .HomeTitle{
   color: white;
   font-family: 'Fira Sans', sans-serif;
   font-weight: 700;
+}
 
+/* Card TMA */
+.cardTMA{
+  min-width: 32.5 + "%";
 }
 
 .paddingAll{
-  padding: 10px 10px 10px 10px;
+  /* padding: 10px 10px 10px 10px; */
+  padding-left: 10px;
+  margin-top: -35px;
 }
 
 .waterValue{
@@ -28,10 +34,33 @@
 }
 
 .watersubValue{
-  font-size: 14px;
+  font-size: 16px;
+  font-weight:400;
+  margin-top: -15px;
 }
 
 .iconStyle{
   padding-top: 20px;
   padding-left: 20px;
 }
+
+.iconStyleButton{
+  padding-top: 20px;
+  padding-left: 20px;
+}
+
+.iconFL{
+  width: 80px;
+}
+
+.countText{
+  /* margin-bottom: 100px; */
+  margin-top: -20px;
+  /* font-size: 12px; */
+  color: rgb(0, 0, 0)
+}
+
+/* .card{
+  border-radius: 20px;
+} */
+

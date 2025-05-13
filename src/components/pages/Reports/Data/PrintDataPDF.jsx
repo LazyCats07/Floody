@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../../CSS/prtPDF.css'
 
 export default function PrintData({ rows }) {
   const handlePrint = () => {
@@ -103,6 +104,13 @@ export default function PrintData({ rows }) {
   };
 
   return (
-    <button onClick={handlePrint}>Print Laporan Data PDF</button>
+    <div>
+      <span style={{ marginLeft: '10px'}}>
+      </span>
+      <button onClick={handlePrint} className='btn-print'>Print Laporan Data PDF</button>
+      <span style={{ fontSize: '12px', color: 'black', marginLeft: '10px'}}>
+        *Data dalam 31 hari terakhir
+      </span>
+    </div>
   );
 }

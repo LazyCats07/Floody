@@ -1,0 +1,27 @@
+.bg{
+  background: linear-gradient(135deg, #8f8fff, #2200ff); /* Gradasi biru yang memberikan kesan dimensi dan kedalaman */
+  /* padding: 20px; */
+}
+
+h1{
+  color: white;
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: 700;
+  align-items: center;
+  text-align: center;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;         /* Pastikan lebar kontainer penuh */
+}
+
+.con-loading{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+

@@ -13,6 +13,9 @@ import Divider from "@mui/material/Divider";
 import Box from '@mui/material/Box';
 import PrintDataPDF from '../Data/PrintDataPDF'; // Import the PrintData component
 import { RealTimeDataList } from './RealTimeDataList'; // Import your RealTimeDataList function
+import loading from '../../../icon/loading-unscreen.gif'; 
+import '../../../CSS/report.css';
+
 
 export default function DataList() {
   const [page, setPage] = useState(0);
@@ -112,7 +115,6 @@ export default function DataList() {
       row.tmaSungai !== 0 ||
       row.tmaKolam !== 0 ||
       row.tmaHilir !== 0 
-      // row.statusPompa !== 0
     );
   };
 
@@ -171,7 +173,7 @@ export default function DataList() {
         tmaSungai: calculateAverage(group.tmaSungai),
         tmaKolam: calculateAverage(group.tmaKolam),
         tmaHilir: calculateAverage(group.tmaHilir),
-        // statusPompa: group.statusPompa[0] // Keep the first statusPompa as is (or can be adjusted as per logic)
+        //statusPompa: group.statusPompa[0] // Keep the first statusPompa as is (or can be adjusted as per logic)
       });
     });
 
@@ -193,22 +195,26 @@ export default function DataList() {
   });
 
   if (!isDataLoaded) {
-    return <Typography>Loading...</Typography>;  // Display a loading message until data is loaded
-  }
+    return (
+    // <p className='loading'>Loading...</p> 
+    <div  className='con-loading'>
+      <img src={loading} alt="loading" className='loading'/>
+    </div>
+  )}
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <Typography gutterBottom variant="h5" component="div" sx={{ padding: "20px" }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden', borderRadius: '25px' }}>
+      <Typography gutterBottom variant="h5" component="div" sx={{ padding: "20px", fontWeight: 'bold', fontFamily: 'Fira Sans', }}>
         Data Lingkungan Polder
       </Typography>
       <Divider />
       <Box height={10} />
       {/* Print Button */}
-      <PrintDataPDF rows={rows} />
+      <PrintDataPDF rows={rows}/>
       {/* <Box height={10} /> */}
-      <span style={{ fontSize: '12px', color: 'black', marginLeft: '10px'}}>
+      {/* <span style={{ fontSize: '12px', color: 'black', marginLeft: '10px'}}>
         *Data dalam 31 hari terakhir
-      </span>
+      </span> */}
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table" id="printable-table">
           <TableHead>

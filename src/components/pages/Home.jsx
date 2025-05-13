@@ -20,6 +20,13 @@ import FloodIcon from '@mui/icons-material/Flood';
 import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import LinearScaleIcon from '@mui/icons-material/LinearScale';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import TMA from '../icon/TMA.gif'; 
+import Debit from '../icon/ocean.gif';
+import curah from '../icon/curah.gif';
+import flood from '../icon/flood.gif';
+import pump from '../icon/pump.gif';
+import slider from '../icon/slider.gif';
+import button from '../icon/button.gif';
 
 // CSS
 import "../CSS/Dash.css";
@@ -58,6 +65,8 @@ export default function Home() {
   const [curahHujanBS, setCurahHujanBS] = useState(null);
   const [curahHujanDK, setCurahHujanDK] = useState(null);
   const [pompa, setPompa] = useState(null);
+  const [statusBanjir, setstatusBanjir] = useState(null);
+
 
   useEffect(() => {
     RealTimeData({
@@ -70,6 +79,7 @@ export default function Home() {
       curahHujanBS: setCurahHujanBS,
       curahHujanDK: setCurahHujanDK,
       pompa: setPompa,
+      statusBanjir: setstatusBanjir
     });
   }, []); 
 
@@ -106,17 +116,18 @@ export default function Home() {
     <>
     <Navbar />
     <Box height={50} />
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }} className='HomeBG'>
     <Sidenav />
-      <Box component ="main" sx={{ flexGrow: 1, p: 3 }} marginLeft={2} className='HomeBG'>
-        <h1 className='HomeTitle' style={{ textAlign: 'center' }}>Dashboard Kolam Polder Cipalasari 1</h1>
+      <Box component ="main" sx={{ flexGrow: 1, p: 3 }} marginLeft={2} >
+        <h1 className='HomeTitle' style={{ textAlign: 'center', fontSize: '50px' }}>Dashboard Kolam Polder Cipalasari 1</h1>
+        {/* <p style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', marginTop: '-60px' }}>Welcome </p> */}
           <Grid container spacing={2}>
             <Grid size={8}>
               <Stack spacing={2} direction={'row'}>
 
-              <Card sx={{ height: 70 + "vh", minWidth: 99.75 + "%" }}>
+              <Card sx={{ height: 75 + "vh", minWidth: 99.75 + "%", borderRadius: '25px' }}>
                 <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
+                  <Typography gutterBottom variant="h5" component="div">
                     <b>Prosedur Operasi PINTU AIR & POMPA</b>
                   </Typography>
 
@@ -160,7 +171,7 @@ export default function Home() {
                   <Box height={20} />
                   <div>
                     <div><b>Kapasitas Pompa</b> (3 x 0,25 m<sup>3</sup>/det)</div>
-                    <div>Diperoleh dari berbagai sumber yang kebenarannya (data definitif) <b>Perlu</b> dipastikan atau disepakati bersama, <b>terutama</b> data luas daerah layanan (DTA = Daerah Tangkapan Air) dan luas kolam retensi yang sangat menentukan beban debit banjir dan <b>Kebutuhan Pompa berikut pola operasinya</b> </div>
+                    <div>Diperoleh dari berbagai sumber yang kebenarannya (data definitif) <b>Perlu</b> dipastikan atau disepakati bersama, <b>terutama</b> data luas daerah layanan (DTA = Daerah Tangkapan Air) dan luas kolam retensi yang sangat menentukan beban debit banjir dan <b>Kebutuhan Pompa berikut pola operasinya.</b> </div>
                   </div>
 
                 </CardContent>
@@ -170,9 +181,9 @@ export default function Home() {
             </Grid>
 
             <Grid size={4}>
-              <Card sx={{ height: 70 + "vh", maxWidth: 345 }}>
+              <Card sx={{ height: 75 + "vh", maxWidth: 345, borderRadius: '25px'}} className='card'>
                 <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
+                  <Typography gutterBottom variant="h5" component="div">
                     <b>Catatan</b>
                   </Typography>
                   <div>Data teknis berupa:</div>
@@ -202,80 +213,78 @@ export default function Home() {
             <Grid item size={8}>
               <Stack spacing={2} direction={'row'}>
 
-              <Card sx={{ minWidth: 32.2 + "%", height: 250 }}>
+                <Card sx={{ height: 200, borderRadius: '25px'}} className='cardTMA card' >
                   <CardContent>
-                    <div>
-                      <FloodIcon />
-                    </div>
-                    <Typography gutterBottom variant="h3" component="div">
-                      {renderCountUp(tmaKolam, 'm')}
-                    </Typography>
-                    <Typography gutterBottom variant="h6" component="div" sx={{color: "ccd1d1"}}>
+                    <span style={{ display: 'flex', alignItems: 'center' }}>
+                      <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
+                      <Typography gutterBottom component="div" className='countText' style={{ fontSize: '50px', marginTop: '20px'}}>
+                        {renderCountUp(tmaKolam, 'm')}
+                      </Typography>
+                    </span>
+                    <Typography gutterBottom variant="h5" component="div" sx={{color: "ccd1d1"}} style={{marginTop: '-30px', marginLeft: '5px'}}>
                       Tinggi Air Kolam Polder
                     </Typography>
                   </CardContent>
                 </Card>
 
-                <Card sx={{ minWidth: 32.2 + "%", height: 250  }}>
+                <Card sx={{ height: 200, borderRadius: '25px'}}>
                   <CardContent>
-                    <div>
-                      <FloodIcon />
-                    </div>
-                    {/* Tampilan Data TMASungai */}
-                    <Typography gutterBottom variant="h3" component="div">
-                      {renderCountUp(tmaSungai, 'm')}
-                    </Typography>
-                    <Typography gutterBottom variant="h6" component="div" sx={{color: "ccd1d1"}}>
-                        Tinggi Sungai Citarum
+                    <span style={{ display: 'flex', alignItems: 'center' }}>
+                      <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
+                      <Typography gutterBottom component="div" className='countText' style={{ fontSize: '50px', marginTop: '20px'}}>
+                        {renderCountUp(tmaHilir, 'm')}
+                      </Typography>
+                    </span>
+                    <Typography gutterBottom variant="h5" component="div" sx={{color: "ccd1d1"}} style={{marginTop: '-30px', marginLeft: '5px'}}>
+                      Tinggi Air Sungai Citarum
                     </Typography>
                   </CardContent>
                 </Card>
 
-                <Card sx={{ minWidth: 32.2 + "%", height: 250  }}>
+                <Card sx={{ height: 200, borderRadius: '25px'}} className='cardTMA card'>
                   <CardContent>
-                    <div>
-                      <FloodIcon />
-                    </div>
-                    {/* Tampilan Data TMASungai */}
-                    <Typography gutterBottom variant="h3" component="div">
-                      {renderCountUp(tmaHilir, 'm')}
-                    </Typography>
-                    <Typography gutterBottom variant="h6" component="div" sx={{color: "ccd1d1"}}>
-                        Tinggi Hilir
+                    <span style={{ display: 'flex', alignItems: 'center' }}>
+                      <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
+                      <Typography gutterBottom component="div" className='countText' style={{ fontSize: '50px', marginTop: '20px'}}>
+                        {renderCountUp(tmaSungai, 'm')}
+                      </Typography>
+                    </span>
+                    <Typography gutterBottom variant="h5" component="div" sx={{color: "ccd1d1"}} style={{marginTop: '-30px', marginLeft: '5px'}}>
+                      Tinggi Air Sungai Cipalasari
                     </Typography>
                   </CardContent>
                 </Card>
-                
+
               </Stack>
             </Grid>
             
             <Grid item size={4}>
               <Stack spacing={2}>
-              <Card sx={{ maxWidth: 345 }}>
+                <Card sx={{ maxWidth: 345, maxHeight: 92, borderRadius: '25px' }}>
                   <CardContent>
                     <Stack spacing={2} direction={'row'}>
                       <div className="iconStyle">
-                        <WavesIcon />
+                        <img src={flood} alt="test" style={{width: '60px', marginTop: '-20px' }} />
                       </div>
 
                       {/* Tampilan Data Debit Sungai */}
                       <div className="paddingAll">
-                        <span className="waterValue">{renderCountUp(debitSungai, 'L/min')}</span><br/>
-                        <span className='watersubValue'>Debit Sungai Citarum</span>
+                        <span className="waterValue" style={{marginBottom: '-105px'}}>Siaga {renderCountUp(statusBanjir)}</span><br/>
+                        <span className='watersubValue' style={{}}>Status Banjir</span>
                       </div>
 
                     </Stack>
                   </CardContent>
                 </Card>
-                <Card sx={{ maxWidth: 345 }}>
+                <Card sx={{ maxWidth: 345, maxHeight: 92, borderRadius: '25px'  }}>
                   <CardContent>
                     <Stack spacing={2} direction={'row'}>
                       <div className="iconStyle">
-                        <WavesIcon />
+                        <img src={pump} alt="test" style={{width: '60px', marginTop: '-20px' }} />
                       </div>
                       <div className="paddingAll">
-                        <span className="waterValue">{renderCountUp(debitKolam, 'L/min')}</span><br/>
-                        <span className='watersubValue'>Debit Sungai Polder</span>
+                        <span className="waterValue">{renderCountUp(pompa)}</span><br/>
+                        <span className='watersubValue'>Pompa Aktif</span>
                       </div>
                     </Stack>
                   </CardContent>
@@ -288,10 +297,10 @@ export default function Home() {
         <Box height={20} />
           <Grid container spacing={2}>
             <Grid item size={8}>
-              <Card sx={{ height: 90 + "vh", maxWidth: 1100}}>
+              <Card sx={{ height: 90 + "vh", maxWidth: 1100, borderRadius: '25px' }} className='card'>
                 <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    Tinggi Air Kolam Polder Cipalasari 1
+                  <Typography gutterBottom variant="h5" component="div" style={{fontSize: '30px', fontWeight: 'bold' }}>
+                  Tinggi Air Kolam Polder Cipalasari 1
                   </Typography>
                   <LineChartKolam />
                 </CardContent>
@@ -299,7 +308,7 @@ export default function Home() {
 
               {/* LineChart Sungai Citarun */}
               <Box height={20} />
-              <Card sx={{ height: 90 + "vh", maxWidth: 1100 }}>
+              <Card sx={{ height: 90 + "vh", maxWidth: 1100, borderRadius: '25px' }} className='card'>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
                     Tinggi Air Sungai Citarum
@@ -314,78 +323,172 @@ export default function Home() {
             
             <Grid item size={4}>
               
-              <Card sx={{ maxWidth: 345 }}>
+              <Card sx={{ maxWidth: 345, maxHeight: 92, borderRadius: '25px' }} className='card'>
                 <CardContent>
                   <Stack spacing={2} direction={'row'}>
                     <div className="iconStyle">
-                      <WavesIcon />
+                      <img src={Debit} alt="test" style={{width: '60px', marginTop: '-20px' }} />
                     </div>
+
+                    {/* Tampilan Data Debit Sungai */}
                     <div className="paddingAll">
-                      {/* Tampilan Data Debit Sungai */}
-                      <span className="waterValue">{renderCountUp(debitHilir, 'L/min')}</span><br/>
-                      <span className='watersubValue'>Debit Hilir</span>
+                      <span className="waterValue" style={{marginBottom: '-105px'}}>{renderCountUp(debitSungai, 'L/min')}</span><br/>
+                      <span className='watersubValue' style={{}}>Debit Hulu Sungai Citarum</span>
                     </div>
+
+                  </Stack>
+                </CardContent>
+              </Card>  
+
+              <Box height={20} />
+              <Card sx={{ maxWidth: 345, maxHeight: 92, borderRadius: '25px' }} className='card'>
+                <CardContent>
+                  <Stack spacing={2} direction={'row'}>
+                    <div className="iconStyle">
+                      <img src={Debit} alt="test" style={{width: '60px', marginTop: '-20px' }} />
+                    </div>
+
+                    {/* Tampilan Data Debit Sungai */}
+                    <div className="paddingAll">
+                      <span className="waterValue" style={{marginBottom: '-105px'}}>{renderCountUp(debitHilir, 'L/min')}</span><br/>
+                      <span className='watersubValue' style={{}}>Debit Hilir Sungai Citarum</span>
+                    </div>
+
+                  </Stack>
+                </CardContent>
+              </Card> 
+
+              <Box height={20} />
+              <Card sx={{ maxWidth: 345, maxHeight: 92, borderRadius: '25px' }} className='card'>
+                <CardContent>
+                  <Stack spacing={2} direction={'row'}>
+                    <div className="iconStyle">
+                      <img src={Debit} alt="test" style={{width: '60px', marginTop: '-20px' }} />
+                    </div>
+
+                    {/* Tampilan Data Debit Sungai */}
+                    <div className="paddingAll">
+                      <span className="waterValue" style={{marginBottom: '-105px'}}>{renderCountUp(debitKolam, 'L/min')}</span><br/>
+                      <span className='watersubValue' style={{}}>Debit Sungai Cipalasari</span>
+                    </div>
+
                   </Stack>
                 </CardContent>
               </Card>
 
               <Box height={20} />
+              <Card sx={{ maxWidth: 345, maxHeight: 92, borderRadius: '25px' }} className='card'>
+                <CardContent>
+                  <Stack spacing={2} direction={'row'}>
+                    <div className="iconStyle">
+                      <img src={curah} alt="test" style={{width: '60px', marginTop: '-26px' }} />
+                    </div>
+
+                    {/* Tampilan Data Debit Sungai */}
+                    <div className="paddingAll">
+                      <span className="waterValue" style={{marginBottom: '-105px'}}>{renderCountUp(curahHujanBS)}</span><br/>
+                      <span className='watersubValue' >Curah Hujan Bojongsoang</span>
+                    </div>
+
+                  </Stack>
+                </CardContent>
+              </Card>
+
+              <Box height={20} />
+              <Card sx={{ maxWidth: 345, maxHeight: 92, borderRadius: '25px' }} className='card'>
+                <CardContent>
+                  <Stack spacing={2} direction={'row'}>
+                    <div className="iconStyle">
+                      <img src={curah} alt="test" style={{width: '60px', marginTop: '-26px' }} />
+                    </div>
+
+                    {/* Tampilan Data Debit Sungai */}
+                    <div className="paddingAll">
+                      <span className="waterValue" style={{marginBottom: '-105px'}}>{renderCountUp(curahHujanDK)}</span><br/>
+                      <span className='watersubValue' >Curah Hujan Dayeuhkolot</span>
+                    </div>
+
+                  </Stack>
+                </CardContent>
+              </Card>       
+
+              {/* <Box height={20} />
               <Card sx={{ maxWidth: 345 }}>
                 <CardContent>
                   <Stack spacing={2} direction={'row'}>
                     <div className="iconStyle">
-                      <ThunderstormIcon />
+                      <img src={curah} alt="test"style={{width: '60px', marginTop: '-20px' }}/>
                     </div>
                     <div className="paddingAll">
 
                       {/* Tampilan Data Curah Hujan Dayeuhkolot */}
-                      <span className="waterValue">{renderCountUp(curahHujanBS, 'mm')}</span><br />
+                      {/* <span className="waterValue">{renderCountUp(curahHujanBS, 'mm')}</span><br /> */}
                       {/* Tampilan Data Curah Hujan Dayeuhkolot */}
 
-                      <span className='watersubValue'> Curah Hujan Bojongsoang</span>
+                      {/* <span className='watersubValue'> Curah Hujan Bojongsoang</span>
                     </div>
                   </Stack>
                 </CardContent>
-              </Card>
+              </Card> */}
 
-              <Box height={20} />
+              {/* <Box height={20} />
               <Card sx={{ maxWidth: 345 }}>
                 <CardContent>
                   <Stack spacing={2} direction={'row'}>
                     <div className="iconStyle">
-                      <ThunderstormIcon />  
+                      <img src={curah} alt="test" style={{width: '35px', marginTop: '-5px' }} />
                     </div>
-                    <div className="paddingAll">
+                    <div className="paddingAll"> */}
 
                       {/* Tampilan Data Curah Hujan Bojongsoang */}
-                      <span className="waterValue">{renderCountUp(curahHujanDK, 'mm')}</span><br />
+                      {/* <span className="waterValue">{renderCountUp(curahHujanDK, 'mm')}</span><br /> */}
                       {/* Tampilan Data Curah Hujan Bojongsoang */}
 
-                      <span className='watersubValue'>Curah Hujan Dayeuhkolot</span>
+                      {/* <span className='watersubValue'>Curah Hujan Dayeuhkolot</span>
                     </div>
                   </Stack>
                 </CardContent>
-              </Card>
+              </Card> */}
 
-              <Box height={20} />
+              {/* <Box height={20} />
               <Card sx={{ maxWidth: 345 }}>
                 <CardContent>
                   <Stack spacing={2} direction={'row'}>
                     <div className="iconStyle">
                     <BuildCircleIcon />
                     </div>
-                    <div className="paddingAll">
+                    <div className="paddingAll"> */}
 
                       {/* Tampilan Data Pompa Aktif */}
-                      <span className="waterValue">{renderCountUp(pompa)}</span><br />
+                      {/* <span className="waterValue">{renderCountUp(pompa)}</span><br /> */}
                       {/* Tampilan Data Pompa Aktif */}
 
-                      <span className='watersubValue'>Pompa Aktif</span>
+                      {/* <span className='watersubValue'>Pompa Aktif</span>
                     </div>
                   </Stack>
                 </CardContent>
-              </Card>
+              </Card> */}
 
+
+              <Box height={20} />
+              <Card sx={{ maxWidth: 345, maxHeight: 92, borderRadius: '25px' }} className='card'>
+                <CardContent>
+                  <Stack spacing={2} direction={'row'}>
+                    <div className="iconStyle">
+                      <img src={slider} alt="test" style={{width: '60px', marginTop: '-20px' }} />
+                    </div>
+
+                    {/* Tampilan Data Debit Sungai */}
+                    <div className="paddingAll">
+                      <span className="waterValue" style={{marginBottom: '-105px'}}>{renderCountUp(pintuAir, '%')}</span><br/>
+                      <span className='watersubValue' >Bukaan Pintu Air</span>
+                    </div>
+
+                  </Stack>
+                </CardContent>
+              </Card>  
+
+{/* 
               <Box height={20} />
               <Card sx={{ maxWidth: 345 }}>
                 <CardContent>
@@ -393,27 +496,27 @@ export default function Home() {
                     <div className="iconStyle">
                     <LinearScaleIcon />
                     </div>
-                    <div className="paddingAll">
+                    <div className="paddingAll"> */}
 
                       {/* Tampilan Bukaan Pintu Air */}
-                      <span className="waterValue">{renderCountUp(pintuAir, '%')}</span><br />
+                      {/* <span className="waterValue">{renderCountUp(pintuAir, '%')}</span><br /> */}
                       {/* Tampilan Bukaan Pintu Air */}
-
+{/* 
                       <span className='watersubValue'>Bukaan Pintu Air</span>
                     </div>
                   </Stack>
                 </CardContent>
-              </Card>
+              </Card> */}
 
               <Box height={20} />
-              <Card sx={{ maxWidth: 345 }}>
+              <Card sx={{ maxWidth: 345, borderRadius: '25px' }}>
                 <CardContent>
                   <Stack spacing={2} direction={'row'}>
-                    <div className="iconStyle">
-                    <BuildCircleIcon />
+                    <div className="iconStyleButton">
+                      <img src={button} alt="test" style={{width: '60px', marginTop: '-20px' }} />
                     </div>
                     <div className="paddingAll">
-                      <span className='watersubValue'>Pompa Aktif</span>
+                      <span className='watersubValue' style={{fontWeight: '500'}}>Kontrol Pompa</span>
                       <PumpButton />
                     </div>
                   </Stack>

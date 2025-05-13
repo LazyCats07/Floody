@@ -1,78 +1,32 @@
 import * as React from 'react';
+import { useState } from 'react';  // Import useState hook
 import { styled, alpha } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
 import { useAppStore } from '../appStore';
 import { useNavigate } from 'react-router-dom';
-import Home from './pages/Home';
+import logoFullcolor from './images/Log-Full-Color.png';
+import './CSS/navbar.css';
+import MoreIcon from '@mui/icons-material/MoreVert';
 
-// import Logout from './Logout';
-
-
-const AppBar = styled(MuiAppBar, {
-  })(({ theme }) => ({
-    zIndex: theme.zIndex.drawer + 1,
-  }));
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
+const AppBar = styled(MuiAppBar)(({ theme }) => ({
+  zIndex: theme.zIndex.drawer + 1,
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
-
+// Navbar Component
 export default function Navbar() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const updateOpen = useAppStore((state) => state.updateOpen);
   const dopen = useAppStore((state) => state.dopen); // access the open state
+  const [isClicked, setIsClicked] = useState(false); // Declare state for icon click effect
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -94,6 +48,11 @@ export default function Navbar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleMenuClick = () => {
+    setIsClicked(!isClicked); // Toggle clicked state for the icon
+    updateOpen(!dopen); // Toggle sidebar open state
+  };
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -112,9 +71,7 @@ export default function Navbar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={() => navigate('/Home')}>Home</MenuItem>
-      <MenuItem onClick={() => navigate('/Login')}>logout</MenuItem>
-
-
+      <MenuItem onClick={() => navigate('/Login')}>Logout</MenuItem>
     </Menu>
   );
 
@@ -135,26 +92,6 @@ export default function Navbar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {/* <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem> */}
-      {/* <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem> */}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -172,7 +109,7 @@ export default function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ backgroundColor: "white", color: "#2f2f2f" }}>
+      <AppBar position="fixed" sx={{ backgroundColor: 'white', color: '#2f2f2f' }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -180,43 +117,29 @@ export default function Navbar() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
-            onClick={() => updateOpen(!dopen)}
+            onClick={handleMenuClick} // Handle menu icon click
           >
-          <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            MUI
-          </Typography>
-          {/* <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
+            <MenuIcon
+              sx={{
+                transition: 'transform 0.3s ease, color 0.3s ease', // Smooth transition for transform and color
+                transform: isClicked ? 'rotate(90deg)' : 'rotate(0deg)', // Rotate icon when clicked (vertical to horizontal)
+                color: isClicked ? 'blue' : 'black', // Change color when clicked
+              }}
             />
-          </Search> */}
-          <Box sx={{ flexGrow: 1 }} />
+          </IconButton>
+
+          {/* Centered Logo */}
+          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <img
+              src={logoFullcolor}
+              alt="Floody-Logo"
+              className="logo hover"
+              onClick={() => navigate('/Home')}
+            />
+          </Box>
+
+          {/* Desktop Menu */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton> */}
             <IconButton
               size="large"
               edge="end"
@@ -229,6 +152,8 @@ export default function Navbar() {
               <AccountCircle />
             </IconButton>
           </Box>
+
+          {/* Mobile Menu */}
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"

@@ -1,4 +1,17 @@
 /* Controller.css */
+
+.bg{
+  background: linear-gradient(135deg, #8f8fff, #2200ff); /* Gradasi biru yang memberikan kesan dimensi dan kedalaman */
+}
+
+h1{
+  color: white;
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: 700;
+  align-items: center;
+  text-align: center;
+}
+
 .card-container {
     display: flex;
     justify-content: center;

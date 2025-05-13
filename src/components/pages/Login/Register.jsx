@@ -5,7 +5,10 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../firebase-config";
 import { setDoc, doc } from "firebase/firestore";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Icons for password visibility
-import { dropRight } from 'lodash';
+// import { dropRight } from 'lodash';
+import '../../CSS/register.css'
+import Logo from "../../images/Log-Full-Color.png"
+
 
 
 function Login() {
@@ -58,8 +61,10 @@ const handleRegister = async (e) => {
       <div className='auth-wrapper'>
         <div className='auth-inner'>
           <form onSubmit={handleRegister}>
-            <img src={require('../../images/logo.jpg')} alt="Logo Floody" className="Logo" />
-            <h3>Sign Up</h3>
+            <div className="FloodyLogo">
+              <img src={Logo} alt="Logo Floody" className="Logo" />
+            </div>
+            <h1 style={{color: "black"}}>Sign Up</h1>
             
             <div className="mb-3">
                 <label>First Name</label>
@@ -117,10 +122,16 @@ const handleRegister = async (e) => {
               </div>
             </div>
 
-            <div className='d-grid'>
-              <button type='submit' className='btn btn-primary' style={{ alignItems: 'right' }}>Sign Up</button>
+            <div>
+              <p className="Login">
+                Already have an account? <a href="/Login" className='LoginLink'>Login Here</a>
+              </p>
+              <div className="buttonSGP">
+                <button type="submit" className="btn btn-primary btnSGP">
+                  Sign Up
+                </button>
+              </div>
             </div>
-
 
           </form>
           <ToastContainer />

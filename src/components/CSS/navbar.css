@@ -1,0 +1,12 @@
+.logo {
+    width: 100px;
+    padding: 10px 10px 10px 10px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border-radius: 10px;  /* Untuk memberikan efek bulat pada gambar */
+}
+
+.logo:hover {
+    transform: scale(1.05);  /* Membuat logo sedikit lebih besar saat di-hover */
+    background-color: white;  /* Mengubah latar belakang menjadi putih saat hover */
+    cursor: pointer;  /* Menambahkan kursor pointer untuk menandakan interaksi */
+}

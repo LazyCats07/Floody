@@ -3,6 +3,9 @@ import { auth, db } from "../../firebase-config";
 import { toast } from "react-toastify";
 import { setDoc, doc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
+import '../../CSS/SIgnInWGoogle.css'
+import GoogleIcon from '@mui/icons-material/Google';
+import { IconButton } from '@mui/material';
 
 function SignInwithGoogle() {
   const navigate = useNavigate();  // Initialize the useNavigate hook
@@ -51,15 +54,24 @@ function SignInwithGoogle() {
   };
 
   return (
-    <div>
-      <p className="continue-p">--Or continue with--</p>
-      <div
-        style={{ display: "flex", justifyContent: "center", cursor: "pointer" }}
-        onClick={googleLogin}
-      >
-        <img src={require("../../images/google.png")} alt="Google Button" width={"60%"} />
-      </div>
-    </div>
+  <div
+    style={{ display: "flex", justifyContent: "center", cursor: "pointer" }}
+    onClick={googleLogin}
+  >
+    <IconButton
+      sx={{
+        marginTop: '10px',
+        transition: 'transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease', // Smooth transition for transform, shadow, and color
+        '&:hover': {
+          transform: 'scale(1.1)',  // Slightly enlarge the icon on hover
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',  // Add a subtle shadow on hover
+          color: '#4285F4',  // Change the icon color to Google's blue color on hover
+        },
+      }}
+    >
+      <GoogleIcon sx={{ fontSize: 40 }} /> {/* Customize size of Google icon */}
+    </IconButton>
+  </div>
   );
 }
 

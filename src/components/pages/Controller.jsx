@@ -7,7 +7,7 @@ import CardContent from '@mui/material/CardContent';
 // import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import "../CSS/Dash.css"
+// import "../CSS/Dash.css"
 // import WaterDropIcon from '@mui/icons-material/WaterDrop';
 // import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 // import WavesIcon from '@mui/icons-material/Waves';
@@ -36,16 +36,16 @@ return (
     <>
     <Navbar />
     <Box height={50} />
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }} className='bg'>
     <Sidenav />
-      <Box component ="main" sx={{ flexGrow: 1, p: 3 }} marginLeft={2}>
-        <h1>Kontrol</h1>
+      <Box component ="main" sx={{ flexGrow: 1, p: 3 }} marginLeft={2} >
+        <h1>Sistem Kontrol</h1>
 
         <Grid container spacing={2}>
             <Grid size={8}>
               <Stack spacing={2} direction={'row'}>
 
-              <Card sx={{ height: 60 + "vh", minWidth: 99.75 + "%" }}>
+              <Card sx={{ height: 70 + "vh", minWidth: 99.75 + "%", borderRadius: '25px' }}>
                 <CardContent>
                   <Typography gutterBottom variant="h6" component="div">
                     <b>Prosedur Operasi PINTU AIR & POMPA</b>
@@ -101,9 +101,9 @@ return (
             </Grid>
 
             <Grid size={4}>
-              <Card sx={{ height: 60 + "vh" }}>
+              <Card sx={{ height: 70 + "vh", borderRadius: '25px' }}>
                 <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
+                  <Typography gutterBottom variant="h5" component="div">
                     <b>Catatan</b>
                   </Typography>
                   <div>Data teknis berupa:</div>
@@ -132,9 +132,9 @@ return (
         <Grid container spacing={2}>
           {/* Kontrol Pintu Air */}
           <Grid size={8}>
-            <Card sx={{ height: 50 + "vh", maxWidth: 1100}}>
+            <Card sx={{ height: 50 + "vh", maxWidth: 1100, borderRadius: '25px'}}>
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 'bold'}}>
                   Kontrol Pintu Air
                 </Typography>
                 <div sx={{ display: 'flex' }}>
@@ -146,9 +146,9 @@ return (
           </Grid>
 
           <Grid size={4}>
-            <Card sx={{ height:  50 + "vh" }}>
+            <Card sx={{ height:  50 + "vh", borderRadius: '25px'}}>
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 'bold'}}>
                   Kontrol Pompa
                 </Typography>
                 <PumpButton />

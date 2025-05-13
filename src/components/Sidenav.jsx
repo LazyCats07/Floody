@@ -4,29 +4,29 @@ import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-// import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-// import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-// import WavesIcon from '@mui/icons-material/Waves';
-import WaterDropIcon from '@mui/icons-material/WaterDrop';
-import OpenWithIcon from '@mui/icons-material/OpenWith';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../appStore';
-import LogoutIcon from '@mui/icons-material/Logout';
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
-import { ref, set } from "firebase/database";
-import { database } from "./firebase-config"; // Import your firebase config
 import './CSS/sideNav.css';
+import Typography from '@mui/material/Typography';
 
 
+// ICONS
+import dashboard from './icon/dashboard.gif';
+import Report from './icon/Data.gif';
+import settings from './icon/settings.gif';
+import powerButton from './icon/power-button.gif';
+import logout from './icon/logout.gif';
+
+// Firebase
+import { ref, set } from "firebase/database";
+import { database } from "./firebase-config";
 
 const drawerWidth = 240;
 
@@ -88,12 +88,11 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const resetFirebaseControl = () => {
   const controlRef = ref(database, 'Kontrol');
 
-  // Set the initial values for PintuAir and pumps
   set(controlRef, {
-    PintuAir: 0,  // Resetting the PintuAir
-    pump1: false, // Turning off pump1
-    pump2: false, // Turning off pump2
-    pump3: false, // Turning off pump3
+    PintuAir: 0,
+    pump1: false,
+    pump2: false,
+    pump3: false,
   })
     .then(() => {
       console.log("Force shutdown complete, values reset.");
@@ -106,134 +105,58 @@ const resetFirebaseControl = () => {
 export default function Sidenav() {
   const theme = useTheme();
   const navigate = useNavigate();
-  const open = useAppStore((state) => state.dopen); 
+  const open = useAppStore((state) => state.dopen);
+
+  const menuItems = [
+    { text: "Dashboard", icon: dashboard, onClick: () => navigate('/Home') },
+    { text: "Report", icon: Report, onClick: () => navigate('/Report') },
+    { text: "Controller", icon: settings, onClick: () => navigate('/Controller') },
+    { text: "Force Shutdown", icon: powerButton, onClick: resetFirebaseControl },
+    { text: "Logout", icon: logout, onClick: () => navigate('/Login') }
+  ];
 
   return (
-    <Box sx={{ display: 'flex'}}>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Box height={100} />
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
-        {/* <Divider />       */}
 
-        {/* DASHBOARD SUB */}
+        {/* Menu Items */}
         <List>
-          <ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate('/Home')}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                px: 2.5,
-                justifyContent: open ? 'initial' : 'center',
-              }}
-            >
-              <ListItemIcon sx={{ minWidth: 0, justifyContent: 'center', mr: open ? 3 : 'auto' }}>
-                <DashboardIcon />
-              </ListItemIcon>
+          {menuItems.map((item, index) => (
+
+            <ListItem disablePadding sx={{ display: 'block', backgroundColor: 'transparent', fontWeight: 'bold' }} key={index} onClick={item.onClick}>
+              <ListItemButton
+                sx={{
+                  minHeight: 50,
+                  px: 2.5,
+                  justifyContent: open ? 'initial' : 'center',
+                }}
+              >
+              <div className="iconStyle">
+                <img
+                  src={item.icon}
+                  alt={item.text}
+                  className="icon"
+                  style={{ width: '50px', marginBottom: '-10px', marginTop: '-20px', borderRadius: '35%' }}
+                />
+              </div>
               <ListItemText
-                primary="Dashboard"
+                primary={item.text}
                 sx={{
                   opacity: open ? 1 : 0,
+                  ml: 2,
+                  mt: 2,
+                  fontWeight: 900, // Menambahkan fontWeight menggunakan sx
                 }}
               />
-            </ListItemButton>
-          </ListItem>
-        </List>
-
-        {/* REPORT LINGKUNGAN POLDER */}
-        <List>
-          <ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate('/Report')}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                px: 2.5,
-                justifyContent: open ? 'initial' : 'center',
-              }}
-            >
-              <ListItemIcon sx={{ minWidth: 0, justifyContent: 'center', mr: open ? 3 : 'auto' }}>
-                <WaterDropIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary="Report"
-                sx={{
-                  opacity: open ? 1 : 0,
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
-        </List>
-
-        {/* Controller */}
-        <List>
-          <ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate('/Controller')}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                px: 2.5,
-                justifyContent: open ? 'initial' : 'center',
-              }}
-            >
-              <ListItemIcon sx={{ minWidth: 0, justifyContent: 'center', mr: open ? 3 : 'auto' }}>
-                <OpenWithIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary="Controller"
-                sx={{
-                  opacity: open ? 1 : 0,
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
-        </List>
-
-        
-        {/* Force Shutdown */}
-        <List>
-          <ListItem disablePadding sx={{ display: 'block' }} onClick={resetFirebaseControl}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                px: 2.5,
-                justifyContent: open ? 'initial' : 'center',
-              }}
-            >
-              <ListItemIcon sx={{ minWidth: 0, justifyContent: 'center', mr: open ? 3 : 'auto' }}>
-                <PowerSettingsNewIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary="Force Shutdown"
-                sx={{
-                  opacity: open ? 1 : 0,
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
-        </List>
-
-        {/* Logout */}
-        <List>
-          <ListItem disablePadding sx={{ display: 'block' }} onClick={() => navigate('/Login')}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                px: 2.5,
-                justifyContent: open ? 'initial' : 'center',
-              }}
-            >
-              <ListItemIcon sx={{ minWidth: 0, justifyContent: 'center', mr: open ? 3 : 'auto' }}>
-              <LogoutIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary="Logout"
-                sx={{
-                  opacity: open ? 1 : 0,
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
 
         <Divider />

@@ -1,0 +1,9 @@
+.btn-print{
+    border-radius: 15px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 500;
+    font-family: 'Fira Sans', sans-serif;
+}

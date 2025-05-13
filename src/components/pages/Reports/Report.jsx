@@ -9,22 +9,22 @@ import './Data/DataList'
 import DataList from './Data/DataList';
 import '../../PumpButton'
 import '../../SliderDoor'
-
+import '../../CSS/report.css'
 
 
 
 export default function Kolam() {
   return (
     <>
-    <Navbar />
-    <Box height={50} />
-      <Box sx={{ display: 'flex' }}>
+      <Navbar/>  
+      <Box sx={{ display: 'flex' }} className="bg">
       <Sidenav />
-        <Box component ="main" sx={{ flexGrow: 1, p: 3 }} marginLeft={2}>
+      <Box sx={{ flexGrow: 1, p: 3 }} marginLeft={2}>
+        <Box height={50} />
           <h1>Report Data Lingkungan Polder</h1>
           <DataList />
         </Box>
-    </Box>
+      </Box>
     </>
   )
 }

@@ -38,4 +38,26 @@
   }
 }
 
+.con-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;       /* Mengatur tinggi elemen agar menutupi seluruh layar */
+  width: 100%;         /* Memastikan lebar elemen penuh */
+}
 
+.loading {
+  width: 100px;         /* Sesuaikan ukuran gambar sesuai kebutuhan */
+  height: 100px;        /* Sesuaikan ukuran gambar sesuai kebutuhan */
+}
+
+.not-foundLogo{
+  width: 200px;
+  align-items: 'center';
+  display: flex;
+  margin: -125px auto -10px auto;
+}
+
+.not-found{
+  margin-bottom: 500px;
+}

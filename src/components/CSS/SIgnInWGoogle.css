@@ -1,0 +1,16 @@
+.google-button-container {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;  /* Smooth transition for transform and shadow */
+}
+
+.google-button-container img {
+  width: 50%;  /* Set width of the image */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;  /* Smooth transition for image on hover */
+}
+
+.google-button-container:hover img {
+  transform: scale(1.1);  /* Enlarge the image slightly when hovered */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* Add a subtle shadow */
+}

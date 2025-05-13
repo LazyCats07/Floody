@@ -13,8 +13,9 @@ export function RealTimeData(setters) {
     debitHilir: ref(database, 'Polder/Debit_Hilir'),
     curahHujanBS: ref(database, 'Polder/bojongsoang'),
     curahHujanDK: ref(database, 'Polder/dayeuhkolot'),
-    pompa: ref(database, 'Polder/Status_Pompa'),
-    pintuAir: ref(database, 'Kontrol/PintuAir') // Added this
+    pompa: ref(database, 'Polder/pump_on'),
+    pintuAir: ref(database, 'Kontrol/PintuAir'), // Added this
+    statusBanjir: ref(database, 'Polder/status_banjir') // Added this
   };
 
   Object.entries(dataRefs).forEach(([key, refPath]) => {

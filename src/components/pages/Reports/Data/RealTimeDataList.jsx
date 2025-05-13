@@ -15,7 +15,7 @@ export function RealTimeDataList(setters) {
     tmaSungai: ref(database, 'Polder/TMA_Sungai'),
     tmaKolam: ref(database, 'Polder/TMA_Kolam'),
     tmaHilir: ref(database, 'Polder/TMA_Hilir'),
-    statusPompa: ref(database, 'Polder/Status_Pompa'),
+    statusPompa: ref(database, 'Polder/pump_on'),
   };
 
   // Object untuk menampung data

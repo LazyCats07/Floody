@@ -1,0 +1,50 @@
+.buttonSGP {
+  display: flex;
+  justify-content: flex-end;  /* Tombol Sign Up di kanan */
+  /* width: 100%;  Membuat container penuh */
+  margin-top: -40px;
+}
+
+.Login {
+  display: flex;
+  justify-content: flex-start;  /* "Login Here" di kiri */
+  /* Membuat container penuh */
+  font-size: small;
+  color: grey;
+}
+
+.btnSGP {
+    width: 100px;
+    height: 40px;
+    font-weight: 500;
+    font-family: 'Fira Sans', sans-serif;
+    border-radius: 20px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;  /* Smooth transition for color and scaling */
+}
+
+.btnSGP:hover {
+    background-color: #0056b3;  /* Change to a darker shade on hover */
+    transform: scale(1.05);  /* Slightly enlarge the button on hover */
+}
+
+
+.LoginLink{
+    color: blue;
+    margin-left: 5px;
+}
+
+.Logo {
+  padding: 5px 5px 5px 5px;
+  height: 100px;
+  width: auto; /* Agar proporsional */
+}
+
+.FloodyLogo{
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
