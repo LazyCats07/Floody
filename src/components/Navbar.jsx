@@ -158,9 +158,9 @@ async function handleLogout() {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <AccountCircle sx={{ color: 'blue' }}/>
         </IconButton>
-        <p>Settings</p>
+        <p>Account</p>
       </MenuItem>
     </Menu>
   );
@@ -205,7 +205,7 @@ async function handleLogout() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <AccountCircle sx={{ color: 'blue' }}/>
             </IconButton>
           </Box>
 

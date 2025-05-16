@@ -31,6 +31,9 @@ import flood from '../icon/flood.gif';
 import pump from '../icon/pump.gif';
 import slider from '../icon/slider.gif';
 import button from '../icon/button.gif';
+import process from '../icon/process.gif';
+import notes from '../icon/notes.gif';
+
 
 // CSS
 import "../CSS/Dash.css";
@@ -172,9 +175,11 @@ return () => clearTimeout(timer); // Clear the timer when the component is unmou
 
               <Card sx={{ height: 75 + "vh", minWidth: 99.75 + "%", borderRadius: '25px' }}>
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    <b>Prosedur Operasi PINTU AIR & POMPA</b>
-                  </Typography>
+                  <span>
+                    <img src={process} alt="icon" style={{ width: '70px', marginRight: '10px', marginLeft: '10px', marginBottom: '-20px' }}/>
+                    <b style={{ fontSize: '30px' }}>Prosedur Operasi Pintu Air dan Pompa</b>
+                  </span>
+
 
                   <TableContainer sx={{ maxHeight: 440, marginTop: 2 }}>
                     <Table stickyHeader aria-label="sticky table">
@@ -228,10 +233,11 @@ return () => clearTimeout(timer); // Clear the timer when the component is unmou
             <Grid size={4}>
               <Card sx={{ height: 75 + "vh", maxWidth: 345, borderRadius: '25px'}} className='card'>
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    <b>Catatan</b>
-                  </Typography>
-                  <div>Data teknis berupa:</div>
+                  <span>
+                    <img src={notes} alt="icon" style={{ width: '70px', marginRight: '10px', marginLeft: '10px', marginBottom: '-20px' }}/>
+                    <b style={{ fontSize: '30px' }}>Catatan</b>
+                  </span>
+                  <div style={{ marginTop: '10px' }}>Data teknis berupa:</div>
                   <div>
                     <ol>
                       <div><li>Luas Daerah Layanan Polder</li></div>
@@ -309,13 +315,13 @@ return () => clearTimeout(timer); // Clear the timer when the component is unmou
                   <CardContent>
                     <Stack spacing={2} direction={'row'}>
                       <div className="iconStyle">
-                        <img src={flood} alt="test" style={{width: '60px', marginTop: '-20px' }} />
+                        <img src={flood} alt="test" style={{width: '60px', marginTop: '-26px' }} />
                       </div>
 
                       {/* Tampilan Data Debit Sungai */}
                       <div className="paddingAll">
-                        <span className="waterValue" style={{marginBottom: '-105px'}}>Siaga {renderCountUp(statusBanjir)}</span><br/>
-                        <span className='watersubValue' style={{}}>Status Banjir</span>
+                        <span className="waterValue">Siaga {renderCountUp(statusBanjir)}</span><br/>
+                        <span className='watersubValue'>Status Banjir</span>
                       </div>
 
                     </Stack>
@@ -325,7 +331,7 @@ return () => clearTimeout(timer); // Clear the timer when the component is unmou
                   <CardContent>
                     <Stack spacing={2} direction={'row'}>
                       <div className="iconStyle">
-                        <img src={pump} alt="test" style={{width: '60px', marginTop: '-20px' }} />
+                        <img src={pump} alt="test" style={{width: '60px', marginTop: '-26px' }} />
                       </div>
                       <div className="paddingAll">
                         <span className="waterValue">{renderCountUp(pompa)}</span><br/>

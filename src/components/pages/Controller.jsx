@@ -17,6 +17,7 @@ import Stack from '@mui/material/Stack';
 // import { useCountUp }  from 'react-countup'; 
 // import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import notes from '../icon/notes.gif';
 
 
 // Component
@@ -26,6 +27,8 @@ import Sidenav from '../Sidenav'
 // import '../SliderDoor'
 import SliderDoor from '../SliderDoor';
 import PumpButton from '../PumpButton';
+import process from '../icon/process.gif';
+
 
 
 
@@ -47,9 +50,10 @@ return (
 
               <Card sx={{ height: 70 + "vh", minWidth: 99.75 + "%", borderRadius: '25px' }}>
                 <CardContent>
-                  <Typography gutterBottom variant="h6" component="div">
-                    <b>Prosedur Operasi PINTU AIR & POMPA</b>
-                  </Typography>
+                  <span>
+                    <img src={process} alt="icon" style={{ width: '65px', marginRight: '10px', marginLeft: '10px', marginBottom: '-20px' }}/>
+                    <b style={{ fontSize: '25px' }}>Prosedur Pintu Air dan Pompa</b>
+                  </span>
 
                   <TableContainer sx={{ maxHeight: 440, marginTop: 2 }}>
                     <Table stickyHeader aria-label="sticky table">
@@ -103,10 +107,11 @@ return (
             <Grid size={4}>
               <Card sx={{ height: 70 + "vh", borderRadius: '25px' }}>
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    <b>Catatan</b>
-                  </Typography>
-                  <div>Data teknis berupa:</div>
+                  <span>
+                    <img src={notes} alt="icon" style={{ width: '65px', marginRight: '10px', marginLeft: '10px', marginBottom: '-20px' }}/>
+                    <b style={{ fontSize: '25px' }}>Catatan</b>
+                  </span>
+                  <div style={{ marginTop: '10px' }}>Data teknis berupa:</div>
                   <div>
                     <ol>
                       <div><li>Luas Daerah Layanan Polder</li></div>

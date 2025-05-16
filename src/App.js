@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import './components/CSS/Login.css';
 import loadingGif from './components/icon/loading-unscreen.gif';
 import NFound from './components/icon/notFound.gif';
+import { Analytics } from "@vercel/analytics/react"
 
 
 // PAGE
@@ -80,6 +81,7 @@ function NotFound() {
 function App() {
   return (
     <Router>
+      <Analytics/>
       <Routes>
         {/* Public Routes */}
         <Route path="/Login" element={<Login />} />

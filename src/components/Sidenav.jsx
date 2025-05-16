@@ -14,7 +14,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../appStore';
 import './CSS/sideNav.css';
-import Typography from '@mui/material/Typography';
+// import Typography from '@mui/material/Typography';
+
 
 
 // ICONS
