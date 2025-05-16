@@ -91,7 +91,7 @@ return (
                   <Box height={20} />
                   <div>
                     <div><b>Kapasitas Pompa</b> (3 x 0,25 m<sup>3</sup>/det)</div>
-                    <div>Diperoleh dari berbagai sumber yang kebenarannya (data definitif) <b>Perlu</b> dipastikan atau disepakati bersama, <b>terutama</b> data luas daerah layanan (DTA = Daerah Tangkapan Air) dan luas kolam retensi yang sangat menentukan beban debit banjir dan <b>Kebutuhan Pompa berikut pola operasinya</b> </div>
+                    <div>Diperoleh dari berbagai sumber yang kebenarannya (data definitif) <b>Perlu</b> dipastikan atau disepakati bersama, <b>terutama</b> data luas daerah layanan (DTA = Daerah Tangkapan Air) dan luas kolam retensi yang sangat menentukan beban debit banjir dan <b>Kebutuhan Pompa berikut pola operasinya.</b></div>
                   </div>
 
                 </CardContent>
@@ -132,7 +132,7 @@ return (
         <Grid container spacing={2}>
           {/* Kontrol Pintu Air */}
           <Grid size={8}>
-            <Card sx={{ height: 50 + "vh", maxWidth: 1100, borderRadius: '25px'}}>
+            <Card sx={{ height: 50 + "vh", maxWidth: 1100, borderRadius: '25px', minWidth: 99.75 + "%"}}>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 'bold'}}>
                   Kontrol Pintu Air

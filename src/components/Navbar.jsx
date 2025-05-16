@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';  // Import useState hook
+import { useState, useEffect } from 'react';  // Import useState and useEffect hooks
 import { styled, alpha } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -14,6 +14,13 @@ import { useNavigate } from 'react-router-dom';
 import logoFullcolor from './images/Log-Full-Color.png';
 import './CSS/navbar.css';
 import MoreIcon from '@mui/icons-material/MoreVert';
+
+import { auth } from './firebase-config';  // Import Firebase auth
+import { toast } from 'react-toastify';  // Import toast from react-toastify
+import 'react-toastify/dist/ReactToastify.css';  // Import CSS for toast styling
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from './firebase-config';
+import { Divider } from '@mui/material';
 
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
@@ -30,6 +37,53 @@ export default function Navbar() {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  // Handle Logout function
+async function handleLogout() {
+    try {
+        // Show the success toast
+        toast.success("User logged out successfully", {
+            position: "top-center",
+        });
+
+        // Add a class for the fade-in effect
+        document.body.classList.add("fade-in-active"); // Trigger fade-in effect
+
+        // Perform the logout
+        await auth.signOut();
+
+        // Delay the redirection to allow time for the fade-in effect
+        setTimeout(() => {
+            window.location.href = "/Login"; // Redirect after the effect
+        }, 1000); // 1-second delay (or adjust based on your animation timing)
+
+    } catch (error) {
+        console.log("Error logging out:", error.message);
+    }
+}
+
+
+  const [userDetails, setUserDetails] = useState(null);
+
+  // Fetch user details on mount
+  const fetchUserDetails = async () => {
+      auth.onAuthStateChanged(async (user) => {
+          setUserDetails(user);
+          if (user) {
+              const docRef = doc(db, "Users", user.uid);
+              const docSnap = await getDoc(docRef);
+              if (docSnap.exists()) {
+                  setUserDetails(docSnap.data());
+              } else {
+                  console.log("User is not Logged in");
+              }
+          }
+      });
+  };
+
+  useEffect(() => {
+      fetchUserDetails();
+  }, []);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -70,8 +124,12 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      <div>
+        <p style={{paddingRight: '20px', paddingLeft: '20px', paddingTop: '1px', paddingBottom: '1px', fontSize: '18px', marginBottom: '2px', marginTop: '-3px' }}>Welcome <b>{userDetails?.firstName}</b></p>
+        <Divider/>
+      </div>
       <MenuItem onClick={() => navigate('/Home')}>Home</MenuItem>
-      <MenuItem onClick={() => navigate('/Login')}>Logout</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -117,18 +175,17 @@ export default function Navbar() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
-            onClick={handleMenuClick} // Handle menu icon click
+            onClick={handleMenuClick}
           >
             <MenuIcon
               sx={{
-                transition: 'transform 0.3s ease, color 0.3s ease', // Smooth transition for transform and color
-                transform: isClicked ? 'rotate(90deg)' : 'rotate(0deg)', // Rotate icon when clicked (vertical to horizontal)
-                color: isClicked ? 'blue' : 'black', // Change color when clicked
+                transition: 'transform 0.3s ease, color 0.3s ease',
+                transform: isClicked ? 'rotate(90deg)' : 'rotate(0deg)',
+                color: isClicked ? 'blue' : 'black',
               }}
             />
           </IconButton>
 
-          {/* Centered Logo */}
           <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <img
               src={logoFullcolor}
@@ -138,7 +195,6 @@ export default function Navbar() {
             />
           </Box>
 
-          {/* Desktop Menu */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
               size="large"
@@ -153,7 +209,6 @@ export default function Navbar() {
             </IconButton>
           </Box>
 
-          {/* Mobile Menu */}
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"

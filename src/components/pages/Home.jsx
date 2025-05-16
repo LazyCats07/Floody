@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { RealTimeData } from './Reports/Data/RealTimeData';
 import { ref, onValue } from "firebase/database";
-import { database } from "../firebase-config";
+import { database, auth, db } from "../firebase-config";
+import { doc, getDoc } from 'firebase/firestore';
+
+
+
 
 // MUI Components
 import Box from '@mui/material/Box';
@@ -13,12 +17,12 @@ import Stack from '@mui/material/Stack';
 
 // Icons
 // import WaterDropIcon from '@mui/icons-material/WaterDrop';
-import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
-import WavesIcon from '@mui/icons-material/Waves';
+// import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
+// import WavesIcon from '@mui/icons-material/Waves';
 // import HeightIcon from '@mui/icons-material/Height';
-import FloodIcon from '@mui/icons-material/Flood';
-import BuildCircleIcon from '@mui/icons-material/BuildCircle';
-import LinearScaleIcon from '@mui/icons-material/LinearScale';
+// import FloodIcon from '@mui/icons-material/Flood';
+// import BuildCircleIcon from '@mui/icons-material/BuildCircle';
+// import LinearScaleIcon from '@mui/icons-material/LinearScale';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import TMA from '../icon/TMA.gif'; 
 import Debit from '../icon/ocean.gif';
@@ -53,6 +57,7 @@ import LineChartSungai from '../LineChartSungai';
 import LineChartKolam from '../LineChartKolam';
 import PumpButton from '../../components/PumpButton';
 // import { usePintuAirData } from './Reports/Data/PintuAirData';
+
 
   
 export default function Home() {
@@ -101,16 +106,56 @@ export default function Home() {
     });
   }, []);
 
-  const renderCountUp = (value, suffix = '') => {
-    return value !== null ? (
+
+
+const renderCountUp = (value, suffix = '') => {
+  if (value !== null && !isNaN(value)) {
+    const formattedValue = value.toFixed(2);  // Format the value to 2 decimal places
+    console.log('Formatted Value:', formattedValue);  // Log formatted value for debugging
+
+    return (
       <>
-        <CountUp delay={0.4} end={Number(value).toFixed(8)} duration={0.4} />
+        <CountUp delay={0.4} end={Number(formattedValue)} duration={0.4} />
         <span style={{ marginLeft: '4px' }}>{suffix}</span>
       </>
-    ) : (
-      <span>Null</span>
     );
-  };
+  } else {
+    return <span>Null</span>;  // Handle null or non-numeric values
+  }
+};
+
+
+const [userDetails, setUserDetails] = useState(null);
+const [animationFinished, setAnimationFinished] = useState(false);
+  // Fetch user details on mount
+const fetchUserDetails = async () => {
+    auth.onAuthStateChanged(async (user) => {
+        setUserDetails(user);
+        if (user) {
+            const docRef = doc(db, "Users", user.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                setUserDetails(docSnap.data());
+            } else {
+                console.log("User is not Logged in");
+            }
+        }
+    });
+};
+
+useEffect(() => {
+    fetchUserDetails();
+}, []);
+
+useEffect(() => {
+// Set a timer to mark the animation as finished
+const timer = setTimeout(() => {
+  setAnimationFinished(true);
+}, 2500); // Set this to the duration of your typing animation (e.g., 2.5 seconds)
+
+return () => clearTimeout(timer); // Clear the timer when the component is unmounted
+}, []);
+
 
   return (
     <>
@@ -120,7 +165,7 @@ export default function Home() {
     <Sidenav />
       <Box component ="main" sx={{ flexGrow: 1, p: 3 }} marginLeft={2} >
         <h1 className='HomeTitle' style={{ textAlign: 'center', fontSize: '50px' }}>Dashboard Kolam Polder Cipalasari 1</h1>
-        {/* <p style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', marginTop: '-60px' }}>Welcome </p> */}
+        <p style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', marginTop: '-40px', color: 'yellow' }} className={`typewriter ${animationFinished ? 'finished' : ''}`} >Welcome <b>{userDetails?.firstName}</b></p>
           <Grid container spacing={2}>
             <Grid size={8}>
               <Stack spacing={2} direction={'row'}>
@@ -213,7 +258,7 @@ export default function Home() {
             <Grid item size={8}>
               <Stack spacing={2} direction={'row'}>
 
-                <Card sx={{ height: 200, borderRadius: '25px'}} className='cardTMA card' >
+                <Card sx={{ height: 200, minWidth: 32.5 + "%", borderRadius: '25px'}} className='cardTMA card' >
                   <CardContent>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
                       <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
@@ -227,7 +272,7 @@ export default function Home() {
                   </CardContent>
                 </Card>
 
-                <Card sx={{ height: 200, borderRadius: '25px'}}>
+                <Card sx={{ height: 200, minWidth: 32 + "%", borderRadius: '25px'}}>
                   <CardContent>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
                       <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
@@ -241,7 +286,7 @@ export default function Home() {
                   </CardContent>
                 </Card>
 
-                <Card sx={{ height: 200, borderRadius: '25px'}} className='cardTMA card'>
+                <Card sx={{ height: 200, minWidth: 32 + "%", borderRadius: '25px'}} className='cardTMA card'>
                   <CardContent>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
                       <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
@@ -297,7 +342,7 @@ export default function Home() {
         <Box height={20} />
           <Grid container spacing={2}>
             <Grid item size={8}>
-              <Card sx={{ height: 90 + "vh", maxWidth: 1100, borderRadius: '25px' }} className='card'>
+              <Card sx={{ height: 90 + "vh", maxWidth: 1100, borderRadius: '25px', minWidth: 99.75 + "%" }} className='card'>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div" style={{fontSize: '30px', fontWeight: 'bold' }}>
                   Tinggi Air Kolam Polder Cipalasari 1
@@ -308,7 +353,7 @@ export default function Home() {
 
               {/* LineChart Sungai Citarun */}
               <Box height={20} />
-              <Card sx={{ height: 90 + "vh", maxWidth: 1100, borderRadius: '25px' }} className='card'>
+              <Card sx={{ height: 90 + "vh", maxWidth: 1100, borderRadius: '25px', minWidth: 99.75 + "%" }} className='card'>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
                     Tinggi Air Sungai Citarum
@@ -386,7 +431,7 @@ export default function Home() {
 
                     {/* Tampilan Data Debit Sungai */}
                     <div className="paddingAll">
-                      <span className="waterValue" style={{marginBottom: '-105px'}}>{renderCountUp(curahHujanBS)}</span><br/>
+                      <span className="waterValue" style={{marginBottom: '-105px'}}>{renderCountUp(curahHujanBS, "mm")}</span><br/>
                       <span className='watersubValue' >Curah Hujan Bojongsoang</span>
                     </div>
 
@@ -404,7 +449,7 @@ export default function Home() {
 
                     {/* Tampilan Data Debit Sungai */}
                     <div className="paddingAll">
-                      <span className="waterValue" style={{marginBottom: '-105px'}}>{renderCountUp(curahHujanDK)}</span><br/>
+                      <span className="waterValue" style={{marginBottom: '-105px'}}>{renderCountUp(curahHujanDK, "mm")}</span><br/>
                       <span className='watersubValue' >Curah Hujan Dayeuhkolot</span>
                     </div>
 

@@ -64,3 +64,40 @@
   border-radius: 20px;
 } */
 
+/* typewriter effect */
+/* Keyframes for the typewriter effect */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 97%;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    border-right: 3px solid yellow;
+  }
+  50% {
+    border-right: 10px;
+  }
+}
+
+/* Apply the typing effect to the element */
+.typewriter {
+  display: inline-block;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide the text that hasn't been typed yet */
+  border-right: 3px solid yellow; /* Simulate the typing cursor */
+  animation: typing 2s steps(30) 1s 1 normal both, blink 0.75s infinite step-end;
+  font-family: 'Courier New', Courier, monospace; /* Optional: for a typewriter-like font */
+}
+
+/* After typing is done, remove the blinking cursor */
+.typewriter.finished {
+  animation: typing 2s steps(30) 1s 1 normal both, none;
+  border-right: none;
+  text-align: center; /* Center the text after typing is finished */
+}
