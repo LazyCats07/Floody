@@ -232,10 +232,10 @@ export default function DataList() {
                 Debit Cipalasari (L/min) {sortConfig.key === "debitCipalasari" && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </TableCell>
               <TableCell align="left" onClick={() => handleSort("debitCitarum")}>
-                Debit Citarum (L/min) {sortConfig.key === "debitCitarum" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+                Debit Hulu Citarum (L/min) {sortConfig.key === "debitCitarum" && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </TableCell>
               <TableCell align="left" onClick={() => handleSort("debitHilir")}>
-                Debit Hilir (L/min) {sortConfig.key === "debitHilir" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+                Debit Hilir Citarum (L/min) {sortConfig.key === "debitHilir" && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </TableCell>
               <TableCell align="left" onClick={() => handleSort("tmaKolam")}>
                 TMA Kolam Polder (m) {sortConfig.key === "tmaKolam" && (sortConfig.direction === "asc" ? "↑" : "↓")}
@@ -244,7 +244,7 @@ export default function DataList() {
                 TMA Sungai Citarum (m) {sortConfig.key === "tmaSungai" && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </TableCell>
               <TableCell align="left" onClick={() => handleSort("tmaHilir")}>
-                TMA Hilir (m) {sortConfig.key === "tmaHilir" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+                TMA Sungai Cipalasari (m) {sortConfig.key === "tmaHilir" && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </TableCell>
               {/* <TableCell align="left" onClick={() => handleSort("statusPompa")}>
                 Status Pompa {sortConfig.key === "statusPompa" && (sortConfig.direction === "asc" ? "↑" : "↓")}
