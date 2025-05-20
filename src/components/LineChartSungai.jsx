@@ -28,7 +28,7 @@ const LineChartKolam = () => {
       // Sort and slice data to get the last 10 data points (10 seconds)
       const sortedData = Object.keys(rawData)
         .sort((a, b) => b.localeCompare(a)) // Sort data by timestamp descending
-        .slice(0, 10); // Limit to the latest 10 entries
+        .slice(0, 15); // Limit to the latest 10 entries
 
       sortedData.forEach((key) => {
         const timestamp = key;
@@ -228,7 +228,7 @@ const LineChartKolam = () => {
     labels: labels,
     datasets: [
       {
-        label: 'Tinggi Air Kolam Polder Cipalasari 1 (m)',
+        label: 'Tinggi Air Sungai Citarum (m)',
         data: data,
         fill: false,
         borderColor: 'rgba(75, 192, 192, 1)',
@@ -254,12 +254,12 @@ const LineChartKolam = () => {
       y: {
         title: {
           display: true,
-          text: 'Tinggi Air Kolam Polder',
+          text: 'Tinggi Air Sungai Citarum (m)',
         },
         min: 0,
         max: 11,
         ticks: {
-          stepSize: 1,
+          stepSize: 0.5,
         },
       },
     },

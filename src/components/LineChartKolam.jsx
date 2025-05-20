@@ -1,343 +1,313 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import { database } from './firebase-config'; // Ensure the correct path to firebase-config.js
-import { ref, onValue } from 'firebase/database';
-import "./CSS/LineChart.css";
-import Box from '@mui/material/Box';
+import React, { useState, useEffect } from 'react';
+import Chart from 'react-apexcharts';
+import { database } from './firebase-config';
+import { ref, onValue, off } from 'firebase/database';
 
-// Register the required chart components from Chart.js
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-
-const LineChartKolam = () => {
-  const [data, setData] = useState([]);
+const ApexLineChartKolam = () => {
   const [labels, setLabels] = useState([]);
-  const [viewMode, setViewMode] = useState('perDetik'); // Default view mode set to 'perDetik'
-  const timeoutRef = useRef(null); // Ref to store the timeout ID
-  const [dropdownOpen, setDropdownOpen] = useState(false); // State to control dropdown visibility
+  const [series, setSeries] = useState([
+    { name: 'TMA Hilir', data: [] },
+    { name: 'TMA Kolam', data: [] },
+    { name: 'TMA Sungai', data: [] },
+  ]);
+  const [viewMode, setViewMode] = useState('perDetik');
+  const [isPaused, setIsPaused] = useState(false); // State untuk pause/resume
 
-  // Fetch data per detik (last 10 seconds)
-  const fetchDataPerDetik = () => {
-    const dbRef = ref(database, "Polder/TMA_Kolam");
+  // Fungsi umum untuk update chart
+  const updateChartData = (hilirData, kolamData, sungaiData, keys) => {
+    const labelsArr = [];
+    const hilirArr = [];
+    const kolamArr = [];
+    const sungaiArr = [];   
 
-    onValue(dbRef, (snapshot) => {
-      const rawData = snapshot.val();
-      const newLabels = [];
-      const newData = [];
-
-      // Sort and slice data to get the last 10 data points (10 seconds)
-      const sortedData = Object.keys(rawData)
-        .sort((a, b) => b.localeCompare(a)) // Sort data by timestamp descending
-        .slice(0, 10); // Limit to the latest 10 entries
-
-      sortedData.forEach((key) => {
-        const timestamp = key;
-        const value = rawData[key];
-        const formattedTimestamp = timestamp.replace(/_/g, ':').replace('T', ' ').replace('Z', '');
-
-        newLabels.push(formattedTimestamp);
-        newData.push(value);
-      });
-
-      // Set the last 10 data and labels after the delay
-      setLabels(newLabels.reverse());
-      setData(newData.reverse());
+    keys.forEach(key => {
+      const labelFormatted = key.replace(/_/g, ':').replace('T',' ').replace('Z','');
+      labelsArr.push(labelFormatted);
+      hilirArr.push(hilirData?.[key] ?? null);
+      kolamArr.push(kolamData?.[key] ?? null);
+      sungaiArr.push(sungaiData?.[key] ?? null);
     });
+
+    setLabels(labelsArr);
+    setSeries([
+      { name: 'TMA Hilir', data: hilirArr },
+      { name: 'TMA Kolam', data: kolamArr },
+      { name: 'TMA Sungai', data: sungaiArr },
+    ]);
   };
 
-  // Fetch data per jam (group by hour and get the last value for each hour)
-  const fetchDataPerJam = () => {
-    const dbRef = ref(database, "Polder/TMA_Kolam");
+  // Fungsi untuk mengelompokkan dan rata-rata data per jam/hari/bulan
+  const groupAndAverage = (rawData, groupBy) => {
+    const grouped = {};
 
-    onValue(dbRef, (snapshot) => {
-      const rawData = snapshot.val();
-      const newLabels = [];
-      const newData = [];
-
-      const groupedData = {};
-
-      // Process and group data by hour
-      Object.keys(rawData).forEach((key) => {
-        const timestamp = key;
-        const value = rawData[key];
-        const hour = timestamp.substring(0, 13); // Extract the hour part (YYYY-MM-DD HH)
-
-        if (!groupedData[hour]) {
-          groupedData[hour] = [];
-        }
-        groupedData[hour].push(value);
-      });
-
-      const sortedHours = Object.keys(groupedData).sort();
-
-      // Limit to the last 24 hours of data
-      const last24Hours = sortedHours.slice(-24);  // Only get the last 12 hours
-
-      last24Hours.forEach((hour) => {
-        const values = groupedData[hour];
-        const lastValue = values[values.length - 1];
-        newLabels.push(hour);
-        newData.push(lastValue);
-      });
-
-      setLabels(newLabels);
-      setData(newData);
-    });
-  };
-
-  // Fetch data per minggu (showing the last 7 days of data)
-  const fetchDataPerMinggu = () => {
-    const dbRef = ref(database, "Polder/TMA_Kolam");
-
-    onValue(dbRef, (snapshot) => {
-      const rawData = snapshot.val();
-      const newLabels = [];
-      const newData = [];
-
-      const groupedData = {};
-
-      // Process data and group by date (YYYY-MM-DD)
-      Object.keys(rawData).forEach((key) => {
-        const timestamp = key;
-        const value = rawData[key];
-        const date = timestamp.substring(0, 10); // Take only the date part (YYYY-MM-DD)
-
-        if (!groupedData[date]) {
-          groupedData[date] = [];
-        }
-        groupedData[date].push(value);
-      });
-
-      const sortedDates = Object.keys(groupedData).sort().reverse(); // Sort in descending order
-
-      // Get the last 7 days of data
-      const last7Days = sortedDates.slice(0, 7);
-
-      last7Days.forEach((date) => {
-        const values = groupedData[date];
-        const avgValue = values.reduce((acc, val) => acc + val, 0) / values.length; // Average value per day
-        newLabels.push(date);
-        newData.push(avgValue);
-      });
-
-      setLabels(newLabels.reverse());
-      setData(newData.reverse());
-    });
-  };
-  
-// Fetch data per bulan (4 nodes representing 4 weeks per month)
-
- // Fetch data per bulan (group by month and average the values)
- const fetchDataPerBulan = () => {
-  const dbRef = ref(database, "Polder/TMA_Kolam");
-
-  onValue(dbRef, (snapshot) => {
-    const rawData = snapshot.val();
-    const newLabels = [];
-    const newData = [];
-
-    const groupedData = {};
-
-    // Process data and group by date (YYYY-MM-DD)
-    Object.keys(rawData).forEach((key) => {
-      const timestamp = key;
-      const value = rawData[key];
-      const date = timestamp.substring(0, 10); // Take only the date part (YYYY-MM-DD)
-
-      if (!groupedData[date]) {
-        groupedData[date] = [];
+    Object.entries(rawData || {}).forEach(([key, value]) => {
+      let groupKey;
+      if (groupBy === 'hour') {
+        groupKey = key.substring(0, 13);
+      } else if (groupBy === 'day') {
+        groupKey = key.substring(0, 10);
+      } else if (groupBy === 'month') {
+        groupKey = key.substring(0, 7);
       }
-      groupedData[date].push(value);
+
+      if (!grouped[groupKey]) grouped[groupKey] = [];
+      grouped[groupKey].push(value);
     });
 
-    const sortedDates = Object.keys(groupedData).sort().reverse(); // Sort in descending order
-
-    // Get the last 7 days of data
-    const last7Days = sortedDates.slice(0, 31);
-
-    last7Days.forEach((date) => {
-      const values = groupedData[date];
-      const avgValue = values.reduce((acc, val) => acc + val, 0) / values.length; // Average value per day
-      newLabels.push(date);
-      newData.push(avgValue);
+    const avgGrouped = {};
+    Object.entries(grouped).forEach(([k, arr]) => {
+      avgGrouped[k] = arr.reduce((a,b) => a+b, 0) / arr.length;
     });
 
-    setLabels(newLabels.reverse());
-    setData(newData.reverse());
-  });
-};
-
-
-
-
-
-
-  // Fetch data per tahun (group by year and average the values)
-  const fetchDataPerTahun = () => {
-    const dbRef = ref(database, "Polder/TMA_Kolam");
-    
-    onValue(dbRef, (snapshot) => {
-      const rawData = snapshot.val();
-      const newLabels = [];
-      const newData = [];
-  
-      const groupedData = {};
-  
-      // Process data and group by month (YYYY-MM)
-      Object.keys(rawData).forEach((key) => {
-        const timestamp = key;
-        const value = rawData[key];
-        const month = timestamp.substring(0, 7); // Take the month part (YYYY-MM)
-  
-        if (!groupedData[month]) {
-          groupedData[month] = [];
-        }
-        groupedData[month].push(value);
-      });
-  
-      const sortedMonths = Object.keys(groupedData).sort();
-  
-      sortedMonths.forEach((month) => {
-        const values = groupedData[month];
-        const avgValue = values.reduce((acc, val) => acc + val, 0) / values.length; // Average value per month
-        newLabels.push(month);
-        newData.push(avgValue);
-      });
-  
-      setLabels(newLabels);
-      setData(newData);
-    });
+    return avgGrouped;
   };
 
-  // Fetch data based on selected view mode with a delay of 3 seconds
+  // Fungsi utama fetch data sesuai viewMode
+  const fetchData = () => {
+    const refHilir = ref(database, "Polder/TMA_Hilir");
+    const refKolam = ref(database, "Polder/TMA_Kolam");
+    const refSungai = ref(database, "Polder/TMA_Sungai");
+
+    let hilirData = {};
+    let kolamData = {};
+    let sungaiData = {};
+
+    const processAndUpdate = () => {
+      if (isPaused) return; // Kalau pause, jangan update data
+      if (!hilirData || !kolamData || !sungaiData) return;
+
+      const allKeys = new Set([
+        ...Object.keys(hilirData),
+        ...Object.keys(kolamData),
+        ...Object.keys(sungaiData),
+      ]);
+
+      let labelsToUse = [];
+      let hilirToUse = {};
+      let kolamToUse = {};
+      let sungaiToUse = {};
+
+      switch(viewMode) {
+        case 'perDetik':
+          labelsToUse = Array.from(allKeys).sort((a,b) => b.localeCompare(a)).slice(0, 10).reverse();
+          updateChartData(hilirData, kolamData, sungaiData, labelsToUse);
+          break;
+        case 'perJam':
+          hilirToUse = groupAndAverage(hilirData, 'hour');
+          kolamToUse = groupAndAverage(kolamData, 'hour');
+          sungaiToUse = groupAndAverage(sungaiData, 'hour');
+          labelsToUse = Object.keys({...hilirToUse, ...kolamToUse, ...sungaiToUse})
+            .sort()
+            .slice(-24);
+          updateChartData(hilirToUse, kolamToUse, sungaiToUse, labelsToUse);
+          break;
+        case 'perMinggu':
+          hilirToUse = groupAndAverage(hilirData, 'day');
+          kolamToUse = groupAndAverage(kolamData, 'day');
+          sungaiToUse = groupAndAverage(sungaiData, 'day');
+          labelsToUse = Object.keys({...hilirToUse, ...kolamToUse, ...sungaiToUse})
+            .sort()
+            .slice(-7);
+          updateChartData(hilirToUse, kolamToUse, sungaiToUse, labelsToUse);
+          break;
+        case 'perBulan':
+          hilirToUse = groupAndAverage(hilirData, 'day');
+          kolamToUse = groupAndAverage(kolamData, 'day');
+          sungaiToUse = groupAndAverage(sungaiData, 'day');
+          labelsToUse = Object.keys({...hilirToUse, ...kolamToUse, ...sungaiToUse})
+            .sort()
+            .slice(-31);
+          updateChartData(hilirToUse, kolamToUse, sungaiToUse, labelsToUse);
+          break;
+        case 'perTahun':
+          hilirToUse = groupAndAverage(hilirData, 'month');
+          kolamToUse = groupAndAverage(kolamData, 'month');
+          sungaiToUse = groupAndAverage(sungaiData, 'month');
+          labelsToUse = Object.keys({...hilirToUse, ...kolamToUse, ...sungaiToUse})
+            .sort()
+            .slice(-12);
+          updateChartData(hilirToUse, kolamToUse, sungaiToUse, labelsToUse);
+          break;
+        default:
+          break;
+      }
+    };
+
+    const unsubscribeHilir = onValue(refHilir, snapshot => {
+      hilirData = snapshot.val() || {};
+      processAndUpdate();
+    });
+
+    const unsubscribeKolam = onValue(refKolam, snapshot => {
+      kolamData = snapshot.val() || {};
+      processAndUpdate();
+    });
+
+    const unsubscribeSungai = onValue(refSungai, snapshot => {
+      sungaiData = snapshot.val() || {};
+      processAndUpdate();
+    });
+
+    return () => {
+      off(refHilir);
+      off(refKolam);
+      off(refSungai);
+    };
+  };
+
   useEffect(() => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current); // Clear previous timeout
+    const cleanup = fetchData();
+    return () => {
+      if (cleanup) cleanup();
+    }
+  }, [viewMode, isPaused]); // Tambahkan isPaused di dependency
 
-    timeoutRef.current = setTimeout(() => {
-      if (viewMode === 'perDetik') {
-        fetchDataPerDetik();
-      } else if (viewMode === 'perJam') {
-        fetchDataPerJam();
-      } else if (viewMode === 'perMinggu') {
-        fetchDataPerMinggu();
-      } else if (viewMode === 'perBulan') {
-        fetchDataPerBulan();
-      } else if (viewMode === 'perTahun') {
-        fetchDataPerTahun();
-      }
-    }, 3000); // Delay fetch data by 3 seconds
-  }, [viewMode]);
-
-  // Chart.js data structure
-  const chartData = {
-    labels: labels,
-    datasets: [
-      {
-        label: 'Tinggi Air Kolam Polder Cipalasari 1 (m)',
-        data: data,
-        fill: false,
-        borderColor: 'rgba(75, 192, 192, 1)',
-        tension: 0.1,
-      },
-    ],
-  };
-
-  // Chart.js options with fixed Y axis range
-  const options = {
-    responsive: true,
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: 'Tanggal & Jam',
-        },
-        ticks: {
-          maxRotation: 90,
-          autoSkip: true,
+  const chartOptions = {
+    chart: {
+      id: 'line-chart',
+      type: 'line',
+      toolbar: {
+        show: true,
+        tools: {
+          download: true,
+          selection: true,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+          reset: true,
         },
       },
-      y: {
-        title: {
-          display: true,
-          text: 'Tinggi Air Kolam Polder',
-        },
-        min: 0,
-        max: 11,
-        ticks: {
-          stepSize: 1,
-        },
+      zoom: {
+        enabled: true
+      },
+    // margin bawah agar ada ruang untuk judul xaxis
+      margin: { 
+        bottom: 60 
       },
     },
+    xaxis: {
+      categories: labels,
+      title: {
+        text: 'Tanggal & Jam',
+        offsetY: 0,  // menurunkan posisi tulisan supaya tidak kena sumbu x
+        style: {
+          fontSize: '14px',
+          fontWeight: 'bold',
+    }
+      },
+      labels: {
+        rotate: -45,
+        rotateAlways: true,
+        hideOverlappingLabels: true,
+        trim: true,
+      }
+    },
+    yaxis: {
+      title: {
+        text: 'Tinggi Air (m)',
+      },
+      min: 0,
+      max: 11,
+      tickAmount: 11,
+      labels: {
+        formatter: function (value) {
+          return Math.round(value);
+        }
+      },
+    },
+    stroke: {
+      curve: 'smooth',
+      width: 5,
+    },
+    legend: {
+      position: 'top',
+    },
+    tooltip: {
+      enabled: true,
+      shared: true,
+      intersect: false,
+    },
   };
-
-  // Toggle dropdown visibility
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   return (
     <div>
       <h5>2J89+MHJ, Dayeuhkolot, Kec. Dayeuhkolot, Kabupaten Bandung, Jawa Barat 40258</h5>
-      <div>
-        {/* Dropdown button to toggle between per detik, per jam, per minggu, per bulan, and per tahun */}
-        <button onClick={toggleDropdown}>View Mode</button>
-        {dropdownOpen && (
-          <div className="dropdown-content">
-            <label>
-              <input 
-                type="radio" 
-                name="viewMode" 
-                value="perDetik" 
-                checked={viewMode === 'perDetik'} 
-                onChange={() => setViewMode('perDetik')} 
-              />
-              Per Detik
-            </label>
-            <label>
-              <input 
-                type="radio" 
-                name="viewMode" 
-                value="perJam" 
-                checked={viewMode === 'perJam'} 
-                onChange={() => setViewMode('perJam')} 
-              />
-              Per Jam
-            </label>
-            <label>
-              <input 
-                type="radio" 
-                name="viewMode" 
-                value="perMinggu" 
-                checked={viewMode === 'perMinggu'} 
-                onChange={() => setViewMode('perMinggu')} 
-              />
-              Per Minggu
-            </label>
-            <label>
-              <input 
-                type="radio" 
-                name="viewMode" 
-                value="perBulan" 
-                checked={viewMode === 'perBulan'} 
-                onChange={() => setViewMode('perBulan')} 
-              />
-              Per Bulan
-            </label>
-            <label>
-              <input 
-                type="radio" 
-                name="viewMode" 
-                value="perTahun" 
-                checked={viewMode === 'perTahun'} 
-                onChange={() => setViewMode('perTahun')} 
-              />
-              Per Tahun
-            </label>
-          </div>
-        )}
-      </div>
-      <Box height={20} />
-      <Line data={chartData} options={options} />
+
+    <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '20px' }}>
+{/* Tombol Pause / Resume */}
+<button
+  onClick={() => setIsPaused(prev => !prev)}
+  style={{
+    height: '40px',
+    minWidth: '150px',
+    padding: '0 18px', // padding vertikal dihapus, diatur oleh height
+    fontSize: '16px',
+    borderRadius: '6px',
+    border: `2px solid ${isPaused ? '#4caf50' : '#f44336'}`,
+    // border: `0.5px solid black`,
+    backgroundColor: '#fff',
+    color: isPaused ? '#4caf50' : '#f44336',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease, color 0.3s ease',
+    userSelect: 'none',
+    boxSizing: 'border-box', // supaya padding & border masuk hitungan ukuran
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}
+  onMouseEnter={e => {
+    e.currentTarget.style.backgroundColor = isPaused ? '#4caf50' : '#f44336';
+    e.currentTarget.style.color = '#fff';
+  }}
+  onMouseLeave={e => {
+    e.currentTarget.style.backgroundColor = '#fff';
+    e.currentTarget.style.color = isPaused ? '#4caf50' : '#f44336';
+  }}
+  onMouseDown={e => (e.currentTarget.style.transform = 'scale(0.95)')}
+  onMouseUp={e => (e.currentTarget.style.transform = 'scale(1)')}
+  onMouseLeaveCapture={e => (e.currentTarget.style.transform = 'scale(1)')}
+>
+  {isPaused ? '▶️ Resume Update' : '⏸️ Pause Update'}
+</button>
+
+{/* Dropdown select */}
+<select
+  value={viewMode}
+  onChange={e => setViewMode(e.target.value)}
+  style={{
+    height: '40px',
+    minWidth: '150px',
+    padding: '0 12px', // padding vertikal dihapus, diatur oleh height
+    fontSize: '16px',
+    borderRadius: '6px',
+    border: '1.5px solid #888',
+    backgroundColor: '#fff',
+    cursor: 'pointer',
+    boxSizing: 'border-box',
+    boxShadow: '0 2px 5px rgba(0,0,0,0.15)',
+    transition: 'border-color 0.3s ease',
+  }}
+  onFocus={e => (e.target.style.borderColor = '#3f51b5')}
+  onBlur={e => (e.target.style.borderColor = '#888')}
+>
+  <option value="perDetik">Per Detik</option>
+  <option value="perJam">Per Jam</option>
+  <option value="perMinggu">Per Minggu</option>
+  <option value="perBulan">Per Bulan</option>
+  <option value="perTahun">Per Tahun</option>
+</select>
+</div>
+
+
+      <Chart
+        options={chartOptions}
+        series={series}
+        type="line"
+        height={300}
+      />
     </div>
   );
 };
 
-export default LineChartKolam;
+export default ApexLineChartKolam;

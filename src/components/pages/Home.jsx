@@ -235,10 +235,10 @@ return () => clearTimeout(timer); // Clear the timer when the component is unmou
                 <CardContent>
                   <span>
                     <img src={notes} alt="icon" style={{ width: '70px', marginRight: '10px', marginLeft: '10px', marginBottom: '-20px' }}/>
-                    <b style={{ fontSize: '30px' }}>Catatan</b>
+                    <b style={{ fontSize: '30px' }}>Sistem Kontrol Pompa</b>
                   </span>
-                  <div style={{ marginTop: '10px' }}>Data teknis berupa:</div>
-                  <div>
+                  {/* <div style={{ marginTop: '10px' }}>Data teknis berupa:</div> */}
+                  {/* <div>
                     <ol>
                       <div><li>Luas Daerah Layanan Polder</li></div>
                       <div>(2,00 Ha)</div>
@@ -251,7 +251,8 @@ return () => clearTimeout(timer); // Clear the timer when the component is unmou
                       <div>(3 x 15.000 L/menit)</div>
                     </ol>
                   </div>
-                  <div></div>
+                  <div></div> */}
+                  <PumpButton />
                 </CardContent>
               </Card>
             </Grid>
@@ -359,14 +360,14 @@ return () => clearTimeout(timer); // Clear the timer when the component is unmou
 
               {/* LineChart Sungai Citarun */}
               <Box height={20} />
-              <Card sx={{ height: 90 + "vh", maxWidth: 1100, borderRadius: '25px', minWidth: 99.75 + "%" }} className='card'>
+              {/* <Card sx={{ height: 90 + "vh", maxWidth: 1100, borderRadius: '25px', minWidth: 99.75 + "%" }} className='card'>
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h5" component="div" style={{fontSize: '30px', fontWeight: 'bold' }}>
                     Tinggi Air Sungai Citarum
                   </Typography>
                   <LineChartSungai />
                 </CardContent>
-              </Card>
+              </Card> */}
               <Box height={20} />
             </Grid>
 
@@ -561,7 +562,7 @@ return () => clearTimeout(timer); // Clear the timer when the component is unmou
 
               <Box height={20} />
               <Card sx={{ maxWidth: 345, borderRadius: '25px' }}>
-                <CardContent>
+                {/* <CardContent>
                   <Stack spacing={2} direction={'row'}>
                     <div className="iconStyleButton">
                       <img src={button} alt="test" style={{width: '60px', marginTop: '-20px' }} />
@@ -571,7 +572,7 @@ return () => clearTimeout(timer); // Clear the timer when the component is unmou
                       <PumpButton />
                     </div>
                   </Stack>
-                </CardContent>
+                </CardContent> */}
               </Card>
             </Grid>
           </Grid>
