@@ -59,7 +59,9 @@ import Sidenav from '../Sidenav';
 import LineChartSungai from '../LineChartSungai';
 import LineChartKolam from '../LineChartKolam';
 import PumpButton from '../../components/PumpButton';
+import Footer from '../Footer';
 // import { usePintuAirData } from './Reports/Data/PintuAirData';
+
 
 
   
@@ -74,6 +76,7 @@ export default function Home() {
   const [curahHujanDK, setCurahHujanDK] = useState(null);
   const [pompa, setPompa] = useState(null);
   const [statusBanjir, setstatusBanjir] = useState(null);
+
 
 
   useEffect(() => {
@@ -160,13 +163,24 @@ return () => clearTimeout(timer); // Clear the timer when the component is unmou
 }, []);
 
 
+
   return (
     <>
+    <Box
+  sx={{
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh', // tinggi minimum 100% viewport
+  }}
+>
     <Navbar />
     <Box height={50} />
     <Box sx={{ display: 'flex' }} className='HomeBG'>
     <Sidenav />
-      <Box component ="main" sx={{ flexGrow: 1, p: 3 }} marginLeft={2} >
+      <Box component ="main"     sx={{
+    flexGrow: 1,
+    p: 3,
+  }} marginLeft={2} >
         <h1 className='HomeTitle' style={{ textAlign: 'center', fontSize: '50px' }}>Dashboard Kolam Polder Cipalasari 1</h1>
         <p style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold', marginTop: '-40px', color: 'yellow' }} className={`typewriter ${animationFinished ? 'finished' : ''}`} >Welcome <b>{userDetails?.firstName}</b></p>
           <Grid container spacing={2}>
@@ -234,9 +248,10 @@ return () => clearTimeout(timer); // Clear the timer when the component is unmou
               <Card sx={{ height: 75 + "vh", maxWidth: 345, borderRadius: '25px'}} className='card'>
                 <CardContent>
                   <span>
-                    <img src={notes} alt="icon" style={{ width: '70px', marginRight: '10px', marginLeft: '10px', marginBottom: '-20px' }}/>
-                    <b style={{ fontSize: '30px' }}>Sistem Kontrol Pompa</b>
+                    <img src={button} alt="icon" style={{ width: '70px', marginRight: '10px', marginLeft: '10px', marginBottom: '-20px' }}/>
+                    <b style={{ fontSize: '30px' }}>Kontrol Pompa</b>
                   </span>
+                  <Box height={27}/>
                   {/* <div style={{ marginTop: '10px' }}>Data teknis berupa:</div> */}
                   {/* <div>
                     <ol>
@@ -349,7 +364,7 @@ return () => clearTimeout(timer); // Clear the timer when the component is unmou
         <Box height={20} />
           <Grid container spacing={2}>
             <Grid item size={8}>
-              <Card sx={{ height: 90 + "vh", maxWidth: 1100, borderRadius: '25px', minWidth: 99.75 + "%" }} className='card'>
+              <Card sx={{ height: 653, maxWidth: 1100, borderRadius: '25px', minWidth: 99.75 + "%" }} className='card'>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div" style={{fontSize: '30px', fontWeight: 'bold' }}>
                   Tinggi Air Kolam Polder Cipalasari 1
@@ -578,6 +593,8 @@ return () => clearTimeout(timer); // Clear the timer when the component is unmou
           </Grid>
       </Box>  
     </Box>
+    <Footer />
+</Box>
     </>
   )
 }

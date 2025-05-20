@@ -28,6 +28,8 @@ import Sidenav from '../Sidenav'
 import SliderDoor from '../SliderDoor';
 import PumpButton from '../PumpButton';
 import process from '../icon/process.gif';
+import Footer from '../Footer';
+
 
 
 
@@ -37,6 +39,13 @@ import process from '../icon/process.gif';
 export default function Controller() {
 return (
     <>
+        <Box
+  sx={{
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh', // tinggi minimum 100% viewport
+  }}
+>
     <Navbar />
     <Box height={50} />
     <Box sx={{ display: 'flex' }} className='bg'>
@@ -170,6 +179,8 @@ return (
 
         </Grid>
       </Box>  
+    </Box>
+    <Footer/>
     </Box>
     </>
   )

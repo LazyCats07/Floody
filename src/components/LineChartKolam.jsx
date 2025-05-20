@@ -30,9 +30,9 @@ const ApexLineChartKolam = () => {
 
     setLabels(labelsArr);
     setSeries([
-      { name: 'TMA Hilir', data: hilirArr },
-      { name: 'TMA Kolam', data: kolamArr },
-      { name: 'TMA Sungai', data: sungaiArr },
+      { name: 'TMA Sungai Cipalasari', data: hilirArr },
+      { name: 'TMA Kolam ', data: kolamArr },
+      { name: 'TMA Sungai Citarum', data: sungaiArr },
     ]);
   };
 
@@ -89,7 +89,7 @@ const ApexLineChartKolam = () => {
 
       switch(viewMode) {
         case 'perDetik':
-          labelsToUse = Array.from(allKeys).sort((a,b) => b.localeCompare(a)).slice(0, 10).reverse();
+          labelsToUse = Array.from(allKeys).sort((a,b) => b.localeCompare(a)).slice(0, 15).reverse();
           updateChartData(hilirData, kolamData, sungaiData, labelsToUse);
           break;
         case 'perJam':

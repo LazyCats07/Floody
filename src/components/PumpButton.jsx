@@ -1,11 +1,82 @@
 import * as React from 'react';
-import { FormLabel, FormControl, FormGroup, FormControlLabel, Switch, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import {
+  FormLabel,
+  FormControl,
+  FormGroup,
+  FormControlLabel,
+  Typography,
+  Box,
+} from '@mui/material';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import { red } from '@mui/material/colors';
-import { ref, set, onValue } from "firebase/database"; // Import firebase functions
-import { database } from "./firebase-config"; // Import database connection
+import { ref, set, onValue } from "firebase/database";
+import { database } from "./firebase-config";
+import Switch from '@mui/material/Switch';
 
-import "./CSS/Controller.css";  // Import CSS untuk responsivitas
+const CustomPumpSwitch = styled((props) => <Switch {...props} />)(({ theme }) => ({
+  width: 62,
+  height: 34,
+  padding: 7,
+  '& .MuiSwitch-switchBase': {
+    margin: 1,
+    padding: 0,
+    transform: 'translateX(6px)',
+    '&.Mui-checked': {
+      color: '#fff',
+      transform: 'translateX(22px)',
+      '& .MuiSwitch-thumb:before': {
+        content: '"On"',
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        left: 0,
+        top: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: '#fff',
+        backgroundColor: '#4caf50', // hijau background
+        borderRadius: '50%',         // bulat di thumb
+        userSelect: 'none',
+      },
+      '& + .MuiSwitch-track': {
+        backgroundColor: '#aab4be',
+      },
+    },
+  },
+  '& .MuiSwitch-thumb': {
+    backgroundColor: '#f44336', // merah background saat off
+    width: 32,
+    height: 32,
+    position: 'relative',
+    '&:before': {
+      content: '"Off"',
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      left: 0,
+      top: 0,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: 12,
+      fontWeight: 'bold',
+      color: '#fff',              // tulisan putih saat off
+      backgroundColor: '#f44336', // merah background saat off
+      borderRadius: '50%',
+      userSelect: 'none',
+    },
+  },
+  '& .MuiSwitch-track': {
+    opacity: 1,
+    backgroundColor: '#8796A5',
+    borderRadius: 20 / 2,
+  },
+}));
+
 
 export default function PumpButton() {
   const [state, setState] = React.useState({
@@ -14,19 +85,13 @@ export default function PumpButton() {
     pump3: false,
   });
 
-  // Fungsi untuk mengubah status pompa
+  // Handle toggle dan update firebase
   const handleChange = (event) => {
     const { name, checked } = event.target;
+    setState((prev) => ({ ...prev, [name]: checked }));
 
-    // Set state lokal
-    setState({
-      ...state,
-      [name]: checked,
-    });
-
-    // Update status pompa ke Firebase
-    const pumpRef = ref(database, `Kontrol/${name}`);  // Path di Firebase, berdasarkan nama pompa (pump1, pump2, pump3)
-    set(pumpRef, checked)  // Mengirimkan status 'true' atau 'false' ke Firebase
+    const pumpRef = ref(database, `Kontrol/${name}`);
+    set(pumpRef, checked)
       .then(() => {
         console.log(`${name} status updated to ${checked}`);
       })
@@ -35,16 +100,14 @@ export default function PumpButton() {
       });
   };
 
-  // Gunakan useEffect untuk mendengarkan perubahan status pompa di Firebase
   React.useEffect(() => {
-    const pumpsRef = ['pump1', 'pump2', 'pump3'];  // Nama pompa yang ingin dipantau
-    pumpsRef.forEach((pump) => {
+    ['pump1', 'pump2', 'pump3'].forEach((pump) => {
       const pumpRef = ref(database, `Kontrol/${pump}`);
       onValue(pumpRef, (snapshot) => {
         const status = snapshot.val();
-        setState((prevState) => ({
-          ...prevState,
-          [pump]: status || false,  // Update status pompa dengan nilai yang ada di Firebase
+        setState((prev) => ({
+          ...prev,
+          [pump]: status || false,
         }));
       });
     });
@@ -53,23 +116,43 @@ export default function PumpButton() {
   return (
     <FormControl component="fieldset" variant="standard" className="form-container">
       <FormLabel component="legend">Assign responsibility</FormLabel>
+      <Box height={5} />
       <FormGroup className="switch-group">
         <FormControlLabel
-          control={<Switch checked={state.pump1} onChange={handleChange} name="pump1" />}
+          control={
+            <CustomPumpSwitch
+              checked={state.pump1}
+              onChange={handleChange}
+              name="pump1"
+            />
+          }
           label="Pompa 1"
         />
         <FormControlLabel
-          control={<Switch checked={state.pump2} onChange={handleChange} name="pump2" />}
+          control={
+            <CustomPumpSwitch
+              checked={state.pump2}
+              onChange={handleChange}
+              name="pump2"
+            />
+          }
           label="Pompa 2"
         />
         <FormControlLabel
-          control={<Switch checked={state.pump3} onChange={handleChange} name="pump3" />}
+          control={
+            <CustomPumpSwitch
+              checked={state.pump3}
+              onChange={handleChange}
+              name="pump3"
+            />
+          }
           label="Pompa 3"
         />
       </FormGroup>
       <br />
-      <Typography variant="h6">
-        <CampaignIcon sx={{ color: red[500] }} /> Danger Alert
+      <Typography variant="h6" sx={{ color: red[500], fontWeight: 'bold' }}>
+        <CampaignIcon sx={{ color: red[500], marginRight: '5px' }} />
+        Danger Alert
       </Typography>
       <Typography variant="body2">
         <span className='note-alert'>

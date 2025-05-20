@@ -117,7 +117,7 @@ export default function Sidenav() {
   ];
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', width: 240 }}>
       <CssBaseline />
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
@@ -160,7 +160,7 @@ export default function Sidenav() {
           ))}
         </List>
 
-        <Divider />
+        {/* <Divider /> */}
       </Drawer>
     </Box>
   );
