@@ -54,8 +54,9 @@ export default function Kolam() {
         <Box
           sx={{
             flexGrow: 1,
-            p: { xs: 1, sm: 3 },
-            marginLeft: { xs: 0, sm: 2.5 },
+    px: { xs: 1, sm: 15 },
+    py: 5,  // padding lebih kecil
+    marginLeft: { xs: 0, sm: -10  }, // geser ke kiri
           }}
         >
           <Box height={50} />

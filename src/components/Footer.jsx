@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Container, Grid, Link, Typography, Divider, IconButton } from '@mui/material';
-import { BsDribbble, BsGithub, BsInstagram, BsYoutube } from "react-icons/bs";
+import { BsGithub, BsInstagram, BsYoutube } from "react-icons/bs";
 import { useAppStore } from '../appStore'; // pastikan pathnya benar
 import Logo from './images/Log-Full-Color.png'
 
@@ -38,6 +38,22 @@ export default function MuiFooter() {
                 Flowbite
               </Typography> */}
             </Link>
+            <div
+              style={{
+                maxWidth: '500px',     // lebar maksimal
+                // padding: '16px',       // ruang dalam kotak
+                border: '0px solid #ccc', // garis kotak
+                borderRadius: '8px',   // sudut membulat (opsional)
+                boxSizing: 'border-box',  // supaya padding tidak nambah lebar
+                margin: '0 auto',      // supaya center dan tidak melebihi kanan kiri
+                wordWrap: 'break-word', // supaya kata panjang terbungkus rapi
+                opacity: 0.75,   
+              }}
+            >
+              <p>
+                Floody adalah sistem mitigasi banjir yang dikembangkan untuk membantu masyarakat dalam menghadapi kondisi banjir yang memberikan dampak negatif.
+              </p>
+            </div>
           </Grid>
 
           {/* Link Sections */}

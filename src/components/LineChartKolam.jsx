@@ -166,6 +166,7 @@ const ApexLineChartKolam = () => {
     chart: {
       id: 'line-chart',
       type: 'line',
+      height: 1000,
       toolbar: {
         show: true,
         tools: {
@@ -192,7 +193,7 @@ const ApexLineChartKolam = () => {
         text: 'Tanggal & Jam',
         offsetY: 0,  // menurunkan posisi tulisan supaya tidak kena sumbu x
         style: {
-          fontSize: '14px',
+          fontSize: '15px',
           fontWeight: 'bold',
     }
       },
@@ -203,22 +204,29 @@ const ApexLineChartKolam = () => {
         trim: true,
       }
     },
+
+    
     yaxis: {
       title: {
         text: 'Tinggi Air (m)',
       },
+      // min: 0,
+      // max: 11,
+      forceNiceScale: true,
       min: 0,
-      max: 11,
-      tickAmount: 11,
+      max: 12,
+      tickAmount: 6,
       labels: {
         formatter: function (value) {
           return Math.round(value);
         }
       },
     },
+
+
     stroke: {
       curve: 'smooth',
-      width: 5,
+      width: 7.5,
     },
     legend: {
       position: 'top',
@@ -229,6 +237,8 @@ const ApexLineChartKolam = () => {
       intersect: false,
     },
   };
+
+
 
   return (
     <div>
@@ -304,7 +314,7 @@ const ApexLineChartKolam = () => {
         options={chartOptions}
         series={series}
         type="line"
-        height={300}
+        height={420}
       />
     </div>
   );
