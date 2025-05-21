@@ -11,7 +11,7 @@ import '../../PumpButton'
 import '../../SliderDoor'
 import '../../CSS/report.css'
 import Footer from '../../Footer';
-
+import { useEffect } from 'react';
 
 // export default function Kolam() {
 //   return (
@@ -46,6 +46,11 @@ import Box from '@mui/material/Box'
 // import Footer from '../../Footer';
 
 export default function Kolam() {
+
+  useEffect(() => {
+    document.title = "Floody - Report";
+  }, []);
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Navbar/>

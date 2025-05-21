@@ -18,6 +18,7 @@ import Stack from '@mui/material/Stack';
 // import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import notes from '../icon/notes.gif';
+import { useEffect } from 'react';
 
 
 // Component
@@ -31,12 +32,11 @@ import process from '../icon/process.gif';
 import Footer from '../Footer';
 
 
-
-
-
-
-
 export default function Controller() {
+  useEffect(() => {
+    document.title = "Floody - Controller";
+  }, []);
+
 return (
     <>
         <Box

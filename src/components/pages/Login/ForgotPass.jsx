@@ -6,6 +6,8 @@ import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/aut
 import SignInwithGoogle from './SignInWithGoogle';
 import { auth } from '../../firebase-config'; // Ensure Firebase is correctly initialized
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useEffect } from 'react';
+
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -42,6 +44,10 @@ function Login() {
       toast.error(`Error: ${error.message}`, { position: 'bottom-center' });
     }
   };
+
+  useEffect(() => {
+    document.title = "Floody - Forgot Password";
+  }, []);
 
   return (
     <div className='App'>

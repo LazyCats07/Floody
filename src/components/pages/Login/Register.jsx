@@ -8,7 +8,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa"; // Icons for password visibi
 // import { dropRight } from 'lodash';
 import '../../CSS/register.css'
 import Logo from "../../images/Log-Full-Color.png"
-
+import { useEffect } from 'react';
 
 
 function Login() {
@@ -55,6 +55,11 @@ const handleRegister = async (e) => {
             })
         }
     };
+
+
+  useEffect(() => {
+    document.title = "Floody - Register";
+  }, []);
 
   return (
     <div className='App'>

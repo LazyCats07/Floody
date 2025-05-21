@@ -6,8 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import '../../CSS/SIgnInWGoogle.css'
 import GoogleIcon from '@mui/icons-material/Google';
 import { IconButton } from '@mui/material';
+import { useEffect } from 'react';
+
 
 function SignInwithGoogle() {
+  useEffect(() => {
+    document.title = "Floody - Login";
+  }, []);
+
   const navigate = useNavigate();  // Initialize the useNavigate hook
 
   const googleLogin = () => {

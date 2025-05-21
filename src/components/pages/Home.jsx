@@ -32,8 +32,6 @@ import pump from '../icon/pump.gif';
 import slider from '../icon/slider.gif';
 import button from '../icon/button.gif';
 import process from '../icon/process.gif';
-import notes from '../icon/notes.gif';
-
 
 // CSS
 import "../CSS/Dash.css";
@@ -56,7 +54,7 @@ import CountUp from 'react-countup';
 // Components
 import Navbar from '../Navbar';
 import Sidenav from '../Sidenav';
-import LineChartSungai from '../LineChartSungai';
+// import LineChartSungai from '../LineChartSungai';
 import LineChartKolam from '../LineChartKolam';
 import PumpButton from '../../components/PumpButton';
 import Footer from '../Footer';
@@ -162,7 +160,9 @@ const timer = setTimeout(() => {
 return () => clearTimeout(timer); // Clear the timer when the component is unmounted
 }, []);
 
-
+useEffect(() => {
+  document.title = "Floody - Home";
+}, []);
 
   return (
     <>

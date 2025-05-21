@@ -8,6 +8,9 @@ import { auth } from "../../firebase-config";  // Ensure Firebase is correctly i
 import { FaEye, FaEyeSlash } from "react-icons/fa";  // Icons for password visibility
 import { useNavigate } from 'react-router-dom';  // Import useNavigate
 import Logo from "../../images/Log-Full-Color.png"
+import { useEffect } from 'react';
+import SignUp from "./Register";
+
 
 function Login() {
   const [email, setEmail] = useState('');  // State for email
@@ -53,6 +56,14 @@ function Login() {
       toast.error(`Error: ${error.message}`, { position: "bottom-center" });
     }
   };
+
+  useEffect(() => {
+    if (isResetFormVisible) {
+      document.title = "Floody - Reset Password";
+    } else {
+      document.title = "Floody - Login";  // Atau title default lainnya
+    }
+  }, [isResetFormVisible]);
 
   return (
     <div className="App">
@@ -121,50 +132,49 @@ function Login() {
           )}
 
           {/* Forgot Password Form */}
-          {isResetFormVisible && (
-            <form onSubmit={handleResetPassword}>
-              <div className="FloodyLogo">
-                <img src={Logo} alt="Logo Floody" className="Logo" />
-              </div>
-              <h1 style={{color: "black"}}>Reset Password</h1>
-              <div>
-                <label htmlFor='resetEmail'>Enter your email address</label>
-                <input
-                  type='email'
-                  className='form-control'
-                  id='resetEmail'
-                  placeholder='Enter email'
-                  value={resetEmail}
-                  onChange={(e) => setResetEmail(e.target.value)}  // Updating reset email state
-                  required
-                />
-              </div>
+      {isResetFormVisible && (
+        <form onSubmit={handleResetPassword}>
+          <div className="FloodyLogo">
+            <img src={Logo} alt="Logo Floody" className="Logo" />
+          </div>
+          <h1 style={{color: "black"}}>Reset Password</h1>
+          <div>
+            <label htmlFor='resetEmail'>Enter your email address</label>
+            <input
+              type='email'
+              className='form-control'
+              id='resetEmail'
+              placeholder='Enter email'
+              value={resetEmail}
+              onChange={(e) => setResetEmail(e.target.value)}
+              required
+            />
+          </div>
 
-              <div className='d-grid'>
-                <button type='submit' className='btn btn-primary LoginButton'>
-                  <b>Send Reset Link</b>
-                </button>
-              </div>
+          <div className='d-grid'>
+            <button type='submit' className='btn btn-primary LoginButton'>
+              <b>Send Reset Link</b>
+            </button>
+          </div>
 
-              <p className='Login'>
-                Back to Login?{" "}
-                <a
-                  href='#'
-                  onClick={() => setIsResetFormVisible(false)}
-                  style={{ color: 'blue', marginLeft: '5px' }}
-                >
-                  Login Here
-                </a>
-              </p>
-              <div className="buttonSGP">
-                  <p className="Login">
-                    New user?{" "}
-                    <a href="SignUp" style={{ color: 'blue', marginLeft: '5px' }}>Register Here</a>
-                  </p>
-                </div>
-            </form>
-            
-          )}
+          <p className='Login'>
+            Back to Login?{" "}
+            <a
+              href='#'
+              onClick={() => setIsResetFormVisible(false)}
+              style={{ color: 'blue', marginLeft: '5px' }}
+            >
+              Login Here
+            </a>
+          </p>
+          <div className="buttonSGP">
+            <p className="Login">
+              New user?{" "}
+              <a href="SignUp" style={{ color: 'blue', marginLeft: '5px' }}>Register Here</a>
+            </p>
+          </div>
+        </form>
+      )}
 
           <ToastContainer />
         </div>
