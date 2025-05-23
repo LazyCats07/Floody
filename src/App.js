@@ -13,6 +13,7 @@ import Controller from './components/pages/Controller';
 import Login from './components/pages/Login/Login';
 import SignUp from './components/pages/Login/Register';
 import ForgotPass from './components/pages/Login/ForgotPass';
+// import LandingPage from './components/pages/LandingPage/LandingPage'
 
 // Firebase Authentication
 import { auth } from './components/firebase-config';
@@ -59,7 +60,7 @@ function PrivateRoute({ children }) {
 const logout = async () => {
   try {
     await signOut(auth);  // Logout dari Firebase
-    window.location.replace("/Login");  // Redirect ke halaman login menggunakan window.location.replace
+    window.location.replace("/Login");  // Redirect ke halaman login menggunakan window.location.replace -- TEST
   } catch (error) {
     console.error("Error during logout", error);
   }
@@ -84,6 +85,7 @@ function App() {
       <Analytics/>
       <Routes>
         {/* Public Routes */}
+        {/* <Route path="/" element={<LandingPage />} /> */}
         <Route path="/Login" element={<Login />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/ForgotPass" element={<ForgotPass />} />

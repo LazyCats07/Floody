@@ -69,7 +69,7 @@ const handleRegister = async (e) => {
             <div className="FloodyLogo">
               <img src={Logo} alt="Logo Floody" className="Logo" />
             </div>
-            <h1 style={{color: "black"}}>Sign Up</h1>
+            <h1 style={{color: "black"}}>Sign up</h1>
             
             <div className="mb-3">
                 <label>First Name</label>

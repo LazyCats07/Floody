@@ -61,7 +61,7 @@ function Login() {
     if (isResetFormVisible) {
       document.title = "Floody - Reset Password";
     } else {
-      document.title = "Floody - Login";  // Atau title default lainnya
+      document.title = "Floody - Sign in";  // Atau title default lainnya
     }
   }, [isResetFormVisible]);
 
@@ -75,7 +75,7 @@ function Login() {
               <div className="FloodyLogo">
                 <img src={Logo} alt="Logo Floody" className="Logo" />
               </div>
-              <h1 style={{color: "black"}}>Login</h1>
+              <h1 style={{color: "black"}}>Sign in</h1>
 
               <div>
                 <label htmlFor="email">Email Address</label>
@@ -91,7 +91,28 @@ function Login() {
               </div>
 
               <div className="mb-3">
-                <label>Password</label>
+              <span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                  <span style={{ flex: 1 }}>Password</span>
+                  <a
+                    href="#"
+                    onClick={() => setIsResetFormVisible(true)}
+                    style={{
+                      textAlign: 'right',
+                      opacity: 0.8,
+                      color: 'blue',
+                      fontWeight: '400',
+                      transition: 'color 0.3s ease', // Menambahkan transisi halus untuk perubahan warna
+                      fontSize: '12px',
+                    }}
+                    onMouseEnter={(e) => e.target.style.color = 'darkblue'} // Efek hover dengan perubahan warna
+                    onMouseLeave={(e) => e.target.style.color = 'blue'} // Mengembalikan warna setelah hover
+                  >
+                    Forgot your password?
+                  </a>
+                </div>
+              </span>
+                
                 <div className="password-box">
                   <input
                     ref={passwordInputRef}
@@ -115,16 +136,13 @@ function Login() {
               <SignInwithGoogle />
 
               <div>
-                <p className="Login">
-                  Forgot Password?{" "}
-                  <a href="#" onClick={() => setIsResetFormVisible(true)} style={{ color: 'blue', marginLeft: '5px' }}>
-                    Reset Here
-                  </a>
-                </p>
-                <div className="buttonSGP">
+                {/* <p className="Login">
+                  Forgot your password?{" "}
+                </p> */}
+                <div className="buttonSGP" style={{ color: 'blue', marginLeft: '5px', marginTop: '10px'}}>
                   <p className="Login">
-                    New user?{" "}
-                    <a href="SignUp" style={{ color: 'blue', marginLeft: '5px' }}>Register Here</a>
+                    Don't have an account? {" "}
+                    <a href="SignUp" style={{ color: 'blue', marginLeft: '5px'}}>Sign up</a>
                   </p>
                 </div>
               </div>
