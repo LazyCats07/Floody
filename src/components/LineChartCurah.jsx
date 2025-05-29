@@ -153,7 +153,8 @@ const ApexLineChartCurahHujan = () => {
     yaxis: {
       title: { text: 'Curah Hujan (mm)' },
       min: 0,
-      tickAmount: 6,
+      // max: 175,
+      tickAmount: 10,
       labels: {
         formatter: val => Math.round(val),
       },

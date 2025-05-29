@@ -80,7 +80,7 @@ const ApexLineChartDebit = () => {
 
       switch(viewMode) {
         case 'perDetik':
-          labelsToUse = Array.from(allKeys).sort((a,b) => b.localeCompare(a)).slice(0, 15).reverse();
+          labelsToUse = Array.from(allKeys).sort((a,b) => b.localeCompare(a)).slice(0, 60).reverse();
           updateChartData(cipalasariData, huluData, hilirData, labelsToUse);
           break;
         case 'perJam':
@@ -190,7 +190,7 @@ const ApexLineChartDebit = () => {
         text: 'Debit Air (L/min)',
       },
       min: 0,
-      max: 10000,
+      // max: 10000,
       tickAmount: 10,
       labels: {
         formatter: value => Math.round(value),

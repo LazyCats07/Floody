@@ -89,7 +89,7 @@ const ApexLineChartKolam = () => {
 
       switch(viewMode) {
         case 'perDetik':
-          labelsToUse = Array.from(allKeys).sort((a,b) => b.localeCompare(a)).slice(0, 15).reverse();
+          labelsToUse = Array.from(allKeys).sort((a,b) => b.localeCompare(a)).slice(0,60).reverse();
           updateChartData(hilirData, kolamData, sungaiData, labelsToUse);
           break;
         case 'perJam':
@@ -164,7 +164,7 @@ const ApexLineChartKolam = () => {
 
   const chartOptions = {
     chart: {
-      id: 'line-chart-Kolam',
+      id: 'line-chart-TMA',
       type: 'line',
       height: 1000,
       toolbar: {
@@ -214,8 +214,8 @@ const ApexLineChartKolam = () => {
       // max: 11,
       forceNiceScale: true,
       min: 0,
-      max: 30,
-      tickAmount: 15,
+      // max: 30,
+      tickAmount: 10,
       labels: {
         formatter: function (value) {
           return Math.round(value);
