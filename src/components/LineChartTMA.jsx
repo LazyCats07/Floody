@@ -164,7 +164,7 @@ const ApexLineChartKolam = () => {
 
   const chartOptions = {
     chart: {
-      id: 'line-chart',
+      id: 'line-chart-Kolam',
       type: 'line',
       height: 1000,
       toolbar: {
@@ -214,8 +214,8 @@ const ApexLineChartKolam = () => {
       // max: 11,
       forceNiceScale: true,
       min: 0,
-      max: 12,
-      tickAmount: 6,
+      max: 30,
+      tickAmount: 15,
       labels: {
         formatter: function (value) {
           return Math.round(value);

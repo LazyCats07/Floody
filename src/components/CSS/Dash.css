@@ -102,3 +102,22 @@
   border-right: none;
   text-align: center; /* Center the text after typing is finished */
 }
+
+
+.kapasitas-info {
+  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+  font-size: 16px;
+}
+
+.kapasitas-info blockquote {
+  margin: 0;
+}
+
+/* Media query untuk Tablet */
+@media (max-width: 1024px) {
+  .kapasitas-info {
+    font-size: 14px; /* kecilkan font untuk tablet */
+  }
+}
