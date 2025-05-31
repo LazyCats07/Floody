@@ -20,7 +20,7 @@ const ApexLineChartDebit = () => {
     const hilirArr = [];
 
     keys.forEach(key => {
-      const labelFormatted = key.replace(/_/g, ':').replace('T',' ').replace('Z','');
+      const labelFormatted = key.replace(/_/g, ':').replace('T', ' ').replace('Z', '');
       labelsArr.push(labelFormatted);
       cipalasariArr.push(cipalasariData?.[key] ?? null);
       huluArr.push(huluData?.[key] ?? null);
@@ -30,25 +30,27 @@ const ApexLineChartDebit = () => {
     setLabels(labelsArr);
     setSeries([
       { name: 'Debit Cipalasari', data: cipalasariArr },
-      { name: 'Debit Hulu Citarum', data: huluArr },
-      { name: 'Debit Hilir Citarum', data: hilirArr },
+      { name: 'Debit Hulu', data: huluArr },
+      { name: 'Debit Hilir', data: hilirArr },
     ]);
   };
 
   const groupAndAverage = (rawData, groupBy) => {
     const grouped = {};
+
     Object.entries(rawData || {}).forEach(([key, value]) => {
       let groupKey;
       if (groupBy === 'hour') groupKey = key.substring(0, 13);
       else if (groupBy === 'day') groupKey = key.substring(0, 10);
       else if (groupBy === 'month') groupKey = key.substring(0, 7);
+
       if (!grouped[groupKey]) grouped[groupKey] = [];
       grouped[groupKey].push(value);
     });
 
     const avgGrouped = {};
     Object.entries(grouped).forEach(([k, arr]) => {
-      avgGrouped[k] = arr.reduce((a,b) => a+b, 0) / arr.length;
+      avgGrouped[k] = arr.reduce((a, b) => a + b, 0) / arr.length;
     });
 
     return avgGrouped;
@@ -56,7 +58,7 @@ const ApexLineChartDebit = () => {
 
   const fetchData = () => {
     const refCipalasari = ref(database, "Polder/Debit_Cipalasari");
-    const refHulu = ref(database, "Polder/Debit_Citarum");
+    const refHulu = ref(database, "Polder/Debit_Hulu");
     const refHilir = ref(database, "Polder/Debit_Hilir");
 
     let cipalasariData = {};
@@ -80,14 +82,14 @@ const ApexLineChartDebit = () => {
 
       switch(viewMode) {
         case 'perDetik':
-          labelsToUse = Array.from(allKeys).sort((a,b) => b.localeCompare(a)).slice(0, 60).reverse();
+          labelsToUse = Array.from(allKeys).sort((a, b) => b.localeCompare(a)).slice(0, 60).reverse();
           updateChartData(cipalasariData, huluData, hilirData, labelsToUse);
           break;
         case 'perJam':
           cipalasariToUse = groupAndAverage(cipalasariData, 'hour');
           huluToUse = groupAndAverage(huluData, 'hour');
           hilirToUse = groupAndAverage(hilirData, 'hour');
-          labelsToUse = Object.keys({...cipalasariToUse, ...huluToUse, ...hilirToUse})
+          labelsToUse = Object.keys({ ...cipalasariToUse, ...huluToUse, ...hilirToUse })
             .sort()
             .slice(-24);
           updateChartData(cipalasariToUse, huluToUse, hilirToUse, labelsToUse);
@@ -96,7 +98,7 @@ const ApexLineChartDebit = () => {
           cipalasariToUse = groupAndAverage(cipalasariData, 'day');
           huluToUse = groupAndAverage(huluData, 'day');
           hilirToUse = groupAndAverage(hilirData, 'day');
-          labelsToUse = Object.keys({...cipalasariToUse, ...huluToUse, ...hilirToUse})
+          labelsToUse = Object.keys({ ...cipalasariToUse, ...huluToUse, ...hilirToUse })
             .sort()
             .slice(-7);
           updateChartData(cipalasariToUse, huluToUse, hilirToUse, labelsToUse);
@@ -105,7 +107,7 @@ const ApexLineChartDebit = () => {
           cipalasariToUse = groupAndAverage(cipalasariData, 'day');
           huluToUse = groupAndAverage(huluData, 'day');
           hilirToUse = groupAndAverage(hilirData, 'day');
-          labelsToUse = Object.keys({...cipalasariToUse, ...huluToUse, ...hilirToUse})
+          labelsToUse = Object.keys({ ...cipalasariToUse, ...huluToUse, ...hilirToUse })
             .sort()
             .slice(-31);
           updateChartData(cipalasariToUse, huluToUse, hilirToUse, labelsToUse);
@@ -114,7 +116,7 @@ const ApexLineChartDebit = () => {
           cipalasariToUse = groupAndAverage(cipalasariData, 'month');
           huluToUse = groupAndAverage(huluData, 'month');
           hilirToUse = groupAndAverage(hilirData, 'month');
-          labelsToUse = Object.keys({...cipalasariToUse, ...huluToUse, ...hilirToUse})
+          labelsToUse = Object.keys({ ...cipalasariToUse, ...huluToUse, ...hilirToUse })
             .sort()
             .slice(-12);
           updateChartData(cipalasariToUse, huluToUse, hilirToUse, labelsToUse);
@@ -146,7 +148,9 @@ const ApexLineChartDebit = () => {
 
   useEffect(() => {
     const cleanup = fetchData();
-    return () => { if (cleanup) cleanup(); }
+    return () => {
+      if (cleanup) cleanup();
+    };
   }, [viewMode, isPaused]);
 
   const chartOptions = {
@@ -167,7 +171,7 @@ const ApexLineChartDebit = () => {
         },
       },
       zoom: {
-        enabled: true
+        enabled: true,
       },
       margin: { bottom: 60 },
     },
@@ -183,14 +187,13 @@ const ApexLineChartDebit = () => {
         rotateAlways: true,
         hideOverlappingLabels: true,
         trim: true,
-      }
+      },
     },
     yaxis: {
       title: {
         text: 'Debit Air (L/min)',
       },
       min: 0,
-      // max: 10000,
       tickAmount: 10,
       labels: {
         formatter: value => Math.round(value),
@@ -214,15 +217,15 @@ const ApexLineChartDebit = () => {
     <div>
       <h5>📍 2J89+MHJ, Dayeuhkolot, Kabupaten Bandung, Jawa Barat</h5>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '20px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 20 }}>
         <button
           onClick={() => setIsPaused(prev => !prev)}
           style={{
-            height: '40px',
-            minWidth: '150px',
+            height: 40,
+            minWidth: 150,
             padding: '0 18px',
-            fontSize: '16px',
-            borderRadius: '6px',
+            fontSize: 16,
+            borderRadius: 6,
             border: `2px solid ${isPaused ? '#4caf50' : '#f44336'}`,
             backgroundColor: '#fff',
             color: isPaused ? '#4caf50' : '#f44336',
@@ -252,11 +255,11 @@ const ApexLineChartDebit = () => {
           value={viewMode}
           onChange={e => setViewMode(e.target.value)}
           style={{
-            height: '40px',
-            minWidth: '150px',
+            height: 40,
+            minWidth: 150,
             padding: '0 12px',
-            fontSize: '16px',
-            borderRadius: '6px',
+            fontSize: 16,
+            borderRadius: 6,
             border: '1.5px solid #888',
             backgroundColor: '#fff',
             cursor: 'pointer',

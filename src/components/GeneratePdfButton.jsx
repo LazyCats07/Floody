@@ -16,11 +16,11 @@ const GeneratePdfButton = ({ rows }) => {
     const tableData = rows.map((row) => [
       row.timestamp,
       row.curahHujan,
-      row.debitCipalasari,
-      row.debitCitarum,
+      row.debitHulu,
       row.debitHilir,
+      row.debitCipalasari,
+      row.tmaCipalasari,
       row.tmaKolam,
-      row.tmaSungai,
       row.tmaHilir,
       row.statusPompa,
     ]);

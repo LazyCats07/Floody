@@ -11,8 +11,8 @@ import TablePagination from '@mui/material/TablePagination';
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Box from '@mui/material/Box';
-import PrintDataPDF from '../Data/PrintDataPDF'; // Import the PrintData component
-import { RealTimeDataList } from './RealTimeDataList'; // Import your RealTimeDataList function
+import PrintDataPDF from '../Data/PrintDataPDF';
+import { RealTimeDataList } from './RealTimeDataList';
 import loading from '../../../icon/loading-unscreen.gif'; 
 import '../../../CSS/report.css';
 
@@ -22,11 +22,11 @@ export default function DataList() {
   const [curahHujanBSData, setCurahHujanBSData] = useState([]);
   const [curahHujanDKData, setCurahHujanDKData] = useState([]);
   const [debitCipalasariData, setDebitCipalasariData] = useState([]);
-  const [debitCitarumData, setDebitCitarumData] = useState([]);
+  const [debitHuluData, setDebitHuluData] = useState([]);
   const [debitHilirData, setDebitHilirData] = useState([]);
-  const [tmaSungaiData, setTmaSungaiData] = useState([]);
+  const [tmaCipalasariData, setTmaCipalasariData] = useState([]);
   const [tmaKolamData, setTmaKolamData] = useState([]);
-  const [tmaHilirData, setTmaHilirData] = useState([]);
+  const [tmaCitarumData, setTmaCitarumData] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [sortConfig, setSortConfig] = useState({ key: "timestamp", direction: "desc" });
 
@@ -36,11 +36,11 @@ export default function DataList() {
         curahHujanBS: setCurahHujanBSData,
         curahHujanDK: setCurahHujanDKData,
         debitCipalasari: setDebitCipalasariData,
-        debitCitarum: setDebitCitarumData,
+        debitHulu: setDebitHuluData,
         debitHilir: setDebitHilirData,
-        tmaSungai: setTmaSungaiData,
+        tmaCipalasari: setTmaCipalasariData,
         tmaKolam: setTmaKolamData,
-        tmaHilir: setTmaHilirData,
+        tmaCitarum: setTmaCitarumData,
       };
 
       await RealTimeDataList(setters);
@@ -77,18 +77,17 @@ export default function DataList() {
   };
 
   // Format timestamp untuk tampil di tabel
-  const formatTimestamp = (timestamp) => {
-    const date = new Date(timestamp);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
-  };
+  // const formatTimestamp = (timestamp) => {
+  //   const date = new Date(timestamp);
+  //   const day = String(date.getDate()).padStart(2, '0');
+  //   const month = String(date.getMonth() + 1).padStart(2, '0');
+  //   const year = date.getFullYear();
+  //   const hours = String(date.getHours()).padStart(2, '0');
+  //   const minutes = String(date.getMinutes()).padStart(2, '0');
+  //   const seconds = String(date.getSeconds()).padStart(2, '0');
+  //   return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+  // };
 
-  // Format timestamp jadi "YYYY-MM-DD_HH:mm:ss" untuk key grouping
   const formatIntervalKey = (date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -99,95 +98,123 @@ export default function DataList() {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
 
-  // Hitung rata-rata nilai
   const calculateAverage = (data) => {
-    let sum = 0;
-    let count = 0;
-    data.forEach((value) => {
-      if (value != null && !isNaN(value)) {
-        sum += value;
-        count++;
-      }
-    });
-    return count > 0 ? (sum / count).toFixed(2) : '0.00';
-  };
-
-  // Filter data yang semua nilainya nol
-  const filterNonEmptyRows = (rows) => {
-    return rows.filter(row => 
-      row.curahHujanBS !== 0 ||
-      row.curahHujanDK !== 0 ||
-      row.debitCipalasari !== 0 ||
-      row.debitCitarum !== 0 ||
-      row.debitHilir !== 0 ||
-      row.tmaSungai !== 0 ||
-      row.tmaKolam !== 0 ||
-      row.tmaHilir !== 0
-    );
-  };
-
-  // Pengelompokan data per 15 menit
-  const aggregateDataFor15MinuteIntervals = () => {
-    let groupedData = {};
-
-    for (let i = 0; i < tmaSungaiData.length; i++) {
-      let rowTime = new Date(tmaSungaiData[i]?.timestamp);
-      if (isNaN(rowTime)) continue;
-
-      // Bulatkan ke bawah ke interval 15 menit
-      // rowTime = new Date(Math.floor(rowTime.getTime() / (15 * 60 * 1000)) * (15 * 60 * 1000));
-
-      // Bulatkan ke atas ke interval 15 menit
-      rowTime = new Date(Math.ceil(rowTime.getTime() / (15 * 60 * 1000)) * (15 * 60 * 1000));
-
-      // Gunakan format yang kamu mau sebagai key
-      const intervalKey = formatIntervalKey(rowTime);
-
-      if (!groupedData[intervalKey]) {
-        groupedData[intervalKey] = {
-          curahHujanBS: [],
-          curahHujanDK: [],
-          debitCipalasari: [],
-          debitCitarum: [],
-          debitHilir: [],
-          tmaSungai: [],
-          tmaKolam: [],
-          tmaHilir: [],
-        };
-      }
-
-      groupedData[intervalKey].curahHujanBS.push(curahHujanBSData[i]?.value);
-      groupedData[intervalKey].curahHujanDK.push(curahHujanDKData[i]?.value);
-      groupedData[intervalKey].debitCipalasari.push(debitCipalasariData[i]?.value);
-      groupedData[intervalKey].debitCitarum.push(debitCitarumData[i]?.value);
-      groupedData[intervalKey].debitHilir.push(debitHilirData[i]?.value);
-      groupedData[intervalKey].tmaSungai.push(tmaSungaiData[i]?.value);
-      groupedData[intervalKey].tmaKolam.push(tmaKolamData[i]?.value);
-      groupedData[intervalKey].tmaHilir.push(tmaHilirData[i]?.value);
+  let sum = 0;
+  let count = 0;
+  data.forEach((value) => {
+    if (value !== null && value !== "null" && !isNaN(value)) {
+      sum += Number(value);
+      count++;
     }
+  });
+  return count > 0 ? (sum / count).toFixed(2) : "null";
+};
 
-    const aggregatedData = [];
-    Object.keys(groupedData).forEach((interval) => {
-      const group = groupedData[interval];
-      aggregatedData.push({
-        timestamp: interval,  // ini dalam format "YYYY-MM-DD_HH:mm:ss"
-        curahHujanBS: calculateAverage(group.curahHujanBS),
-        curahHujanDK: calculateAverage(group.curahHujanDK),
-        debitCipalasari: calculateAverage(group.debitCipalasari),
-        debitCitarum: calculateAverage(group.debitCitarum),
-        debitHilir: calculateAverage(group.debitHilir),
-        tmaSungai: calculateAverage(group.tmaSungai),
-        tmaKolam: calculateAverage(group.tmaKolam),
-        tmaHilir: calculateAverage(group.tmaHilir),
+const aggregateDataFor15MinuteIntervals = () => {
+  if (!curahHujanBSData.length || !curahHujanDKData.length || !tmaCipalasariData.length) {
+    return [];
+  }
+
+  // Rounding ke bawah ke interval 15 menit
+  const roundTo15Minfloor = (date) =>
+    new Date(Math.floor(date.getTime() / (15 * 60 * 1000)) * (15 * 60 * 1000));
+
+  const groupedData = new Map();
+
+  const addToGroup = (intervalKey, key, value) => {
+    if (!groupedData.has(intervalKey)) {
+      groupedData.set(intervalKey, {
+        curahHujanBS: "null",
+        curahHujanDK: "null",
+        debitCipalasari: [],
+        debitHulu: [],
+        debitHilir: [],
+        tmaCipalasari: [],
+        tmaKolam: [],
+        tmaCitarum: [],
       });
-    });
-
-    return aggregatedData;
+    }
+    const group = groupedData.get(intervalKey);
+    if (Array.isArray(group[key])) {
+      group[key].push(value != null ? value : "null");
+    } else {
+      group[key] = value != null ? value : "null";
+    }
   };
 
-  const rows = filterNonEmptyRows(aggregateDataFor15MinuteIntervals());
+  // Map curah hujan per jam
+  const curahHujanBSPerJam = {};
+  const curahHujanDKPerJam = {};
 
-  // Sorting data
+  curahHujanBSData.forEach(item => {
+    if (!item) return;
+    const date = new Date(item.timestamp);
+    if (isNaN(date)) return;
+    const hourKey = date.toLocaleString('sv-SE', { timeZone: 'Asia/Jakarta' }).slice(0, 13);
+    curahHujanBSPerJam[hourKey] = item.value ?? "null";
+  });
+
+  curahHujanDKData.forEach(item => {
+    if (!item) return;
+    const date = new Date(item.timestamp);
+    if (isNaN(date)) return;
+    const hourKey = date.toLocaleString('sv-SE', { timeZone: 'Asia/Jakarta' }).slice(0, 13);
+    curahHujanDKPerJam[hourKey] = item.value ?? "null";
+  });
+
+  const processDataArray = (dataArray, keyName) => {
+    dataArray.forEach(item => {
+      if (!item) return;
+      const date = new Date(item.timestamp);
+      if (isNaN(date)) return;
+      const intervalDate = roundTo15Minfloor(date);
+      const intervalKey = formatIntervalKey(intervalDate);
+
+      addToGroup(intervalKey, keyName, item.value);
+    });
+  };
+
+  processDataArray(debitCipalasariData, "debitCipalasari");
+  processDataArray(debitHuluData, "debitHulu");
+  processDataArray(debitHilirData, "debitHilir");
+  processDataArray(tmaCipalasariData, "tmaCipalasari");
+  processDataArray(tmaKolamData, "tmaKolam");
+  processDataArray(tmaCitarumData, "tmaCitarum");
+
+  // Isi curah hujan per jam ke setiap interval
+  groupedData.forEach((group, intervalKey) => {
+    const hourKey = intervalKey.slice(0, 13);
+    group.curahHujanBS = curahHujanBSPerJam[hourKey] ?? "null";
+    group.curahHujanDK = curahHujanDKPerJam[hourKey] ?? "null";
+
+    // DEBUG: cek apakah ada interval dengan nilai null di tmaCitarum
+    if (group.tmaCitarum.every(v => v === "null")) {
+      console.warn(`Interval ${intervalKey} hanya ada nilai null di tmaCitarum`);
+    }
+  });
+
+  const aggregatedData = [];
+  groupedData.forEach((group, intervalKey) => {
+    aggregatedData.push({
+      timestamp: intervalKey,
+      curahHujanBS: group.curahHujanBS !== "null" ? Number(group.curahHujanBS).toFixed(2) : "null",
+      curahHujanDK: group.curahHujanDK !== "null" ? Number(group.curahHujanDK).toFixed(2) : "null",
+      debitCipalasari: calculateAverage(group.debitCipalasari),
+      debitHulu: calculateAverage(group.debitHulu),
+      debitHilir: calculateAverage(group.debitHilir),
+      tmaCipalasari: calculateAverage(group.tmaCipalasari),
+      tmaKolam: calculateAverage(group.tmaKolam),
+      tmaCitarum: calculateAverage(group.tmaCitarum),
+    });
+  });
+
+  return aggregatedData;
+};
+
+
+
+  const rows = aggregateDataFor15MinuteIntervals();
+
   rows.sort((a, b) => {
     const { key, direction } = sortConfig;
     const dateA = new Date(a[key]);
@@ -229,20 +256,20 @@ export default function DataList() {
               <TableCell align="left" onClick={() => handleSort("debitCipalasari")}>
                 Debit Cipalasari (L/min) {sortConfig.key === "debitCipalasari" && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </TableCell>
-              <TableCell align="left" onClick={() => handleSort("debitCitarum")}>
-                Debit Hulu Citarum (L/min) {sortConfig.key === "debitCitarum" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+              <TableCell align="left" onClick={() => handleSort("debitHulu")}>
+                Debit Hulu Citarum (L/min) {sortConfig.key === "debitHulu" && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </TableCell>
               <TableCell align="left" onClick={() => handleSort("debitHilir")}>
                 Debit Hilir Citarum (L/min) {sortConfig.key === "debitHilir" && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </TableCell>
+              <TableCell align="left" onClick={() => handleSort("tmaCipalasari")}>
+                TMA Sungai Cipalasari (cm) {sortConfig.key === "tmaCipalasari" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+              </TableCell>
               <TableCell align="left" onClick={() => handleSort("tmaKolam")}>
-                TMA Kolam Polder (m) {sortConfig.key === "tmaKolam" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+                TMA Kolam Polder (cm) {sortConfig.key === "tmaKolam" && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </TableCell>
-              <TableCell align="left" onClick={() => handleSort("tmaSungai")}>
-                TMA Sungai Citarum (m) {sortConfig.key === "tmaSungai" && (sortConfig.direction === "asc" ? "↑" : "↓")}
-              </TableCell>
-              <TableCell align="left" onClick={() => handleSort("tmaHilir")}>
-                TMA Sungai Cipalasari (m) {sortConfig.key === "tmaHilir" && (sortConfig.direction === "asc" ? "↑" : "↓")}
+              <TableCell align="left" onClick={() => handleSort("tmaCitarum")}>
+                TMA Sungai Citarum (cm) {sortConfig.key === "tmaCitarum" && (sortConfig.direction === "asc" ? "↑" : "↓")}
               </TableCell>
             </TableRow>
           </TableHead>
@@ -253,11 +280,11 @@ export default function DataList() {
                 <TableCell align="left">{row.curahHujanBS}</TableCell>
                 <TableCell align="left">{row.curahHujanDK}</TableCell>
                 <TableCell align="left">{row.debitCipalasari}</TableCell>
-                <TableCell align="left">{row.debitCitarum}</TableCell>
+                <TableCell align="left">{row.debitHulu}</TableCell>
                 <TableCell align="left">{row.debitHilir}</TableCell>
+                <TableCell align="left">{row.tmaCipalasari}</TableCell>
                 <TableCell align="left">{row.tmaKolam}</TableCell>
-                <TableCell align="left">{row.tmaSungai}</TableCell>
-                <TableCell align="left">{row.tmaHilir}</TableCell>
+                <TableCell align="left">{row.tmaCitarum}</TableCell>
               </TableRow>
             ))}
           </TableBody>

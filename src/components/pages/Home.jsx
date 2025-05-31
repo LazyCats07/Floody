@@ -3,6 +3,7 @@ import { RealTimeData } from './Reports/Data/RealTimeData';
 import { ref, onValue } from "firebase/database";
 import { database, auth, db } from "../firebase-config";
 import { doc, getDoc } from 'firebase/firestore';
+import { RealTimeDataCurahByHour } from './Reports/Data/RealTimeDataCurah3Jam';
 
 // MUI Components
 import Box from '@mui/material/Box';
@@ -56,31 +57,73 @@ import Footer from '../Footer';
 // import { usePintuAirData } from './Reports/Data/PintuAirData';
 
 export default function Home() {
-  const [tmaSungai, setTmaSungai] = useState(null);
+  const [tmaCipalasari, setTmaCipalasari] = useState(null);
   const [tmaKolam, setTmaKolam] = useState(null);
-  const [tmaHilir, setTmaHilir] = useState(null);
-  const [debitSungai, setDebitSungai] = useState(null);
-  const [debitKolam, setDebitKolam] = useState(null);
+  const [tmaCitarum, setTmaCitarum] = useState(null);
+  const [debitHulu, setDebitHulu] = useState(null);
+  const [debitCipalasari, setDebitCipalasari] = useState(null);
   const [debitHilir, setDebitHilir] = useState(null);
   const [curahHujanBS, setCurahHujanBS] = useState(null);
   const [curahHujanDK, setCurahHujanDK] = useState(null);
   const [pompa, setPompa] = useState(null);
-  const [statusBanjir, setstatusBanjir] = useState(null);
+  const [statusBanjir, setStatusBanjir] = useState(null);
+  
+  // State untuk Jam Saat Ini
+  const [currentTime, setCurrentTime] = useState('');
+
+  // State untuk waktu +3 jam
+  const [timePlus3Hours, setTimePlus3Hours] = useState('');
+
+  // Data curah hujan saat ini
+  const [curahHujanBS3Jam, setCurahHujanBS3Jam] = useState([]);
+  const [curahHujanDK3Jam, setCurahHujanDK3Jam] = useState([]);
 
   useEffect(() => {
     RealTimeData({
-      tmaSungai: setTmaSungai,
+      tmaCipalasari: setTmaCipalasari,
       tmaKolam: setTmaKolam,
-      tmaHilir: setTmaHilir,
-      debitSungai: setDebitSungai,
-      debitKolam: setDebitKolam,
+      tmaCitarum: setTmaCitarum,
+      debitHulu: setDebitHulu,
+      debitCipalasari: setDebitCipalasari,
       debitHilir: setDebitHilir,
       curahHujanBS: setCurahHujanBS,
       curahHujanDK: setCurahHujanDK,
       pompa: setPompa,
-      statusBanjir: setstatusBanjir,
+      statusBanjir: setStatusBanjir,
     });
   }, []);
+
+  useEffect(() => {
+    RealTimeDataCurahByHour({
+      curahHujanBS: setCurahHujanBS3Jam,
+      curahHujanDK: setCurahHujanDK3Jam,
+    }, 0); // 0 artinya jam penuh sekarang
+  }, []);
+
+
+  // State untuk waktu +3 jam
+  useEffect(() => {
+    const updateTimes = () => {
+      const now = new Date();
+      // Format jam:menit:detik, misal 17:32:45
+      const h = now.getHours().toString().padStart(2, '0');
+      const m = now.getMinutes().toString().padStart(2, '0');
+      const s = now.getSeconds().toString().padStart(2, '0');
+      setCurrentTime(`${h}:${m}`);
+
+      // Hitung waktu +3 jam
+      const plus3 = new Date(now.getTime() + 3 * 60 * 60 * 1000);
+      const h3 = plus3.getHours().toString().padStart(2, '0');
+      const m3 = plus3.getMinutes().toString().padStart(2, '0');
+      const s3 = plus3.getSeconds().toString().padStart(2, '0');
+      setTimePlus3Hours(`${h3}:${m3}`);
+    };
+
+    updateTimes();
+    const intervalId = setInterval(updateTimes, 1000); // update tiap detik
+    return () => clearInterval(intervalId);
+  }, []);
+
 
   // State for PintuAir
   const [pintuAir, setPintuAir] = useState(null);
@@ -152,6 +195,40 @@ export default function Home() {
     document.title = "Floody - Home";
   }, []);
 
+
+    const [currentDateTime, setCurrentDateTime] = useState('');
+
+  useEffect(() => {
+    function updateDateTime() {
+      const now = new Date();
+
+      // Format hari dalam bahasa Indonesia
+      const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      const months = [
+        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+      ];
+
+      const dayName = days[now.getDay()];
+      const date = now.getDate();
+      const monthName = months[now.getMonth()];
+      const year = now.getFullYear();
+
+      // Format waktu dengan 2 digit
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+
+      const formatted = `${dayName}, ${date} ${monthName} ${year} | ${hours}:${minutes}:${seconds}`;
+      setCurrentDateTime(formatted);
+    }
+
+    updateDateTime(); // set awal
+    const intervalId = setInterval(updateDateTime, 1000); // update tiap detik
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <>
       <Box
@@ -181,6 +258,9 @@ export default function Home() {
               className={`typewriter ${animationFinished ? 'finished' : ''}`}
             >
               Welcome <b>{userDetails?.firstName}</b>
+            </p>
+            <p style={{ color: 'white', fontWeight: 'bold', marginTop: '-20px' }}>
+              {currentDateTime}
             </p>
             <Grid container spacing={2}>
               <Grid size={8}>
@@ -299,7 +379,7 @@ export default function Home() {
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
                         <Typography gutterBottom component="div" className='countText' style={{ fontSize: '45px', marginTop: '20px' }}>
-                          {renderCountUp(tmaHilir, 'cm')}
+                          {renderCountUp(tmaCitarum, 'cm')}
                         </Typography>
                       </span>
                       <Typography gutterBottom variant="h5" component="div" sx={{ color: "ccd1d1" }} style={{ marginTop: '-30px', marginLeft: '5px' }}>
@@ -313,7 +393,7 @@ export default function Home() {
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
                         <Typography gutterBottom component="div" className='countText' style={{ fontSize: '45px', marginTop: '20px' }}>
-                          {renderCountUp(tmaSungai, 'cm')}
+                          {renderCountUp(tmaCipalasari, 'cm')}
                         </Typography>
                       </span>
                       <Typography gutterBottom variant="h5" component="div" sx={{ color: "ccd1d1" }} style={{ marginTop: '-30px', marginLeft: '5px' }}>
@@ -410,7 +490,7 @@ export default function Home() {
 
                       {/* Tampilan Data Debit Sungai */}
                       <div className="paddingAll">
-                        <span className="waterValue" style={{ marginBottom: '-105px' }}>{renderCountUp(debitSungai, 'L/min')}</span><br />
+                        <span className="waterValue" style={{ marginBottom: '-105px' }}>{renderCountUp(debitHulu, 'L/min')}</span><br />
                         <span className='watersubValue'>Debit Hulu Sungai Citarum</span>
                       </div>
 
@@ -446,25 +526,31 @@ export default function Home() {
 
                       {/* Tampilan Data Debit Sungai */}
                       <div className="paddingAll">
-                        <span className="waterValue" style={{ marginBottom: '-105px' }}>{renderCountUp(debitKolam, 'L/min')}</span><br />
+                        <span className="waterValue" style={{ marginBottom: '-105px' }}>{renderCountUp(debitCipalasari, 'L/min')}</span><br />
                         <span className='watersubValue'>Debit Sungai Cipalasari</span>
                       </div>
 
                     </Stack>
                   </CardContent>
-                </Card>
-
+                </Card>                
                 <Box height={20} />
-                <Card sx={{ maxWidth: 345, maxHeight: 92, borderRadius: '25px' }} className='card'>
+
+                                <Card sx={{ maxWidth: 345, maxHeight: 92, borderRadius: '25px' }} className='card'>
                   <CardContent>
                     <Stack spacing={2} direction={'row'}>
                       <div className="iconStyle">
                         <img src={curah} alt="test" style={{ width: '60px', marginTop: '-26px' }} />
                       </div>
 
-                      {/* Tampilan Data Debit Sungai */}
+                      {/* Tampilan Data Curah Hujan Bojongsoang */}
                       <div className="paddingAll">
-                        <span className="waterValue" style={{ marginBottom: '-105px' }}>{renderCountUp(curahHujanBS, "mm")}</span><br />
+                        <span className="waterValue" style={{ marginBottom: '-105px' }}>
+                          {curahHujanBS3Jam?.[0]?.value !== undefined
+                            ? <>
+                                {renderCountUp(curahHujanBS3Jam[0].value, "mm")} | {currentTime} WIB
+                              </>
+                            : <>Null | {currentTime} WIB</>}
+                        </span><br />
                         <span className='watersubValue'>Curah Hujan Bojongsoang</span>
                       </div>
 
@@ -480,53 +566,61 @@ export default function Home() {
                         <img src={curah} alt="test" style={{ width: '60px', marginTop: '-26px' }} />
                       </div>
 
-                      {/* Tampilan Data Debit Sungai */}
+                      {/* Tampilan Data Curah Hujan Dayeuhkolot */}
                       <div className="paddingAll">
-                        <span className="waterValue" style={{ marginBottom: '-105px' }}>{renderCountUp(curahHujanDK, "mm")}</span><br />
+                        <span className="waterValue" style={{ marginBottom: '-105px' }}>
+                          {curahHujanDK3Jam?.[0]?.value !== undefined
+                            ? <>
+                                {renderCountUp(curahHujanDK3Jam[0].value, "mm")} | {currentTime} WIB
+                              </>
+                            : <>Null | {currentTime} WIB</>}
+                        </span><br />
                         <span className='watersubValue'>Curah Hujan Dayeuhkolot</span>
                       </div>
 
                     </Stack>
                   </CardContent>
                 </Card>
-
-                {/* <Box height={20} />
-                <Card sx={{ maxWidth: 345 }}>
+                <Box height={20} />
+                      
+                <Card sx={{ maxWidth: 345, maxHeight: 92, borderRadius: '25px' }} className='card'>
                   <CardContent>
                     <Stack spacing={2} direction={'row'}>
                       <div className="iconStyle">
-                        <img src={curah} alt="test" style={{ width: '35px', marginTop: '-5px' }} />
+                        <img src={curah} alt="test" style={{ width: '60px', marginTop: '-26px' }} />
                       </div>
+
+                      {/* Tampilan Data Curah Hujan Bojongsoang */}
                       <div className="paddingAll">
-
-                        {/* Tampilan Data Curah Hujan Dayeuhkolot */}
-                        {/* <span className="waterValue">{renderCountUp(curahHujanBS, 'mm')}</span><br /> */}
-                        {/* Tampilan Data Curah Hujan Dayeuhkolot */}
-
-                        {/* <span className='watersubValue'> Curah Hujan Bojongsoang</span>
+                        <span className="waterValue" style={{ marginBottom: '-105px' }}>
+                          {renderCountUp(curahHujanBS, "mm")} | {timePlus3Hours} WIB
+                        </span><br />
+                        <span className='watersubValue'>Curah Hujan Bojongsoang</span>
                       </div>
+
                     </Stack>
                   </CardContent>
-                </Card> */}
+                </Card>
 
-                {/* <Box height={20} />
-                <Card sx={{ maxWidth: 345 }}>
+                <Box height={20} />
+                <Card sx={{ maxWidth: 345, maxHeight: 92, borderRadius: '25px' }} className='card'>
                   <CardContent>
                     <Stack spacing={2} direction={'row'}>
                       <div className="iconStyle">
-                        <BuildCircleIcon />
+                        <img src={curah} alt="test" style={{ width: '60px', marginTop: '-26px' }} />
                       </div>
-                      <div className="paddingAll"> */}
 
-                        {/* Tampilan Data Pompa Aktif */}
-                        {/* <span className="waterValue">{renderCountUp(pompa)}</span><br /> */}
-                        {/* Tampilan Data Pompa Aktif */}
-
-                        {/* <span className='watersubValue'>Pompa Aktif</span>
+                      {/* Tampilan Data Curah Hujan Dayeuhkolot */}
+                      <div className="paddingAll">
+                        <span className="waterValue" style={{ marginBottom: '-105px' }}>
+                          {renderCountUp(curahHujanDK, "mm")} | {timePlus3Hours} WIB
+                        </span><br />
+                        <span className='watersubValue'>Curah Hujan Dayeuhkolot</span>
                       </div>
+
                     </Stack>
                   </CardContent>
-                </Card> */}
+                </Card>
 
                 <Box height={20} />
                 <Card sx={{ maxWidth: 345, maxHeight: 92, borderRadius: '25px' }} className='card'>
@@ -546,26 +640,6 @@ export default function Home() {
                   </CardContent>
                 </Card>
 
-                {/* 
-                <Box height={20} />
-                <Card sx={{ maxWidth: 345 }}>
-                  <CardContent>
-                    <Stack spacing={2} direction={'row'}>
-                      <div className="iconStyle">
-                        <LinearScaleIcon />
-                      </div>
-                      <div className="paddingAll"> */}
-
-                        {/* Tampilan Bukaan Pintu Air */}
-                        {/* <span className="waterValue">{renderCountUp(pintuAir, '%')}</span><br /> */}
-                        {/* Tampilan Bukaan Pintu Air */}
-                        {/* 
-                        <span className='watersubValue'>Bukaan Pintu Air</span>
-                      </div>
-                    </Stack>
-                  </CardContent>
-                </Card> */}
-
                 <Box height={20} />
                 <Card sx={{ maxWidth: 345, borderRadius: '25px' }}>
                   {/* <CardContent>
@@ -580,7 +654,6 @@ export default function Home() {
                     </Stack>
                   </CardContent> */}
                 </Card>
-                {/* <SpeedInsight url="https://floody-eta.vercel.app" /> */}
               </Grid>
             </Grid>
           </Box>

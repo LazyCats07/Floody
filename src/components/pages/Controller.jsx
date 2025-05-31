@@ -18,7 +18,7 @@ import Stack from '@mui/material/Stack';
 // import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import notes from '../icon/notes.gif';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 
 // Component
@@ -37,6 +37,39 @@ export default function Controller() {
     document.title = "Floody - Controller";
   }, []);
 
+      const [currentDateTime, setCurrentDateTime] = useState('');
+  
+    useEffect(() => {
+      function updateDateTime() {
+        const now = new Date();
+  
+        // Format hari dalam bahasa Indonesia
+        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const months = [
+          'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+          'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+  
+        const dayName = days[now.getDay()];
+        const date = now.getDate();
+        const monthName = months[now.getMonth()];
+        const year = now.getFullYear();
+  
+        // Format waktu dengan 2 digit
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+  
+        const formatted = `${dayName}, ${date} ${monthName} ${year} | ${hours}:${minutes}:${seconds}`;
+        setCurrentDateTime(formatted);
+      }
+  
+      updateDateTime(); // set awal
+      const intervalId = setInterval(updateDateTime, 1000); // update tiap detik
+  
+      return () => clearInterval(intervalId);
+    }, []);
+
 return (
     <>
         <Box
@@ -52,7 +85,9 @@ return (
     <Sidenav />
       <Box component ="main" sx={{ flexGrow: 1, p: 3 }} marginLeft={2} >
         <h1>Sistem Kontrol</h1>
-
+        <p style={{ color: 'white', fontWeight: 'bold', marginTop: '-20px' }}>
+          {currentDateTime}
+        </p>
         <Grid container spacing={2}>
             <Grid size={8}>
               <Stack spacing={2} direction={'row'}>

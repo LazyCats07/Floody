@@ -64,11 +64,11 @@ export default function PrintData({ rows }) {
           <th>Curah Hujan Bandung Bojongsoang (mm)</th>
           <th>Curah Hujan Bandung Dayeuhkolot (mm)</th>
           <th>Debit Cipalasari (L/min)</th>
-          <th>Debit Citarum (L/min)</th>
+          <th>Debit Hulu (L/min)</th>
           <th>Debit Hilir (L/min)</th>
+          <th>TMA Sungai Cipalasari (m)</th>
           <th>TMA Kolam Polder (m)</th>
           <th>TMA Sungai Citarum (m)</th>
-          <th>TMA Hilir (m)</th>
         </tr>
       </thead>
       <tbody>
@@ -82,11 +82,11 @@ export default function PrintData({ rows }) {
           <td>${row.curahHujanBS}</td>
           <td>${row.curahHujanDK}</td>
           <td>${row.debitCipalasari}</td>
-          <td>${row.debitCitarum}</td>
+          <td>${row.debitHulu}</td>
           <td>${row.debitHilir}</td>
+          <td>${row.tmaCipalasari}</td>
           <td>${row.tmaKolam}</td>
-          <td>${row.tmaSungai}</td>
-          <td>${row.tmaHilir}</td>
+          <td>${row.tmaCitarum}</td>
         </tr>
       `;
     });

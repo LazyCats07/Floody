@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';  // Import useState and useEffect hooks
-import { styled, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';

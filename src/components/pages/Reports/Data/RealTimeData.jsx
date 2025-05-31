@@ -6,11 +6,11 @@ export function RealTimeData(setters) {
   console.log("RealTimeData dipanggil");
 
   const dataRefs = {
-    tmaSungai: ref(database, 'Polder/TMA_Sungai'),
+    tmaCipalasari: ref(database, 'Polder/TMA_Cipalasari'),
     tmaKolam: ref(database, 'Polder/TMA_Kolam'),
-    tmaHilir: ref(database, 'Polder/TMA_Hilir'),
-    debitSungai: ref(database, 'Polder/Debit_Citarum'),
-    debitKolam: ref(database, 'Polder/Debit_Cipalasari'),
+    tmaCitarum: ref(database, 'Polder/TMA_Citarum'),
+    debitHulu: ref(database, 'Polder/Debit_Hulu'),
+    debitCipalasari: ref(database, 'Polder/Debit_Cipalasari'),
     debitHilir: ref(database, 'Polder/Debit_Hilir'),
     curahHujanBS: ref(database, 'Polder/bojongsoang'),
     curahHujanDK: ref(database, 'Polder/dayeuhkolot'),
