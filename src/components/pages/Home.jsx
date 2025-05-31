@@ -3,7 +3,6 @@ import { RealTimeData } from './Reports/Data/RealTimeData';
 import { ref, onValue } from "firebase/database";
 import { database, auth, db } from "../firebase-config";
 import { doc, getDoc } from 'firebase/firestore';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // MUI Components
 import Box from '@mui/material/Box';
@@ -162,7 +161,6 @@ export default function Home() {
           minHeight: '100vh', // tinggi minimum 100% viewport
         }}
       >
-        <SpeedInsights />
         <Navbar />
         <Box height={50} />
         <Box sx={{ display: 'flex' }} className='HomeBG'>

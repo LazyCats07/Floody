@@ -4,7 +4,7 @@ import './components/CSS/Login.css';
 import loadingGif from './components/icon/loading-unscreen.gif';
 import NFound from './components/icon/notFound.gif';
 import { Analytics } from "@vercel/analytics/react"
-
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // PAGE
 import Home from './components/pages/Home';
@@ -82,6 +82,9 @@ function NotFound() {
 function App() {
   return (
     <Router>
+      {/* Komponen SpeedInsights untuk mengumpulkan data kecepatan */}
+      <SpeedInsights />
+      {/* Komponen Analytics untuk mengumpulkan data analitik */}
       <Analytics/>
       <Routes>
         {/* Public Routes */}
