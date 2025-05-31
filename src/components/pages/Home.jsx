@@ -3,6 +3,7 @@ import { RealTimeData } from './Reports/Data/RealTimeData';
 import { ref, onValue } from "firebase/database";
 import { database, auth, db } from "../firebase-config";
 import { doc, getDoc } from 'firebase/firestore';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 
 
@@ -167,6 +168,7 @@ useEffect(() => {
 
   return (
     <>
+    <SpeedInsights />
     <Box
   sx={{
     display: 'flex',
@@ -243,8 +245,7 @@ useEffect(() => {
       </blockquote>
     </div>
   </CardContent>
-</Card>
-                  
+</Card>    
               </Stack>
             </Grid>
 
@@ -288,8 +289,8 @@ useEffect(() => {
                   <CardContent>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
                       <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
-                      <Typography gutterBottom component="div" className='countText' style={{ fontSize: '50px', marginTop: '20px'}}>
-                        {renderCountUp(tmaKolam, 'm')}
+                      <Typography gutterBottom component="div" className='countText' style={{ fontSize: '45px', marginTop: '20px'}}>
+                        {renderCountUp(tmaKolam, 'cm')}
                       </Typography>
                     </span>
                     <Typography gutterBottom variant="h5" component="div" sx={{color: "ccd1d1"}} style={{marginTop: '-30px', marginLeft: '5px'}}>
@@ -302,8 +303,8 @@ useEffect(() => {
                   <CardContent>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
                       <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
-                      <Typography gutterBottom component="div" className='countText' style={{ fontSize: '50px', marginTop: '20px'}}>
-                        {renderCountUp(tmaHilir, 'm')}
+                      <Typography gutterBottom component="div" className='countText' style={{ fontSize: '45px', marginTop: '20px'}}>
+                        {renderCountUp(tmaHilir, 'cm')}
                       </Typography>
                     </span>
                     <Typography gutterBottom variant="h5" component="div" sx={{color: "ccd1d1"}} style={{marginTop: '-30px', marginLeft: '5px'}}>
@@ -316,8 +317,8 @@ useEffect(() => {
                   <CardContent>
                     <span style={{ display: 'flex', alignItems: 'center' }}>
                       <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
-                      <Typography gutterBottom component="div" className='countText' style={{ fontSize: '50px', marginTop: '20px'}}>
-                        {renderCountUp(tmaSungai, 'm')}
+                      <Typography gutterBottom component="div" className='countText' style={{ fontSize: '45px', marginTop: '20px'}}>
+                        {renderCountUp(tmaSungai, 'cm')}
                       </Typography>
                     </span>
                     <Typography gutterBottom variant="h5" component="div" sx={{color: "ccd1d1"}} style={{marginTop: '-30px', marginLeft: '5px'}}>
