@@ -138,7 +138,7 @@ return (
       </Table>
     </TableContainer>
 
-    <Box height={20} />
+    <Box height={20} />   
 
     <div className="kapasitas-info">
       <blockquote>
@@ -165,12 +165,12 @@ return (
                   <div style={{ marginTop: '25px', fontSize: '18px' }}><b>Berikut adalah data teknis berupa:</b></div>
                   <div>
                     <ol>
-                      <div><li>Luas Daerah Layanan Kolam Polder</li></div>
-                      <div>(2000 cm²)</div>
-                      <div><li>Volume Tampungan Kolam Polder</li></div>
-                      <div>(40000 cm<sup>3</sup>)</div>
-                      <div><li>Kapasitas Pompa</li></div>
-                      <div>(3 x 1,5 L/min) atau (3 x 0,000025 m<sup>3</sup>/s)</div>
+                      <div><li style={{fontSize: '18px' }}>Luas Daerah Layanan Kolam Polder</li></div>
+                      <div><b>(2000 cm²)</b></div>
+                      <div><li style={{fontSize: '18px', marginTop: '10px' }}>Volume Tampungan Kolam Polder</li></div>
+                      <div><b>(40000 cm<sup>3</sup>)</b></div>
+                      <div><li style={{fontSize: '18px', marginTop: '10px' }}>Kapasitas Pompa</li></div>
+                      <div><b>(3 x 1,5 L/min) atau (3 x 0,000025 m<sup>3</sup>/s)</b></div>
                       <div></div>
                     </ol>
                   </div>
