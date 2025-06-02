@@ -125,10 +125,10 @@ async function handleLogout() {
       onClose={handleMenuClose}
     >
       <div>
-        <p style={{paddingRight: '20px', paddingLeft: '20px', paddingTop: '1px', paddingBottom: '1px', fontSize: '18px', marginBottom: '2px', marginTop: '-3px' }}>Welcome <b>{userDetails?.firstName}</b></p>
+        <p style={{paddingRight: '20px', paddingLeft: '20px', paddingTop: '1px', paddingBottom: '1px', fontSize: '18px', marginBottom: '2px', marginTop: '-3px' }}>Selamat datang <b>{userDetails?.firstName}</b></p>
         <Divider/>
       </div>
-      <MenuItem onClick={() => navigate('/Home')}>Home</MenuItem>
+      <MenuItem onClick={() => navigate('/Home')}>Dashboard</MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );

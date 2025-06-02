@@ -8,8 +8,8 @@ export default function MuiFooter() {
   const open = useAppStore((state) => state.dopen);  // ambil state open dari store
 
   // lebar sidebar ketika terbuka dan tertutup
-  const drawerWidth = 240;
-  const closedWidth = 60; // sesuai yang kamu gunakan di sidebar
+  // const drawerWidth = 240;
+  // const closedWidth = 60; // sesuai yang kamu gunakan di sidebar
 
   return (
     <Box

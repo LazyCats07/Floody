@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
+// import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -110,9 +110,9 @@ export default function Sidenav() {
 
   const menuItems = [
     { text: "Dashboard", icon: dashboard, onClick: () => navigate('/Home') },
-    { text: "Report", icon: Report, onClick: () => navigate('/Report') },
-    { text: "Controller", icon: settings, onClick: () => navigate('/Controller') },
-    { text: "Force Shutdown", icon: powerButton, onClick: resetFirebaseControl },
+    { text: "Data Laporan", icon: Report, onClick: () => navigate('/Report') },
+    { text: "Sistem Kontrol", icon: settings, onClick: () => navigate('/Controller') },
+    { text: "Matikan Paksa", icon: powerButton, onClick: resetFirebaseControl },
     { text: "Logout", icon: logout, onClick: () => navigate('/Login') }
   ];
 

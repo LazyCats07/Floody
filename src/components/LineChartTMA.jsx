@@ -194,6 +194,7 @@ const ApexLineChartKolam = () => {
         hideOverlappingLabels: true,
         trim: true,
       },
+      tickAmount: Math.min(labels.length, 15),
     },
     yaxis: {
       title: {
@@ -222,7 +223,7 @@ const ApexLineChartKolam = () => {
 
   return (
     <div>
-      <h5>2J89+MHJ, Dayeuhkolot, Kec. Dayeuhkolot, Kabupaten Bandung, Jawa Barat 40258</h5>
+      <h5> 📍 Dayeuhkolot, Kabupaten Bandung, Jawa Barat</h5>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 20 }}>
         <button

@@ -188,6 +188,7 @@ const ApexLineChartDebit = () => {
         hideOverlappingLabels: true,
         trim: true,
       },
+      tickAmount: Math.min(labels.length, 15),
     },
     yaxis: {
       title: {

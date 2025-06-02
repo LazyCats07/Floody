@@ -156,7 +156,7 @@ export default function PumpButton() {
       </Typography>
       <Typography variant="body2">
         <span className='note-alert'>
-          Dihimbau berhati-hati dalam menekan tombol berikut karena dapat menyalakan pompa secara <u><b>OTOMATIS</b></u>
+          <p style={{ fontSize: '18px', marginTop: '-2px' }}>Dihimbau berhati-hati dalam menekan tombol berikut karena dapat menyalakan pompa secara <u><b>OTOMATIS</b></u></p>
         </span>
       </Typography>
     </FormControl>

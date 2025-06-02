@@ -92,7 +92,7 @@ return (
             <Grid size={8}>
               <Stack spacing={2} direction={'row'}>
 
-<Card sx={{ height: '90vh', width: '100%', borderRadius: '25px', overflowX: 'auto' }}>
+<Card sx={{ height: '80vh', width: '100%', borderRadius: '25px', overflowX: 'auto' }}>
   <CardContent>
     <span style={{ display: 'flex', alignItems: 'center' }}>
       <img src={process} alt="icon" style={{ width: '70px', margin: '0 10px -20px 10px' }} />
@@ -103,31 +103,35 @@ return (
       <Table stickyHeader aria-label="sticky table">
         <TableHead>
           <TableRow>
-            <TableCell><b>Pintu Air (Tinggi Dalam Polder)</b></TableCell>
-            <TableCell><b>Pompa (Tinggi Dalam Polder)</b></TableCell>
-            <TableCell><b>Sungai Citarum</b></TableCell>
+              <TableCell sx={{ fontSize: '18px' }}><b>Pintu Air (Tinggi Dalam Polder)</b></TableCell>
+              <TableCell sx={{ fontSize: '18px' }}><b>Pompa (Tinggi Dalam Polder)</b></TableCell>
+              <TableCell sx={{ fontSize: '18px' }}><b>Sungai Citarum</b></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           <TableRow>
-            <TableCell sx={{ wordBreak: 'break-word' }}>
-              <div>Elev. Tutup Pintu +654 M</div>
-              <div>Elev. Buka Pintu +653,5 M</div>
+            <TableCell sx={{ wordBreak: 'break-word', fontSize: '16px' }}>
+              <div>Elevasi Tutup Pintu: <b>+8 cm</b></div>
+              <div>Elevasi Buka Pintu: <b>+6 cm</b></div>
             </TableCell>
-            <TableCell sx={{ wordBreak: 'break-word' }}>
+            <TableCell sx={{ wordBreak: 'break-word', fontSize: '16px'  }}>
               <div><b>POMPA ON</b></div>
-              <div>P3 ON +654,15 M</div>
-              <div>P2 ON +654,10 M</div>
-              <div>P1 ON +654,05 M</div>
-              <div style={{ marginTop: '8px' }}><b>POMPA OFF</b></div>
-              <div>P1 OFF +653,9 M</div>
-              <div>P2 OFF +653,8 M</div>
-              <div>P3 OFF +653,7 M</div>
+              <div>Pompa 3 ON <b>+8.6 cm</b></div>
+              <div>Pompa 2 ON <b>+8.4 cm</b></div>
+              <div>Pompa 1 ON <b>+8.2 cm</b></div>
+              <div style={{ marginTop: '8px'}}><b>POMPA OFF</b></div>
+              <div>Pompa 1 OFF <b>+7.6 cm</b></div>
+              <div>Pompa 2 OFF <b>+7.2 cm</b></div>
+              <div>Pompa 3 OFF <b>+6.8 cm</b></div>
             </TableCell>
-            <TableCell sx={{ wordBreak: 'break-word' }}>
-              <div>Elevasi Batas Mulai Banjir : 656,5 M</div>
-              <div>Elevasi Pintu DITUTUP : 656,5 M</div>
-              <div>Elevasi Pintu DIBUKA : 656,5 M</div>
+            <TableCell sx={{ wordBreak: 'break-word', fontSize: '16px'  }}>
+              <div>Elevasi batas mulai banjir</div>
+              <div><b>+18 cm</b></div>
+              <div>Elevasi pintu <u>ditutup</u></div>
+              <div><b>+18 cm</b></div>
+              <div>Elevasi pintu <u>dibuka</u></div>
+              <div><b>+12 cm</b></div>
+
             </TableCell>
           </TableRow>
         </TableBody>
@@ -138,11 +142,10 @@ return (
 
     <div className="kapasitas-info">
       <blockquote>
-        <p><b>Kapasitas Pintu Air</b> (3 x 0,25 m<sup>3</sup>/det)</p>
-        <p>
-          Diperoleh dari berbagai sumber yang kebenarannya (data definitif) <b>Perlu</b> dipastikan atau disepakati bersama,
+        <p style={{ fontSize: '18px', color: 'black', marginTop: '-10px', textAlign: 'justify' }}>
+          Diperoleh dari berbagai sumber yang  kebenarannya (data definitif) <b>Perlu</b> dipastikan atau disepakati bersama,
           <b> terutama </b> data luas daerah layanan (DTA = Daerah Tangkapan Air) dan luas kolam retensi yang sangat menentukan beban debit banjir
-          dan <b> Kebutuhan Pompa berikut pola operasinya.</b>
+          dan <b>kebutuhan pompa berikut pola operasinya.</b>
         </p>
       </blockquote>
     </div>
@@ -153,24 +156,22 @@ return (
             </Grid>
 
             <Grid size={4}>
-              <Card sx={{ height: '90vh', width: '100%', borderRadius: '25px' }}>
+              <Card sx={{ height: '80vh', width: '100%', borderRadius: '25px' }}>
                 <CardContent>
                   <span>
                     <img src={notes} alt="icon" style={{ width: '65px', marginRight: '10px', marginLeft: '10px', marginBottom: '-20px' }}/>
                     <b style={{ fontSize: '25px' }}>Catatan</b>
                   </span>
-                  <div style={{ marginTop: '10px' }}>Data teknis berupa:</div>
+                  <div style={{ marginTop: '25px', fontSize: '18px' }}><b>Berikut adalah data teknis berupa:</b></div>
                   <div>
                     <ol>
-                      <div><li>Luas Daerah Layanan Polder</li></div>
-                      <div>(2,00 Ha)</div>
-                      <div><li>Volume Tampungan Kolam Retensi</li></div>
-                      <div>(1.250 m<sup>3</sup>)</div>
-                      <div><li>Luas Kolam Retensi</li></div>
-                      <div>(0,03 Ha atau 300 m<sup>2</sup>)</div>
+                      <div><li>Luas Daerah Layanan Kolam Polder</li></div>
+                      <div>(2000 cm²)</div>
+                      <div><li>Volume Tampungan Kolam Polder</li></div>
+                      <div>(40000 cm<sup>3</sup>)</div>
                       <div><li>Kapasitas Pompa</li></div>
-                      <div>(3 x 0,25 m<sup>3</sup>/det) atau</div>
-                      <div>(3 x 15.000 L/menit)</div>
+                      <div>(3 x 1,5 L/min) atau (3 x 0,000025 m<sup>3</sup>/s)</div>
+                      <div></div>
                     </ol>
                   </div>
                   <div></div>
