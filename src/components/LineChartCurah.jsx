@@ -175,7 +175,7 @@ const ApexLineChartCurahHujan = () => {
 
   return (
     <div>
-      <h5>Curah Hujan Bojongsoang & Dayeuhkolot</h5>
+      <h5>📍Kecamatan Bojongsoang & Kecamatan Dayeuhkolot</h5>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '20px' }}>
         <button
