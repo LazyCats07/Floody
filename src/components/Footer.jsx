@@ -76,7 +76,7 @@ export default function MuiFooter() {
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                   <Link href="https://github.com/LazyCats07/Floody" underline="hover" color="text.secondary">Github</Link>
                   <Link href="https://www.instagram.com/mbclab/" underline="hover" color="text.secondary">Instagram</Link>
-                  <Link href="https://www.youtube.com/@MBCLaboratory" underline="hover" color="text.secondary">Youtube</Link>
+                  <Link href="https://youtu.be/cngZ8W3FFDM" underline="hover" color="text.secondary">Youtube</Link>
                 </Box>
               </Grid>
               <Grid item xs={4} sm={4} md={4}>
@@ -112,7 +112,7 @@ export default function MuiFooter() {
               <IconButton component="a" href="https://github.com/LazyCats07/Floody" aria-label="Github" color="primary">
                 <BsGithub />
               </IconButton>
-              <IconButton component="a" href="https://www.youtube.com/@MBCLaboratory" aria-label="Youtube" color="primary">
+              <IconButton component="a" href="https://youtu.be/cngZ8W3FFDM" aria-label="Youtube" color="primary">
                 <BsYoutube />
               </IconButton>
             </Box>
