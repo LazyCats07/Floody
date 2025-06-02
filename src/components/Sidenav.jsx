@@ -147,12 +147,13 @@ export default function Sidenav() {
                 />
               </div>
               <ListItemText
+                className='listTextSideNav'
                 primary={item.text}
+                primaryTypographyProps={{ fontWeight: 600, fontSize: '15px', fontFamily: 'Poppins' }} 
                 sx={{
                   opacity: open ? 1 : 0,
                   ml: 2,
                   mt: 2,
-                  fontWeight: 900, // Menambahkan fontWeight menggunakan sx
                 }}
               />
               </ListItemButton>
