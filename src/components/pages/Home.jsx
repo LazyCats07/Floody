@@ -356,7 +356,7 @@ export default function Home() {
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
-                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '40px', marginTop: '20px' }}>
+                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '35px', marginTop: '20px' }}>
                           {renderCountUp(tmaKolam, 'cm')}
                         </Typography>
                       </span>
@@ -370,7 +370,7 @@ export default function Home() {
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
-                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '40px', marginTop: '20px' }}>
+                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '35px', marginTop: '20px' }}>
                           {renderCountUp(tmaCitarum, 'cm')}
                         </Typography>
                       </span>
@@ -384,7 +384,7 @@ export default function Home() {
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
-                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '40px', marginTop: '20px' }}>
+                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '35px', marginTop: '20px' }}>
                           {renderCountUp(tmaCipalasari, 'cm')}
                         </Typography>
                       </span>
