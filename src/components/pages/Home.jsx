@@ -147,7 +147,6 @@ export default function Home() {
       if (value !== null && !isNaN(value)) {
           const formattedValue = Number(value.toFixed(2)); // Pastikan nilai hanya 2 angka di belakang koma
           console.log('Formatted Value:', formattedValue);
-
           return (
               <>
                   <CountUp 
@@ -357,7 +356,7 @@ export default function Home() {
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
-                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '45px', marginTop: '20px' }}>
+                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '40px', marginTop: '20px' }}>
                           {renderCountUp(tmaKolam, 'cm')}
                         </Typography>
                       </span>
@@ -371,7 +370,7 @@ export default function Home() {
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
-                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '45px', marginTop: '20px' }}>
+                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '40px', marginTop: '20px' }}>
                           {renderCountUp(tmaCitarum, 'cm')}
                         </Typography>
                       </span>
@@ -385,7 +384,7 @@ export default function Home() {
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
-                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '45px', marginTop: '20px' }}>
+                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '40px', marginTop: '20px' }}>
                           {renderCountUp(tmaCipalasari, 'cm')}
                         </Typography>
                       </span>
