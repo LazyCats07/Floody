@@ -144,19 +144,24 @@ export default function Home() {
   }, []);
 
   const renderCountUp = (value, suffix = '') => {
-    if (value !== null && !isNaN(value)) {
-      const formattedValue = value.toFixed(2); // Format the value to 2 decimal places
-      console.log('Formatted Value:', formattedValue); // Log formatted value for debugging
+      if (value !== null && !isNaN(value)) {
+          const formattedValue = Number(value.toFixed(2)); // Pastikan nilai hanya 2 angka di belakang koma
+          console.log('Formatted Value:', formattedValue);
 
-      return (
-        <>
-          <CountUp delay={0.4} end={Number(formattedValue)} duration={0.4} />
-          <span style={{ marginLeft: '4px' }}>{suffix}</span>
-        </>
-      );
-    } else {
-      return <span>Null</span>; // Handle null or non-numeric values
-    }
+          return (
+              <>
+                  <CountUp 
+                      delay={0.4} 
+                      end={formattedValue} 
+                      duration={0.4} 
+                      decimals={2} 
+                  />
+                  <span style={{ marginLeft: '4px' }}>{suffix}</span>
+              </>
+          );
+      } else {
+          return <span>Null</span>;
+      }
   };
 
   const [userDetails, setUserDetails] = useState(null);

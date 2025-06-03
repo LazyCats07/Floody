@@ -176,7 +176,9 @@ const ApexLineChartDebit = () => {
       margin: { bottom: 60 },
     },
     xaxis: {
-      categories: labels,
+      categories: viewMode === 'perDetik'
+      ? labels.map(label => label.substring(11, 19))
+      : labels,
       title: {
         text: 'Tanggal & Jam',
         offsetY: 0,
