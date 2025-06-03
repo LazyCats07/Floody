@@ -360,7 +360,7 @@ export default function Home() {
                           {renderCountUp(tmaKolam, 'cm')}
                         </Typography>
                       </span>
-                      <Typography gutterBottom variant="h5" component="div" sx={{ color: "ccd1d1" }} style={{ marginTop: '-30px', marginLeft: '5px' }}>
+                      <Typography gutterBottom variant="h5" component="div" sx={{ color: "ccd1d1", fontSize: '30px'}} style={{ marginTop: '-15px', marginLeft: '5px' }}>
                         Tinggi Air Kolam Polder
                       </Typography>
                     </CardContent>
@@ -374,7 +374,7 @@ export default function Home() {
                           {renderCountUp(tmaCitarum, 'cm')}
                         </Typography>
                       </span>
-                      <Typography gutterBottom variant="h5" component="div" sx={{ color: "ccd1d1" }} style={{ marginTop: '-30px', marginLeft: '5px' }}>
+                      <Typography gutterBottom variant="h5" component="div" sx={{ color: "ccd1d1", fontSize: '30px'}} style={{ marginTop: '-15px', marginLeft: '5px' }}>
                         Tinggi Air Sungai Citarum
                       </Typography>
                     </CardContent>
@@ -388,7 +388,7 @@ export default function Home() {
                           {renderCountUp(tmaCipalasari, 'cm')}
                         </Typography>
                       </span>
-                      <Typography gutterBottom variant="h5" component="div" sx={{ color: "ccd1d1" }} style={{ marginTop: '-30px', marginLeft: '5px' }}>
+                      <Typography gutterBottom variant="h5" component="div" sx={{ color: "ccd1d1", fontSize: '30px' }} style={{ marginTop: '-15px', marginLeft: '5px' }}>
                         Tinggi Air Sungai Cipalasari
                       </Typography>
                     </CardContent>
