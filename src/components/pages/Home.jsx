@@ -383,7 +383,7 @@ export default function Home() {
                 // }}
                 spacing="auto"
               >
-                  <Card sx={{ height: 200, minWidth: 32 + "%", borderRadius: '25px' }} className='cardTMA card'>
+                  <Card sx={{ height: 200, minWidth: 31 + "%", borderRadius: '25px' }} className='cardTMA card'>
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-20px' }} />
@@ -448,7 +448,7 @@ export default function Home() {
                     </CardContent>
                   </Card>
 
-                  <Card sx={{ height: 200, minWidth: 32 + "%", borderRadius: '25px' }}>
+                  <Card sx={{ height: 200, minWidth: 31+ "%", borderRadius: '25px' }}>
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-20px' }} />
@@ -513,7 +513,7 @@ export default function Home() {
                     </CardContent>
                   </Card>
 
-                  <Card sx={{ height: 200, minWidth: 32 + "%", borderRadius: '25px' }} className='cardTMA card'>
+                  <Card sx={{ height: 200, minWidth: 31 + "%", borderRadius: '25px' }} className='cardTMA card'>
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-20px' }} />
