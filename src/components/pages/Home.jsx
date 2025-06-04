@@ -374,13 +374,14 @@ export default function Home() {
               <Grid item size={8}>
               <Stack
                 direction="row"
-                spacing={{ 
-                  xs: 1,    // Spacing kecil untuk layar kecil (smartphones)
-                  sm: 1.2,  // Sedikit lebih besar untuk layar medium (tablet)
-                  md: 1.4,    // Lebih besar lagi untuk layar sedang
-                  lg0: 1.6,
-                  lg: 2.2  // Spacing default untuk layar besar
-                }}
+                // spacing={{ 
+                //   xs: 1,    // Spacing kecil untuk layar kecil (smartphones)
+                //   sm: 1.2,  // Sedikit lebih besar untuk layar medium (tablet)
+                //   md: 1.4,    // Lebih besar lagi untuk layar sedang
+                //   lg0: 1.6,
+                //   lg: 2.2  // Spacing default untuk layar besar
+                // }}
+                spacing="auto"
               >
                   <Card sx={{ height: 200, minWidth: 32 + "%", borderRadius: '25px' }} className='cardTMA card'>
                     <CardContent>
