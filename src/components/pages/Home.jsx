@@ -4,6 +4,7 @@ import { ref, onValue } from "firebase/database";
 import { database, auth, db } from "../firebase-config";
 import { doc, getDoc } from 'firebase/firestore';
 import { RealTimeDataCurahByHour } from './Reports/Data/RealTimeDataCurah3Jam';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 // MUI Components
 import Box from '@mui/material/Box';
@@ -233,6 +234,19 @@ export default function Home() {
     return () => clearInterval(intervalId);
   }, []);
 
+
+  const theme = createTheme({
+    breakpoints: {
+      values: {
+        xs: 0,
+        sm: 600,
+        md: 960,
+        lg: 1280,
+        xl: 1920
+      }
+    }
+  });
+
   return (
     <>
       <Box
@@ -360,10 +374,40 @@ export default function Home() {
                           {renderCountUp(tmaKolam, 'cm')}
                         </Typography>
                       </span>
-                      <Typography gutterBottom variant="h6" component="div" sx={{ color: "ccd1d1", fontSize: '28px'}} style={{ marginTop: '-25px', marginLeft: '5px'}}>
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="div"
+                        sx={{
+                          color: "ccd1d1",
+                          fontSize: {
+                            xs: '20px',  // untuk ukuran layar sangat kecil (smartphone)
+                            sm: '24px',  // untuk ukuran layar kecil
+                            md: '28px',  // untuk ukuran layar sedang
+                            lg: '32px'   // untuk ukuran layar besar
+                          },
+                          marginTop: '-25px',
+                          marginLeft: '5px'
+                        }}
+                      >
                         Tinggi Air
                       </Typography>
-                      <Typography gutterBottom variant="h6" component="div" sx={{ color: "ccd1d1", fontSize: '25px'}}   style={{ marginTop: '-25px', marginLeft: '5px'}}>
+                                            <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="div"
+                        sx={{
+                          color: "ccd1d1",
+                          fontSize: {
+                            xs: '16px',  // untuk ukuran layar sangat kecil (smartphone)
+                            sm: '18px',  // untuk ukuran layar kecil
+                            md: '20px',  // untuk ukuran layar sedang
+                            lg: '22px'   // untuk ukuran layar besar
+                          },
+                          marginTop: '-20px',
+                          marginLeft: '5px'
+                        }}
+                      >
                         Kolam Polder
                       </Typography>
                     </CardContent>
@@ -377,10 +421,40 @@ export default function Home() {
                           {renderCountUp(tmaCitarum, 'cm')}
                         </Typography>
                       </span>
-                      <Typography gutterBottom variant="h6" component="div" sx={{ color: "ccd1d1", fontSize: '28px'}} style={{ marginTop: '-25px', marginLeft: '5px'}}>
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="div"
+                        sx={{
+                          color: "ccd1d1",
+                          fontSize: {
+                            xs: '20px',  // untuk ukuran layar sangat kecil (smartphone)
+                            sm: '24px',  // untuk ukuran layar kecil
+                            md: '28px',  // untuk ukuran layar sedang
+                            lg: '32px'   // untuk ukuran layar besar
+                          },
+                          marginTop: '-25px',
+                          marginLeft: '5px'
+                        }}
+                      >
                         Tinggi Air
                       </Typography>
-                      <Typography gutterBottom variant="h6" component="div" sx={{ color: "ccd1d1", fontSize: '25px'}}   style={{ marginTop: '-25px', marginLeft: '5px'}}>
+                                            <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="div"
+                        sx={{
+                          color: "ccd1d1",
+                          fontSize: {
+                            xs: '16px',  // untuk ukuran layar sangat kecil (smartphone)
+                            sm: '18px',  // untuk ukuran layar kecil
+                            md: '20px',  // untuk ukuran layar sedang
+                            lg: '22px'   // untuk ukuran layar besar
+                          },
+                          marginTop: '-20px',
+                          marginLeft: '5px'
+                        }}
+                      >
                         Sungai Citarum
                       </Typography>
                     </CardContent>
@@ -394,10 +468,40 @@ export default function Home() {
                           {renderCountUp(tmaCipalasari, 'cm')}
                         </Typography>
                       </span>
-                      <Typography gutterBottom variant="h6" component="div" sx={{ color: "ccd1d1", fontSize: '28px'}} style={{ marginTop: '-25px', marginLeft: '5px'}}>
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="div"
+                        sx={{
+                          color: "ccd1d1",
+                          fontSize: {
+                            xs: '20px',  // untuk ukuran layar sangat kecil (smartphone)
+                            sm: '24px',  // untuk ukuran layar kecil
+                            md: '28px',  // untuk ukuran layar sedang
+                            lg: '32px'   // untuk ukuran layar besar
+                          },
+                          marginTop: '-25px',
+                          marginLeft: '5px'
+                        }}
+                      >
                         Tinggi Air
                       </Typography>
-                      <Typography gutterBottom variant="h6" component="div" sx={{ color: "ccd1d1", fontSize: '25px'}}   style={{ marginTop: '-25px', marginLeft: '5px'}}>
+                                            <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="div"
+                        sx={{
+                          color: "ccd1d1",
+                          fontSize: {
+                            xs: '16px',  // untuk ukuran layar sangat kecil (smartphone)
+                            sm: '18px',  // untuk ukuran layar kecil
+                            md: '20px',  // untuk ukuran layar sedang
+                            lg: '22px'   // untuk ukuran layar besar
+                          },
+                          marginTop: '-20px',
+                          marginLeft: '5px'
+                        }}
+                      >
                         Sungai Cipalasari
                       </Typography>
                     </CardContent>
