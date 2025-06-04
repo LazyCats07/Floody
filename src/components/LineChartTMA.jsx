@@ -206,7 +206,7 @@ const ApexLineChartKolam = () => {
       min: 0,
       tickAmount: 10,
       labels: {
-        formatter: (value) => Math.round(value),
+        formatter: (value) => Number(value).toFixed(2),
       },
     },
     stroke: {
