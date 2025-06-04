@@ -294,11 +294,11 @@ export default function Home() {
                   >
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
-                        <img src={process} alt="icon" style={{ width: '70px', margin: '0 10px -20px 10px' }} />
-                        <b style={{ fontSize: '30px' }}>Prosedur Operasi Pintu Air dan Pompa</b>
+                        <img src={process} alt="icon" style={{ width: '70px', margin: '-5 10px 10px 0' }} />
+                        <b style={{ fontSize: '30px', marginTop: '15px', marginLeft: '10px' }}>Prosedur Operasi Pintu Air dan Pompa</b>
                       </span>
 
-                      <TableContainer sx={{ maxHeight: 440, marginTop: 2 }}>
+                      <TableContainer sx={{ maxHeight: 440, marginTop: 1 }}>
                         <Table stickyHeader aria-label="sticky table">
                           <TableHead>
                             <TableRow>
