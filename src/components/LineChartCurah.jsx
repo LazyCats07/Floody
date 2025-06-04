@@ -156,7 +156,7 @@ const ApexLineChartCurahHujan = () => {
       // max: 175,
       tickAmount: 10,
       labels: {
-        formatter: val => Math.round(val),
+        formatter: (value) => Number(value).toFixed(2),
       },
     },
     stroke: {
