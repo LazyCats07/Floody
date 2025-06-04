@@ -92,7 +92,14 @@ return (
             <Grid size={8}>
               <Stack spacing={2} direction={'row'}>
 
-<Card sx={{ height: '80vh', width: '100%', borderRadius: '25px', overflowX: 'auto' }}>
+                  <Card
+                    sx={{
+                      height: 'auto',
+                      width: '100%',
+                      borderRadius: '25px',
+                      overflowX: 'auto',
+                    }}
+                  >
   <CardContent>
     <span style={{ display: 'flex', alignItems: 'center' }}>
       <img src={process} alt="icon" style={{ width: '70px', margin: '0 10px -20px 10px' }} />
@@ -156,7 +163,7 @@ return (
             </Grid>
 
             <Grid size={4}>
-              <Card sx={{ height: '80vh', width: '100%', borderRadius: '25px' }}>
+              <Card sx={{ height: '100%', width: '100%', borderRadius: '25px' }}>
                 <CardContent>
                   <span>
                     <img src={notes} alt="icon" style={{ width: '65px', marginRight: '10px', marginLeft: '10px', marginBottom: '-20px' }}/>

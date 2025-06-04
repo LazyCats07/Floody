@@ -241,6 +241,7 @@ export default function Home() {
         xs: 0,
         sm: 600,
         md: 960,
+        lg0: 1180,
         lg: 1280,
         xl: 1920
       }
@@ -283,7 +284,14 @@ export default function Home() {
             <Grid container spacing={2}>
               <Grid size={8}>
                 <Stack spacing={2} direction={'row'}>
-                  <Card sx={{ height: '80vh', width: '100%', borderRadius: '25px', overflowX: 'auto' }}>
+                  <Card
+                    sx={{
+                      height: 'auto',
+                      width: '100%',
+                      borderRadius: '25px',
+                      overflowX: 'auto',
+                    }}
+                  >
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={process} alt="icon" style={{ width: '70px', margin: '0 10px -20px 10px' }} />
@@ -346,7 +354,7 @@ export default function Home() {
               </Grid>
 
               <Grid size={4}>
-                <Card sx={{ height: 80 + "vh", maxWidth: 345, borderRadius: '25px' }} className='card'>
+                <Card sx={{height: '100%', maxWidth: 345, borderRadius: '25px' }} className='card'>
                   <CardContent>
                     <span>
                       <img src={button} alt="icon" style={{ width: '70px', marginRight: '10px', marginLeft: '10px', marginBottom: '-20px' }} />
@@ -364,13 +372,34 @@ export default function Home() {
             <Grid container spacing={2}>
               {/* Grid 1 */}
               <Grid item size={8}>
-                <Stack spacing={2} direction={'row'}>
-
-                  <Card sx={{ height: 200, minWidth: 32.5 + "%", borderRadius: '25px' }} className='cardTMA card'>
+              <Stack
+                direction="row"
+                spacing={{ 
+                  xs: 1,    // Spacing kecil untuk layar kecil (smartphones)
+                  sm: 1.2,  // Sedikit lebih besar untuk layar medium (tablet)
+                  md: 1.4,    // Lebih besar lagi untuk layar sedang
+                  lg0: 1.6,
+                  lg: 2.2  // Spacing default untuk layar besar
+                }}
+              >
+                  <Card sx={{ height: 200, minWidth: 32 + "%", borderRadius: '25px' }} className='cardTMA card'>
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-20px' }} />
-                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '35px', marginTop: '30px' }}>
+                        <Typography
+                          gutterBottom
+                          component="div"
+                          className="countText"
+                          sx={{
+                            fontSize: {
+                              xs: '20px',  // for extra small screens (smartphones)
+                              sm: '25px',  // for small screens
+                              md: '32px',  // for medium screens
+                              lg: '40px'   // for large screens
+                            },
+                            marginTop: '30px'
+                          }}
+                        >
                           {renderCountUp(tmaKolam, 'cm')}
                         </Typography>
                       </span>
@@ -386,13 +415,18 @@ export default function Home() {
                             md: '28px',  // untuk ukuran layar sedang
                             lg: '32px'   // untuk ukuran layar besar
                           },
-                          marginTop: '-25px',
+                          marginTop: {
+                            xs: '-10px',  // for extra small screens
+                            sm: '-15px',  // for small screens
+                            md: '-22px',  // for medium screens
+                            lg: '-30px'   // for large screens
+                          },
                           marginLeft: '5px'
                         }}
                       >
                         Tinggi Air
                       </Typography>
-                                            <Typography
+                      <Typography
                         gutterBottom
                         variant="h6"
                         component="div"
@@ -417,7 +451,20 @@ export default function Home() {
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-20px' }} />
-                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '35px', marginTop: '30px' }}>
+                        <Typography
+                          gutterBottom
+                          component="div"
+                          className="countText"
+                          sx={{
+                            fontSize: {
+                              xs: '20px',  // for extra small screens (smartphones)
+                              sm: '25px',  // for small screens
+                              md: '32px',  // for medium screens
+                              lg: '40px'   // for large screens
+                            },
+                            marginTop: '30px'
+                          }}
+                        >
                           {renderCountUp(tmaCitarum, 'cm')}
                         </Typography>
                       </span>
@@ -433,13 +480,18 @@ export default function Home() {
                             md: '28px',  // untuk ukuran layar sedang
                             lg: '32px'   // untuk ukuran layar besar
                           },
-                          marginTop: '-25px',
+                          marginTop: {
+                            xs: '-10px',  // for extra small screens
+                            sm: '-15px',  // for small screens
+                            md: '-22px',  // for medium screens
+                            lg: '-30px'   // for large screens
+                          },
                           marginLeft: '5px'
                         }}
                       >
                         Tinggi Air
                       </Typography>
-                                            <Typography
+                      <Typography
                         gutterBottom
                         variant="h6"
                         component="div"
@@ -464,7 +516,20 @@ export default function Home() {
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-20px' }} />
-                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '35px', marginTop: '30px' }}>
+                        <Typography
+                          gutterBottom
+                          component="div"
+                          className="countText"
+                          sx={{
+                            fontSize: {
+                              xs: '20px',  // for extra small screens (smartphones)
+                              sm: '25px',  // for small screens
+                              md: '32px',  // for medium screens
+                              lg: '40px'   // for large screens
+                            },
+                            marginTop: '30px'
+                          }}
+                        >
                           {renderCountUp(tmaCipalasari, 'cm')}
                         </Typography>
                       </span>
@@ -480,13 +545,18 @@ export default function Home() {
                             md: '28px',  // untuk ukuran layar sedang
                             lg: '32px'   // untuk ukuran layar besar
                           },
-                          marginTop: '-25px',
+                          marginTop: {
+                            xs: '-10px',  // for extra small screens
+                            sm: '-15px',  // for small screens
+                            md: '-22px',  // for medium screens
+                            lg: '-30px'   // for large screens
+                          },
                           marginLeft: '5px'
                         }}
                       >
                         Tinggi Air
                       </Typography>
-                                            <Typography
+                      <Typography
                         gutterBottom
                         variant="h6"
                         component="div"
@@ -550,7 +620,7 @@ export default function Home() {
             <Grid container spacing={2}>
               <Grid item size={8}>
                 {/* LineChart TMA Polder */}
-                <Card sx={{ height: 90 + "vh", maxWidth: 1100, borderRadius: '25px', minWidth: 99.75 + "%" }} className='card'>
+                <Card sx={{ height: 'auto', maxWidth: 1100, borderRadius: '25px', minWidth: 99.75 + "%" }} className='card'>
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div" style={{ fontSize: '30px', fontWeight: 'bold' }}>
                       Tinggi Air Lingkungan Polder Cipalasari 1
@@ -561,7 +631,7 @@ export default function Home() {
 
                 {/* LineChart Debit Polder */}
                 <Box height={20} />
-                <Card sx={{ height: 90 + "vh", maxWidth: 1100, borderRadius: '25px', minWidth: 99.75 + "%" }} className='card'>
+                <Card sx={{ height: 'auto', maxWidth: 1100, borderRadius: '25px', minWidth: 99.75 + "%" }} className='card'>
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div" style={{ fontSize: '30px', fontWeight: 'bold' }}>
                       Debit air Sungai Lingkungan Polder Cipalasari 1
@@ -572,7 +642,7 @@ export default function Home() {
                 <Box height={20} />
 
                 {/* LineChart Curah Hujan */}
-                <Card sx={{ height: 90 + "vh", maxWidth: 1100, borderRadius: '25px', minWidth: 99.75 + "%" }} className='card'>
+                <Card sx={{ height: 'auto', maxWidth: 1100, borderRadius: '25px', minWidth: 99.75 + "%" }} className='card'>
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div" style={{ fontSize: '30px', fontWeight: 'bold' }}>
                       Curah Hujan
