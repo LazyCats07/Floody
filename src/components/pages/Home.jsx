@@ -355,13 +355,16 @@ export default function Home() {
                   <Card sx={{ height: 200, minWidth: 32.5 + "%", borderRadius: '25px' }} className='cardTMA card'>
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
-                        <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
-                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '35px', marginTop: '20px' }}>
+                        <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-20px' }} />
+                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '35px', marginTop: '30px' }}>
                           {renderCountUp(tmaKolam, 'cm')}
                         </Typography>
                       </span>
-                      <Typography gutterBottom variant="h5" component="div" sx={{ color: "ccd1d1", fontSize: '30px'}} style={{ marginTop: '-15px', marginLeft: '5px' }}>
-                        Tinggi Air Kolam Polder
+                      <Typography gutterBottom variant="h6" component="div" sx={{ color: "ccd1d1", fontSize: '28px'}} style={{ marginTop: '-25px', marginLeft: '5px'}}>
+                        Tinggi Air
+                      </Typography>
+                      <Typography gutterBottom variant="h6" component="div" sx={{ color: "ccd1d1", fontSize: '25px'}}   style={{ marginTop: '-25px', marginLeft: '5px'}}>
+                        Kolam Polder
                       </Typography>
                     </CardContent>
                   </Card>
@@ -369,13 +372,16 @@ export default function Home() {
                   <Card sx={{ height: 200, minWidth: 32 + "%", borderRadius: '25px' }}>
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
-                        <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
-                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '35px', marginTop: '20px' }}>
+                        <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-20px' }} />
+                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '35px', marginTop: '30px' }}>
                           {renderCountUp(tmaCitarum, 'cm')}
                         </Typography>
                       </span>
-                      <Typography gutterBottom variant="h5" component="div" sx={{ color: "ccd1d1", fontSize: '30px'}} style={{ marginTop: '-15px', marginLeft: '5px' }}>
-                        Tinggi Air Sungai Citarum
+                      <Typography gutterBottom variant="h6" component="div" sx={{ color: "ccd1d1", fontSize: '28px'}} style={{ marginTop: '-25px', marginLeft: '5px'}}>
+                        Tinggi Air
+                      </Typography>
+                      <Typography gutterBottom variant="h6" component="div" sx={{ color: "ccd1d1", fontSize: '25px'}}   style={{ marginTop: '-25px', marginLeft: '5px'}}>
+                        Sungai Citarum
                       </Typography>
                     </CardContent>
                   </Card>
@@ -383,13 +389,16 @@ export default function Home() {
                   <Card sx={{ height: 200, minWidth: 32 + "%", borderRadius: '25px' }} className='cardTMA card'>
                     <CardContent>
                       <span style={{ display: 'flex', alignItems: 'center' }}>
-                        <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-30px' }} />
-                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '35px', marginTop: '20px' }}>
+                        <img src={TMA} alt="test" className='iconFL' style={{ marginRight: '10px', marginTop: '-20px' }} />
+                        <Typography gutterBottom component="div" className='countText' style={{ fontSize: '35px', marginTop: '30px' }}>
                           {renderCountUp(tmaCipalasari, 'cm')}
                         </Typography>
                       </span>
-                      <Typography gutterBottom variant="h5" component="div" sx={{ color: "ccd1d1", fontSize: '30px' }} style={{ marginTop: '-15px', marginLeft: '5px' }}>
-                        Tinggi Air Sungai Cipalasari
+                      <Typography gutterBottom variant="h6" component="div" sx={{ color: "ccd1d1", fontSize: '28px'}} style={{ marginTop: '-25px', marginLeft: '5px'}}>
+                        Tinggi Air
+                      </Typography>
+                      <Typography gutterBottom variant="h6" component="div" sx={{ color: "ccd1d1", fontSize: '25px'}}   style={{ marginTop: '-25px', marginLeft: '5px'}}>
+                        Sungai Cipalasari
                       </Typography>
                     </CardContent>
                   </Card>
