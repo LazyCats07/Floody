@@ -25,15 +25,28 @@ function valuetext(value) {
 
 export default function SliderDoor() {
   const [value, setValue] = React.useState(0);
+  const updateTimeoutRef = React.useRef(null);
 
   const updateFirebase = (newValue) => {
     const controlRef = ref(database, 'Kontrol/PintuAir');
     set(controlRef, newValue).catch(console.error);
   };
 
+  // Fungsi debounce: hanya updateFirebase yang dipanggil setelah 2 detik tidak ada perubahan
+  const debouncedSend = (newValue) => {
+    if (updateTimeoutRef.current) {
+      clearTimeout(updateTimeoutRef.current);
+    }
+    updateTimeoutRef.current = setTimeout(() => {
+      updateFirebase(newValue);
+    }, 2000);
+  };
+
   const handleSliderChange = (event, newValue) => {
+    // Update UI slider langsung agar responsif
     setValue(newValue);
-    updateFirebase(newValue);
+    // Jangan panggil updateFirebase langsung, cukup debouncedSend
+    debouncedSend(newValue);
   };
 
   const handleInputChange = (event) => {
@@ -42,23 +55,27 @@ export default function SliderDoor() {
       setValue('');
     } else if (val >= 0 && val <= 100) {
       setValue(val);
-      updateFirebase(val);
+      debouncedSend(val);
     }
   };
 
   const handleBlur = () => {
-    if (value === '') {
-      setValue(0);
-      updateFirebase(0);
-    } else if (value < 0) {
-      setValue(0);
-      updateFirebase(0);
-    } else if (value > 100) {
-      setValue(100);
-      updateFirebase(100);
+    // Jika blur, batalkan penundaan lalu kirim nilai terakhir
+    if (updateTimeoutRef.current) {
+      clearTimeout(updateTimeoutRef.current);
     }
+    let newValue = value;
+    if (value === '' || value < 0) {
+      newValue = 0;
+      setValue(0);
+    } else if (value > 100) {
+      newValue = 100;
+      setValue(100);
+    }
+    updateFirebase(newValue);
   };
 
+  // Gunakan useEffect sekali saja agar tidak menyebabkan render tambahan
   React.useEffect(() => {
     const doorRef = ref(database, 'Kontrol/PintuAir');
     const unsubscribe = onValue(doorRef, (snapshot) => {
@@ -68,7 +85,7 @@ export default function SliderDoor() {
       }
     });
     return () => unsubscribe();
-  }, [value]);
+  }, []); // dependency kosong
 
   return (
     <Box
@@ -117,7 +134,6 @@ export default function SliderDoor() {
           '& .MuiSlider-mark': {
             backgroundColor: '#1976d2',
             height: 0,
-            // width: 2,
           },
           '& .MuiSlider-markLabel': {
             fontSize: '0.75rem',
@@ -127,14 +143,14 @@ export default function SliderDoor() {
       />
       <MuiInput
         value={value}
-  size="small"
-  onChange={(e) => {
-    const val = e.target.value === '' ? '' : Number(e.target.value);
-    if (val === '' || (val >= 0 && val <= 100)) {
-      handleInputChange(e);
-    }
-  }}
-  onBlur={handleBlur}
+        size="small"
+        onChange={(e) => {
+          const val = e.target.value === '' ? '' : Number(e.target.value);
+          if (val === '' || (val >= 0 && val <= 100)) {
+            handleInputChange(e);
+          }
+        }}
+        onBlur={handleBlur}
         inputProps={{
           step: 1,
           min: 0,
@@ -150,7 +166,6 @@ export default function SliderDoor() {
             fontSize: '1.1rem',
             width: 60,
             boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.12)',
-            // transition: 'border-color 0.3s ease',
           }
         }}
         sx={{
