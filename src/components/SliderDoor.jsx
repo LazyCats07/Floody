@@ -39,7 +39,7 @@ export default function SliderDoor() {
     }
     updateTimeoutRef.current = setTimeout(() => {
       updateFirebase(newValue);
-    }, 1000);
+    }, 500);
   };
 
   const handleSliderChange = (event, newValue) => {
