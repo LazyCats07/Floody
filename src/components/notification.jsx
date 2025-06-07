@@ -53,11 +53,12 @@ const Notification = () => {
         let message;
         let severity;
         let icon = null;
-        if (numericData === 0) {
-          message = 'Banjir Tidak Terjadi';
-          severity = 'success';
-          icon = <CheckCircleIcon />;
-        } else if (numericData === 1) {
+        // if (numericData === 0) {
+        //   message = 'Banjir Tidak Terjadi';
+        //   severity = 'success';
+        //   icon = <CheckCircleIcon />;}
+        // else if
+        if(numericData === 1) {
           message = 'Siaga 1: Waspada Banjir';
           severity = 'warning';
         } else if (numericData === 2) {
@@ -66,7 +67,8 @@ const Notification = () => {
         } else if (numericData === 3) {
           message = 'Siaga 3: Banjir Terjadi!';
           severity = 'error';
-        } else {
+        } 
+        else {
           message = 'Kondisi Aman';
           severity = 'info';
         }
@@ -93,11 +95,11 @@ const Notification = () => {
         let message = '';
         let severity = '';
         let icon = null;
-        if (numericData === 0) {
-          message = 'Pompa sedang tidak aktif, kondisi stabil.';
-          severity = 'success';
-          icon = <CheckCircleIcon />;
-        } else if (numericData === 1) {
+        // if (numericData === 0) {
+        //   message = 'Pompa sedang tidak aktif, kondisi stabil.';
+        //   severity = 'success';
+        //   icon = <CheckCircleIcon />;
+        if (numericData === 1) {
           message = 'Aktifkan Pompa 1 segera';
           severity = 'warning';
         } else if (numericData === 2) {
@@ -106,7 +108,8 @@ const Notification = () => {
         } else if (numericData === 3) {
           message = 'Aktifkan Pompa 3 segera';
           severity = 'warning';
-        } else {
+        } 
+        else {
           message = 'Pompa sedang tidak aktif, kondisi stabil.';
           severity = 'success';
           icon = <CheckCircleIcon />;
