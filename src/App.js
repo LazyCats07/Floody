@@ -5,6 +5,7 @@ import loadingGif from './components/icon/loading-unscreen.gif';
 import NFound from './components/icon/notFound.gif';
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import Notification from './components/notification';
 
 // PAGE
 import Home from './components/pages/Home';

@@ -55,6 +55,7 @@ import LineChartTMA from '../LineChartTMA';
 import LineChartCurah from '../LineChartCurah';
 import PumpButton from '../../components/PumpButton';
 import Footer from '../Footer';
+import Notification from '../notification';
 // import { usePintuAirData } from './Reports/Data/PintuAirData';
 
 export default function Home() {
@@ -257,6 +258,7 @@ export default function Home() {
           minHeight: '100vh', // tinggi minimum 100% viewport
         }}
       >
+        <Notification />
         <Navbar />
         <Box height={50} />
         <Box sx={{ display: 'flex' }} className='HomeBG'>
