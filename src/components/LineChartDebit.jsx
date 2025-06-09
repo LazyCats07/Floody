@@ -189,7 +189,7 @@ const ApexLineChartDebit = () => {
               const day = parts[2];
               const timePart = parts[3]; // "16:14:05"
               const hour = timePart.split(':')[0]; // "16"
-              return `${hour}_${day}/${month}/${year}`;
+              return `${hour}_${day}-${month}-${year}`;
             })
           : labels,
       title: {
