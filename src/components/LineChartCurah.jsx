@@ -143,7 +143,21 @@ const ApexLineChartCurahHujan = () => {
       zoom: { enabled: true },
     },
     xaxis: {
-      categories: labels,
+      categories:
+        viewMode === 'perJam'
+          ? labels.map(label => {
+              // Asumsikan label sudah berbentuk "2025-05-31-16:14:05"
+              const parts = label.split('-'); // ["2025", "05", "31", "16:14:05"]
+              if (parts.length < 4) return label;
+              const year = parts[0];
+              const month = parts[1];
+              const day = parts[2];
+              const timePart = parts[3]; // "16:14:05"
+              const hour = timePart.split(':')[0]; // "16"
+              return `${hour}_${day}-${month}-${year}`;
+            })
+          : labels,
+      tickAmount: 12, // Menampilkan hanya 12 tick (node) pada x axis
       title: {
         text: 'Tanggal & Jam',
         style: { fontSize: '15px', fontWeight: 'bold' },
@@ -153,7 +167,6 @@ const ApexLineChartCurahHujan = () => {
     yaxis: {
       title: { text: 'Curah Hujan (mm)' },
       min: 0,
-      // max: 175,
       tickAmount: 10,
       labels: {
         formatter: (value) => Number(value).toFixed(2),

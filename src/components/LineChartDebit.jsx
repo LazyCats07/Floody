@@ -176,9 +176,22 @@ const ApexLineChartDebit = () => {
       margin: { bottom: 60 },
     },
     xaxis: {
-      categories: viewMode === 'perDetik'
-      ? labels.map(label => label.substring(11, 19))
-      : labels,
+      categories: 
+        viewMode === 'perDetik'
+          ? labels.map(label => label.substring(11, 19))
+          : viewMode === 'perJam'
+          ? labels.map(label => {
+              // Asumsikan label sudah berbentuk "2025-05-31-16:14:05"
+              const parts = label.split('-'); // ["2025", "05", "31", "16:14:05"]
+              if (parts.length < 4) return label;
+              const year = parts[0];
+              const month = parts[1];
+              const day = parts[2];
+              const timePart = parts[3]; // "16:14:05"
+              const hour = timePart.split(':')[0]; // "16"
+              return `${hour}_${day}/${month}/${year}`;
+            })
+          : labels,
       title: {
         text: 'Tanggal & Jam',
         offsetY: 0,
