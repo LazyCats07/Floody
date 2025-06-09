@@ -112,6 +112,7 @@ export default function Sidenav() {
     { text: "Dashboard", icon: dashboard, onClick: () => navigate('/Home') },
     { text: "Data Laporan", icon: Report, onClick: () => navigate('/Report') },
     { text: "Sistem Kontrol", icon: settings, onClick: () => navigate('/Controller') },
+    // { text: "Machine Learning", icon: settings, onClick: () => navigate('/MachineLearning') },
     { text: "Matikan Paksa", icon: powerButton, onClick: resetFirebaseControl },
     { text: "Logout", icon: logout, onClick: () => navigate('/Login') }
   ];

@@ -128,6 +128,14 @@ function App() {
             </PrivateRoute>
           }
         />
+        {/* <Route 
+          path="/MachineLearning" 
+          element={
+            <PrivateRoute>
+              <MachineLearning />
+            </PrivateRoute>
+          }
+        /> */}
         
         {/* Redirect default route to Login */}
         <Route path="/" element={<Navigate to="/Login" replace />} />

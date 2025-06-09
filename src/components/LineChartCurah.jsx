@@ -144,25 +144,47 @@ const ApexLineChartCurahHujan = () => {
     },
     xaxis: {
       categories:
-        viewMode === 'perJam'
+        viewMode === 'perDetik'
+          ? labels.map(label => label.substring(11, 19))
+          : viewMode === 'perJam'
           ? labels.map(label => {
-              // Asumsikan label sudah berbentuk "2025-05-31-16:14:05"
-              const parts = label.split('-'); // ["2025", "05", "31", "16:14:05"]
-              if (parts.length < 4) return label;
-              const year = parts[0];
-              const month = parts[1];
-              const day = parts[2];
-              const timePart = parts[3]; // "16:14:05"
-              const hour = timePart.split(':')[0]; // "16"
-              return `${hour}_${day}-${month}-${year}`;
+              // Asumsikan label sudah dalam format "YYYY-MM-DD HH:MM:SS"
+              // Misal: "2025-05-31 16:14:05"
+              const year = label.substring(0, 4);
+              const month = label.substring(5, 7);
+              const day = label.substring(8, 10);
+              const hour = label.substring(11, 13);
+              // Menghasilkan format "jam_hari-bulan-tahun", misalnya "16_31-05-2025"
+              const formatted = `${hour}_${day}-${month}-${year}`;
+              console.log("Label asli:", label, "| Formatted:", formatted);
+              return formatted;
+            })
+          : (viewMode === 'perMinggu' || viewMode === 'perBulan')
+          ? labels.map(label => {
+              const day = label.substring(8, 10);
+              const month = label.substring(5, 7);
+              const year = label.substring(0, 4);
+              return `${day}-${month}-${year}`;
+            })
+          : viewMode === 'perTahun'
+          ? labels.map(label => {
+              const parts = label.split('-');
+              if (parts.length < 2) return label;
+              return `${parts[1]}-${parts[0]}`;
             })
           : labels,
-      tickAmount: 12, // Menampilkan hanya 12 tick (node) pada x axis
       title: {
         text: 'Tanggal & Jam',
+        offsetY: 0,
         style: { fontSize: '15px', fontWeight: 'bold' },
       },
-      labels: { rotate: -45, rotateAlways: true },
+      labels: {
+        rotate: -45,
+        rotateAlways: true,
+        hideOverlappingLabels: true,
+        trim: true,
+      },
+      tickAmount: Math.min(labels.length, 12),
     },
     yaxis: {
       title: { text: 'Curah Hujan (mm)' },

@@ -3,7 +3,7 @@ import Chart from 'react-apexcharts';
 import { database } from './firebase-config';
 import { ref, onValue, off } from 'firebase/database';
 
-const ApexLineChartKolam = () => {
+const ApexLineChartTMA = () => {
   const [labels, setLabels] = useState([]);
   const [series, setSeries] = useState([
     { name: 'TMA Cipalasari', data: [] },
@@ -174,9 +174,7 @@ const ApexLineChartKolam = () => {
       zoom: {
         enabled: true,
       },
-      margin: {
-        bottom: 60,
-      },
+      margin: { bottom: 60 },
     },
     xaxis: {
       categories:
@@ -184,24 +182,34 @@ const ApexLineChartKolam = () => {
           ? labels.map(label => label.substring(11, 19))
           : viewMode === 'perJam'
           ? labels.map(label => {
-              // Asumsikan label sudah berbentuk "2025-05-31-16:14:05"
-              const parts = label.split('-'); // ["2025", "05", "31", "16:14:05"]
-              if (parts.length < 4) return label;
+              // Asumsikan label berformat "YYYY-MM-DD HH:MM:SS"
+              const year = label.substring(0, 4);
+              const month = label.substring(5, 7);
+              const day = label.substring(8, 10);
+              const hour = label.substring(11, 13);
+              // Menghasilkan format "jam_hari-bulan-tahun"
+              return `${hour}_${day}-${month}-${year}`;
+            })
+          : (viewMode === 'perMinggu' || viewMode === 'perBulan')
+          ? labels.map(label => {
+              const day = label.substring(8, 10);
+              const month = label.substring(5, 7);
+              const year = label.substring(0, 4);
+              return `${day}-${month}-${year}`;
+            })
+          : viewMode === 'perTahun'
+          ? labels.map(label => {
+              const parts = label.split('-');
+              if (parts.length < 2) return label;
               const year = parts[0];
               const month = parts[1];
-              const day = parts[2];
-              const timePart = parts[3]; // "16:14:05"
-              const hour = timePart.split(':')[0]; // "16"
-              return `${hour}_${day}-${month}-${year}`;
+              return `${month}-${year}`;
             })
           : labels,
       title: {
         text: 'Tanggal & Jam',
         offsetY: 0,
-        style: {
-          fontSize: '15px',
-          fontWeight: 'bold',
-        },
+        style: { fontSize: '15px', fontWeight: 'bold' },
       },
       labels: {
         rotate: -45,
@@ -307,4 +315,4 @@ const ApexLineChartKolam = () => {
   );
 };
 
-export default ApexLineChartKolam;
+export default ApexLineChartTMA;

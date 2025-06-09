@@ -77,6 +77,16 @@ const CustomPumpSwitch = styled((props) => <Switch {...props} />)(({ theme }) =>
   },
 }));
 
+// Buat styled component untuk paragraf responsif
+const ResponsiveParagraph = styled('p')(({ theme }) => ({
+  fontSize: '18px',
+  marginTop: '-2px',
+  textAlign: 'justify',
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '14px',
+    marginTop: '-4px',
+  },
+}));
 
 export default function PumpButton() {
   const [state, setState] = React.useState({
@@ -156,7 +166,9 @@ export default function PumpButton() {
       </Typography>
       <Typography variant="body2">
         <span className='note-alert'>
-          <p style={{ fontSize: '18px', marginTop: '-2px' }}>Dihimbau berhati-hati dalam menekan tombol berikut karena dapat menyalakan pompa secara <u><b>OTOMATIS</b></u></p>
+          <ResponsiveParagraph>
+            Dihimbau berhati-hati dalam menekan tombol berikut karena dapat menyalakan pompa secara <u><b>OTOMATIS</b></u>
+          </ResponsiveParagraph>
         </span>
       </Typography>
     </FormControl>
