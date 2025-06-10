@@ -221,7 +221,7 @@ const ApexLineChartTMA = () => {
     },
     yaxis: {
       title: {
-        text: 'Tinggi Air (m)',
+        text: 'Tinggi Air (cm)',
       },
       forceNiceScale: true,
       min: 0,
