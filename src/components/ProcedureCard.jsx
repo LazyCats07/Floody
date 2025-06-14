@@ -52,9 +52,9 @@ const ProcedureCard = ({ processImage }) => {
                 </TableCell>
                 <TableCell sx={{ wordBreak: 'break-word', fontSize: '16px' }}>
                   <div>Elevasi batas mulai banjir</div>
-                  <div><b>+18 cm</b></div>
+                  <div><b>+16 cm</b></div>
                   <div>Elevasi pintu <u>ditutup</u></div>
-                  <div><b>+18 cm</b></div>
+                  <div><b>+16 cm</b></div>
                   <div>Elevasi pintu <u>dibuka</u></div>
                   <div><b>+12 cm</b></div>
                 </TableCell>
