@@ -13,13 +13,13 @@ const ApexLineChartTMA = () => {
   const [viewMode, setViewMode] = useState('perDetik');
   const [isPaused, setIsPaused] = useState(false);
 
-  // Fungsi umum untuk update chart
+  // updateChartData - Update chart data using provided keys and datasets.
   const updateChartData = (cipalasariData, citarumData, kolamData, keys) => {
     const labelsArr = [];
     const cipalasariArr = [];
     const citarumArr = [];
     const kolamArr = [];
-
+  
     keys.forEach(key => {
       const labelFormatted = key.replace(/_/g, ':').replace('T', ' ').replace('Z', '');
       labelsArr.push(labelFormatted);
@@ -27,7 +27,7 @@ const ApexLineChartTMA = () => {
       citarumArr.push(citarumData?.[key] ?? null);
       kolamArr.push(kolamData?.[key] ?? null);
     });
-
+  
     setLabels(labelsArr);
     setSeries([
       { name: 'TMA Cipalasari', data: cipalasariArr },
@@ -36,10 +36,10 @@ const ApexLineChartTMA = () => {
     ]);
   };
 
-  // Fungsi untuk mengelompokkan dan rata-rata data per jam/hari/bulan
+  // groupAndAverage - Mengelompokkan dan menghitung rata-rata data berdasarkan parameter groupBy.
   const groupAndAverage = (rawData, groupBy) => {
     const grouped = {};
-
+  
     Object.entries(rawData || {}).forEach(([key, value]) => {
       let groupKey;
       if (groupBy === 'hour') {
@@ -49,44 +49,43 @@ const ApexLineChartTMA = () => {
       } else if (groupBy === 'month') {
         groupKey = key.substring(0, 7);
       }
-
       if (!grouped[groupKey]) grouped[groupKey] = [];
       grouped[groupKey].push(value);
     });
-
+  
     const avgGrouped = {};
     Object.entries(grouped).forEach(([k, arr]) => {
       avgGrouped[k] = arr.reduce((a, b) => a + b, 0) / arr.length;
     });
-
+  
     return avgGrouped;
   };
 
-  // Fungsi utama fetch data sesuai viewMode
+  // fetchData - Fungsi utama untuk mengambil data dari Firebase dan mengupdate chart sesuai viewMode.
   const fetchData = () => {
     const refCipalasari = ref(database, "Polder/TMA_Cipalasari");
     const refCitarum = ref(database, "Polder/TMA_Citarum");
     const refKolam = ref(database, "Polder/TMA_Kolam");
-
+  
     let cipalasariData = {};
     let citarumData = {};
     let kolamData = {};
-
+  
     const processAndUpdate = () => {
       if (isPaused) return;
       if (!cipalasariData || !citarumData || !kolamData) return;
-
+  
       const allKeys = new Set([
         ...Object.keys(cipalasariData),
         ...Object.keys(citarumData),
         ...Object.keys(kolamData),
       ]);
-
+  
       let labelsToUse = [];
       let cipalasariToUse = {};
       let citarumToUse = {};
       let kolamToUse = {};
-
+  
       switch (viewMode) {
         case 'perDetik':
           labelsToUse = Array.from(allKeys).sort((a, b) => b.localeCompare(a)).slice(0, 60).reverse();
@@ -124,36 +123,37 @@ const ApexLineChartTMA = () => {
           break;
       }
     };
-
+  
     const unsubscribeCipalasari = onValue(refCipalasari, snapshot => {
       cipalasariData = snapshot.val() || {};
       processAndUpdate();
     });
-
+  
     const unsubscribeCitarum = onValue(refCitarum, snapshot => {
       citarumData = snapshot.val() || {};
       processAndUpdate();
     });
-
+  
     const unsubscribeKolam = onValue(refKolam, snapshot => {
       kolamData = snapshot.val() || {};
       processAndUpdate();
     });
-
+  
     return () => {
       off(refCipalasari);
       off(refCitarum);
       off(refKolam);
     };
   };
-
+  
   useEffect(() => {
     const cleanup = fetchData();
     return () => {
       if (cleanup) cleanup();
     };
   }, [viewMode, isPaused]);
-
+  
+  // chartOptions - Konfigurasi opsi chart Apex.
   const chartOptions = {
     chart: {
       id: 'line-chart-TMA',
@@ -182,12 +182,10 @@ const ApexLineChartTMA = () => {
           ? labels.map(label => label.substring(11, 19))
           : viewMode === 'perJam'
           ? labels.map(label => {
-              // Asumsikan label berformat "YYYY-MM-DD HH:MM:SS"
               const year = label.substring(0, 4);
               const month = label.substring(5, 7);
               const day = label.substring(8, 10);
               const hour = label.substring(11, 13);
-              // Menghasilkan format "jam_hari-bulan-tahun"
               return `${hour}_${day}-${month}-${year}`;
             })
           : (viewMode === 'perMinggu' || viewMode === 'perBulan')
@@ -243,11 +241,10 @@ const ApexLineChartTMA = () => {
       intersect: false,
     },
   };
-
+  
   return (
     <div>
-      <h5> 📍 Dayeuhkolot, Kabupaten Bandung, Jawa Barat</h5>
-
+      <h5>📍 Dayeuhkolot, Kabupaten Bandung, Jawa Barat</h5>
       <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 20 }}>
         <button
           onClick={() => setIsPaused((prev) => !prev)}
@@ -282,7 +279,6 @@ const ApexLineChartTMA = () => {
         >
           {isPaused ? '▶️ Resume Update' : '⏸️ Pause Update'}
         </button>
-
         <select
           value={viewMode}
           onChange={(e) => setViewMode(e.target.value)}
@@ -309,7 +305,6 @@ const ApexLineChartTMA = () => {
           <option value="perTahun">Per Tahun</option>
         </select>
       </div>
-
       <Chart options={chartOptions} series={series} type="line" height={420} />
     </div>
   );

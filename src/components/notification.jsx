@@ -6,30 +6,29 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { ref, onValue } from "firebase/database";
 import { database } from "./firebase-config";
 
+// handleClose - Closes a notification by filtering it out by id.
+const handleClose = (id, setNotifications) => {
+  setNotifications((prev) => prev.filter((n) => n.id !== id));
+};
+
+// addNotification - Adds a new notification and auto-removes it after 5 seconds.
+const addNotification = (message, severity, type, icon = null, setNotifications) => {
+  const id = new Date().getTime();
+  setNotifications((prev) => [
+    ...prev.filter((n) => n.type !== type),
+    { id, message, severity, type, icon }
+  ]);
+  setTimeout(() => {
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  }, 5000);
+};
+
+// Notification - Functional component that listens to Firebase updates and displays notifications.
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);
 
-  // Fungsi untuk menutup notifikasi secara manual
-  const handleClose = (id) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== id));
-  };
-
-  // Fungsi untuk menambah notifikasi baru
-  const addNotification = (message, severity, type, icon = null) => {
-    const id = new Date().getTime(); // Gunakan timestamp sebagai ID unik
-    setNotifications((prev) => [
-      // Hapus notifikasi yang sudah ada dengan kategori yang sama
-      ...prev.filter((n) => n.type !== type),
-      { id, message, severity, type, icon }
-    ]);
-    // Hapus notifikasi setelah 5 detik
-    setTimeout(() => {
-      setNotifications((prev) => prev.filter((n) => n.id !== id));
-    }, 5000);
-  };
-
+  // useEffect - Sets up Firebase listeners to get flood and pump status, then adds notifications.
   useEffect(() => {
-    // Firebase untuk status banjir
     const statusBanjirRef = ref(database, 'Polder/status_banjir');
     onValue(statusBanjirRef, (snapshot) => {
       const data = snapshot.val();
@@ -44,7 +43,6 @@ const Notification = () => {
         } else {
           numericData = Number(data);
         }
-        
         if (isNaN(numericData)) {
           console.error("Banjir data is not numeric:", data);
           return;
@@ -53,12 +51,7 @@ const Notification = () => {
         let message;
         let severity;
         let icon = null;
-        // if (numericData === 0) {
-        //   message = 'Banjir Tidak Terjadi';
-        //   severity = 'success';
-        //   icon = <CheckCircleIcon />;}
-        // else if
-        if(numericData === 1) {
+        if (numericData === 1) {
           message = 'Siaga 1: Waspada Banjir';
           severity = 'warning';
         } else if (numericData === 2) {
@@ -67,16 +60,14 @@ const Notification = () => {
         } else if (numericData === 3) {
           message = 'Siaga 3: Banjir Terjadi!';
           severity = 'error';
-        } 
-        else {
+        } else {
           message = 'Kondisi Aman';
           severity = 'info';
         }
-        addNotification(message, severity, 'flood', icon);
+        addNotification(message, severity, 'flood', icon, setNotifications);
       }
     });
 
-    // Firebase untuk status pompa
     const pumpStatusRef = ref(database, 'Polder/pump_on');
     onValue(pumpStatusRef, (snapshot) => {
       const data = snapshot.val();
@@ -95,10 +86,6 @@ const Notification = () => {
         let message = '';
         let severity = '';
         let icon = null;
-        // if (numericData === 0) {
-        //   message = 'Pompa sedang tidak aktif, kondisi stabil.';
-        //   severity = 'success';
-        //   icon = <CheckCircleIcon />;
         if (numericData === 1) {
           message = 'Aktifkan Pompa 1 segera';
           severity = 'warning';
@@ -108,17 +95,17 @@ const Notification = () => {
         } else if (numericData === 3) {
           message = 'Aktifkan Pompa 3 segera';
           severity = 'warning';
-        } 
-        else {
+        } else {
           message = 'Pompa sedang tidak aktif, kondisi stabil.';
           severity = 'success';
           icon = <CheckCircleIcon />;
         }
-        addNotification(message, severity, 'pump', icon);
+        addNotification(message, severity, 'pump', icon, setNotifications);
       }
     });
   }, []);
 
+  // Return - Renders the notifications as Snackbars.
   return (
     <div style={{ position: 'fixed', top: 16, right: 16, zIndex: 1300 }}>
       {notifications.map((notif, index) => (
@@ -131,8 +118,8 @@ const Notification = () => {
           <Alert 
             severity={notif.severity} 
             icon={notif.icon}
-            onClose={() => handleClose(notif.id)}  // opsi silang untuk menutup notifikasi
-            action={null} // gunakan default close icon
+            onClose={() => handleClose(notif.id, setNotifications)}
+            action={null}
           >
             {notif.message}
           </Alert>

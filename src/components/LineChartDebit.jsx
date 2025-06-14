@@ -7,18 +7,19 @@ const ApexLineChartDebit = () => {
   const [labels, setLabels] = useState([]);
   const [series, setSeries] = useState([
     { name: 'Debit Cipalasari', data: [] },
-    { name: 'Debit Hulu Citarum', data: [] },
-    { name: 'Debit Hilir Citarum', data: [] },
+    { name: 'Debit Hulu', data: [] },
+    { name: 'Debit Hilir', data: [] },
   ]);
   const [viewMode, setViewMode] = useState('perDetik');
   const [isPaused, setIsPaused] = useState(false);
 
+  // updateChartData - Mengupdate data chart berdasarkan keys dan dataset yang diberikan.
   const updateChartData = (cipalasariData, huluData, hilirData, keys) => {
     const labelsArr = [];
     const cipalasariArr = [];
     const huluArr = [];
     const hilirArr = [];
-
+    
     keys.forEach(key => {
       const labelFormatted = key.replace(/_/g, ':').replace('T', ' ').replace('Z', '');
       labelsArr.push(labelFormatted);
@@ -35,6 +36,7 @@ const ApexLineChartDebit = () => {
     ]);
   };
 
+  // groupAndAverage - Mengelompokkan dan menghitung rata-rata data berdasarkan parameter groupBy.
   const groupAndAverage = (rawData, groupBy) => {
     const grouped = {};
 
@@ -56,6 +58,7 @@ const ApexLineChartDebit = () => {
     return avgGrouped;
   };
 
+  // fetchData - Mengambil data dari Firebase dan memperbarui chart sesuai viewMode.
   const fetchData = () => {
     const refCipalasari = ref(database, "Polder/Debit_Cipalasari");
     const refHulu = ref(database, "Polder/Debit_Hulu");
@@ -82,7 +85,10 @@ const ApexLineChartDebit = () => {
 
       switch(viewMode) {
         case 'perDetik':
-          labelsToUse = Array.from(allKeys).sort((a, b) => b.localeCompare(a)).slice(0, 60).reverse();
+          labelsToUse = Array.from(allKeys)
+            .sort((a, b) => b.localeCompare(a))
+            .slice(0, 60)
+            .reverse();
           updateChartData(cipalasariData, huluData, hilirData, labelsToUse);
           break;
         case 'perJam':
@@ -153,6 +159,7 @@ const ApexLineChartDebit = () => {
     };
   }, [viewMode, isPaused]);
 
+  // chartOptions - Konfigurasi opsi chart Apex.
   const chartOptions = {
     chart: {
       id: 'line-chart-debit',
@@ -307,12 +314,7 @@ const ApexLineChartDebit = () => {
         </select>
       </div>
 
-      <Chart
-        options={chartOptions}
-        series={series}
-        type="line"
-        height={420}
-      />
+      <Chart options={chartOptions} series={series} type="line" height={420} />
     </div>
   );
 };

@@ -1,15 +1,6 @@
 /* Background untuk halaman Home */
 .HomeBG {
   background: linear-gradient(135deg, #4343fb, #2200ff); /* Gradasi biru yang memberikan kesan dimensi dan kedalaman */
-  /* padding: 20px; */
-  /* min-height: 100vh; Memastikan halaman ini mengambil seluruh tinggi layar */
-  /* display: block; */
-  /* flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 12px; /* Memberikan sudut melengkung agar lebih modern */
-  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan untuk kesan kedalaman */
-  /* font-size: larger; */
 }
 
 .HomeTitle{
@@ -61,10 +52,6 @@
   /* font-size: 12px; */
   color: rgb(0, 0, 0)
 }
-
-/* .card{
-  border-radius: 20px;
-} */
 
 /* typewriter effect */
 /* Keyframes for the typewriter effect */

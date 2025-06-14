@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-// import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -14,23 +13,19 @@ import ListItemText from '@mui/material/ListItemText';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../appStore';
 import './CSS/sideNav.css';
-// import Typography from '@mui/material/Typography';
 
-
-
-// ICONS
 import dashboard from './icon/dashboard.gif';
 import Report from './icon/Data.gif';
 import settings from './icon/settings.gif';
 import powerButton from './icon/power-button.gif';
 import logout from './icon/logout.gif';
 
-// Firebase
 import { ref, set } from "firebase/database";
 import { database } from "./firebase-config";
 
 const drawerWidth = 240;
 
+// openedMixin - Returns styles when the drawer is open.
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create('width', {
@@ -40,6 +35,7 @@ const openedMixin = (theme) => ({
   overflowX: 'hidden',
 });
 
+// closedMixin - Returns styles when the drawer is closed.
 const closedMixin = (theme) => ({
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
@@ -52,6 +48,7 @@ const closedMixin = (theme) => ({
   },
 });
 
+// DrawerHeader - Styled component for the drawer header.
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -60,35 +57,27 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
+// Drawer - Custom styled Drawer component with dynamic open state.
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme }) => ({
+  ({ theme, open }) => ({
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
-    variants: [
-      {
-        props: ({ open }) => open,
-        style: {
-          ...openedMixin(theme),
-          '& .MuiDrawer-paper': openedMixin(theme),
-        },
-      },
-      {
-        props: ({ open }) => !open,
-        style: {
-          ...closedMixin(theme),
-          '& .MuiDrawer-paper': closedMixin(theme),
-        },
-      },
-    ],
+    ...(open && {
+      ...openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      '& .MuiDrawer-paper': closedMixin(theme),
+    }),
   })
 );
 
-// Reset Firebase control Logic
+// resetFirebaseControl - Resets control values in Firebase.
 const resetFirebaseControl = () => {
   const controlRef = ref(database, 'Kontrol');
-
   set(controlRef, {
     PintuAir: 0,
     pump1: false,
@@ -103,6 +92,7 @@ const resetFirebaseControl = () => {
     });
 };
 
+// Sidenav - Renders the side navigation menu.
 export default function Sidenav() {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -112,7 +102,6 @@ export default function Sidenav() {
     { text: "Dashboard", icon: dashboard, onClick: () => navigate('/Home') },
     { text: "Data Laporan", icon: Report, onClick: () => navigate('/Report') },
     { text: "Sistem Kontrol", icon: settings, onClick: () => navigate('/Controller') },
-    // { text: "Machine Learning", icon: settings, onClick: () => navigate('/MachineLearning') },
     { text: "Matikan Paksa", icon: powerButton, onClick: resetFirebaseControl },
     { text: "Logout", icon: logout, onClick: () => navigate('/Login') }
   ];
@@ -127,11 +116,14 @@ export default function Sidenav() {
           </IconButton>
         </DrawerHeader>
 
-        {/* Menu Items */}
         <List>
           {menuItems.map((item, index) => (
-
-            <ListItem disablePadding sx={{ display: 'block', backgroundColor: 'transparent', fontWeight: 'bold' }} key={index} onClick={item.onClick}>
+            <ListItem
+              disablePadding
+              sx={{ display: 'block', backgroundColor: 'transparent', fontWeight: 'bold' }}
+              key={index}
+              onClick={item.onClick}
+            >
               <ListItemButton
                 sx={{
                   minHeight: 50,
@@ -139,30 +131,28 @@ export default function Sidenav() {
                   justifyContent: open ? 'initial' : 'center',
                 }}
               >
-              <div className="iconStyle">
-                <img
-                  src={item.icon}
-                  alt={item.text}
-                  className="icon"
-                  style={{ width: '50px', marginBottom: '-10px', marginTop: '-20px', borderRadius: '35%' }}
+                <div className="iconStyle">
+                  <img
+                    src={item.icon}
+                    alt={item.text}
+                    className="icon"
+                    style={{ width: '50px', marginBottom: '-10px', marginTop: '-20px', borderRadius: '35%' }}
+                  />
+                </div>
+                <ListItemText
+                  className='listTextSideNav'
+                  primary={item.text}
+                  primaryTypographyProps={{ fontWeight: 600, fontSize: '15px', fontFamily: 'Poppins' }}
+                  sx={{
+                    opacity: open ? 1 : 0,
+                    ml: 2,
+                    mt: 2,
+                  }}
                 />
-              </div>
-              <ListItemText
-                className='listTextSideNav'
-                primary={item.text}
-                primaryTypographyProps={{ fontWeight: 600, fontSize: '15px', fontFamily: 'Poppins' }} 
-                sx={{
-                  opacity: open ? 1 : 0,
-                  ml: 2,
-                  mt: 2,
-                }}
-              />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
-
-        {/* <Divider /> */}
       </Drawer>
     </Box>
   );

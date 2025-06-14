@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';  // Import useState and useEffect hooks
+import { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -8,125 +8,116 @@ import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import { Divider } from '@mui/material';
+import MoreIcon from '@mui/icons-material/MoreVert';
 import { useAppStore } from '../appStore';
 import { useNavigate } from 'react-router-dom';
 import logoFullcolor from './images/Log-Full-Color.png';
 import './CSS/navbar.css';
-import MoreIcon from '@mui/icons-material/MoreVert';
 
-import { auth } from './firebase-config';  // Import Firebase auth
-import { toast } from 'react-toastify';  // Import toast from react-toastify
-import 'react-toastify/dist/ReactToastify.css';  // Import CSS for toast styling
+import { auth } from './firebase-config';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from './firebase-config';
-import { Divider } from '@mui/material';
 
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
 }));
 
-// Navbar Component
-export default function Navbar() {
-  const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const updateOpen = useAppStore((state) => state.updateOpen);
-  const dopen = useAppStore((state) => state.dopen); // access the open state
-  const [isClicked, setIsClicked] = useState(false); // Declare state for icon click effect
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  // Handle Logout function
+// handleLogout - Performs logout operation.
 async function handleLogout() {
-    try {
-        // Show the success toast
-        toast.success("User logged out successfully", {
-            position: "top-center",
-        });
-
-        // Add a class for the fade-in effect
-        document.body.classList.add("fade-in-active"); // Trigger fade-in effect
-
-        // Perform the logout
-        await auth.signOut();
-
-        // Delay the redirection to allow time for the fade-in effect
-        setTimeout(() => {
-            window.location.href = "/Login"; // Redirect after the effect
-        }, 1000); // 1-second delay (or adjust based on your animation timing)
-
-    } catch (error) {
-        console.log("Error logging out:", error.message);
-    }
+  try {
+    toast.success("User logged out successfully", { position: "top-center" });
+    document.body.classList.add("fade-in-active");
+    await auth.signOut();
+    setTimeout(() => {
+      window.location.href = "/Login";
+    }, 1000);
+  } catch (error) {
+    console.log("Error logging out:", error.message);
+  }
 }
 
+// fetchUserDetails - Fetches user details from Firestore.
+async function fetchUserDetails(setUserDetails) {
+  auth.onAuthStateChanged(async (user) => {
+    setUserDetails(user);
+    if (user) {
+      const docRef = doc(db, "Users", user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setUserDetails(docSnap.data());
+      } else {
+        console.log("User is not Logged in");
+      }
+    }
+  });
+}
 
+// handleProfileMenuOpen - Opens the profile menu.
+const handleProfileMenuOpen = (event, setAnchorEl) => {
+  setAnchorEl(event.currentTarget);
+};
+
+// handleMobileMenuClose - Closes the mobile menu.
+const handleMobileMenuClose = (setMobileMoreAnchorEl) => {
+  setMobileMoreAnchorEl(null);
+};
+
+// handleMenuClose - Closes both the profile and mobile menus.
+const handleMenuClose = (setAnchorEl, setMobileMoreAnchorEl) => {
+  setAnchorEl(null);
+  handleMobileMenuClose(setMobileMoreAnchorEl);
+};
+
+// handleMobileMenuOpen - Opens the mobile menu.
+const handleMobileMenuOpen = (event, setMobileMoreAnchorEl) => {
+  setMobileMoreAnchorEl(event.currentTarget);
+};
+
+export default function Navbar() {
+  const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const updateOpen = useAppStore((state) => state.updateOpen);
+  const dopen = useAppStore((state) => state.dopen);
   const [userDetails, setUserDetails] = useState(null);
-
-  // Fetch user details on mount
-  const fetchUserDetails = async () => {
-      auth.onAuthStateChanged(async (user) => {
-          setUserDetails(user);
-          if (user) {
-              const docRef = doc(db, "Users", user.uid);
-              const docSnap = await getDoc(docRef);
-              if (docSnap.exists()) {
-                  setUserDetails(docSnap.data());
-              } else {
-                  console.log("User is not Logged in");
-              }
-          }
-      });
-  };
-
+  // Inisialisasi state dengan mengambil nilai dari localStorage
+  const [isClicked, setIsClicked] = useState(() => {
+    return localStorage.getItem('menuClicked') === 'true';
+  });
+  
   useEffect(() => {
-      fetchUserDetails();
+    fetchUserDetails(setUserDetails);
   }, []);
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
+  // handleMenuClick - Toggles the menu icon and persists state.
   const handleMenuClick = () => {
-    setIsClicked(!isClicked); // Toggle clicked state for the icon
-    updateOpen(!dopen); // Toggle sidebar open state
+    const newState = !isClicked;
+    setIsClicked(newState);
+    updateOpen(!dopen);
+    localStorage.setItem('menuClicked', newState.toString());
   };
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={menuId}
       keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={Boolean(anchorEl)}
+      onClose={() => handleMenuClose(setAnchorEl, setMobileMoreAnchorEl)}
     >
       <div>
-        <p style={{paddingRight: '20px', paddingLeft: '20px', paddingTop: '1px', paddingBottom: '1px', fontSize: '18px', marginBottom: '2px', marginTop: '-3px' }}>Selamat datang <b>{userDetails?.firstName}</b></p>
-        <Divider/>
+        <p style={{ padding: '1px 20px', fontSize: '18px', margin: ' -3px 0 2px 0' }}>
+          Selamat datang <b>{userDetails?.firstName}</b>
+        </p>
+        <Divider />
       </div>
       <MenuItem onClick={() => navigate('/Home')}>Dashboard</MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
@@ -137,20 +128,14 @@ async function handleLogout() {
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={Boolean(mobileMoreAnchorEl)}
+      onClose={() => handleMobileMenuClose(setMobileMoreAnchorEl)}
     >
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem onClick={(e) => handleProfileMenuOpen(e, setAnchorEl)}>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -158,7 +143,7 @@ async function handleLogout() {
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle sx={{ color: 'blue' }}/>
+          <AccountCircle sx={{ color: 'blue' }} />
         </IconButton>
         <p>Account</p>
       </MenuItem>
@@ -177,13 +162,45 @@ async function handleLogout() {
             sx={{ mr: 2 }}
             onClick={handleMenuClick}
           >
-            <MenuIcon
-              sx={{
-                transition: 'transform 0.3s ease, color 0.3s ease',
-                transform: isClicked ? 'rotate(90deg)' : 'rotate(0deg)',
-                color: isClicked ? 'blue' : 'black',
-              }}
-            />
+            <Box sx={{ position: 'relative', width: 30, height: 24 }}>
+              {/* Top bar */}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  height: 3,
+                  width: '100%',
+                  backgroundColor: isClicked ? 'blue' : 'black',
+                  top: 4,
+                  transform: isClicked ? 'translateX(5px)' : 'translateX(0)',
+                  transition: 'transform 0.4s ease, background-color 0.4s ease',
+                }}
+              />
+              {/* Middle bar */}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  height: 3,
+                  width: '100%',
+                  backgroundColor: isClicked ? 'blue' : 'black',
+                  top: 10,
+                  transform: isClicked ? 'translateX(10px)' : 'translateX(0)',
+                  opacity: isClicked ? 0 : 1,
+                  transition: 'transform 0.4s ease, opacity 0.4s ease',
+                }}
+              />
+              {/* Bottom bar */}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  height: 3,
+                  width: '100%',
+                  backgroundColor: isClicked ? 'blue' : 'black',
+                  top: 16,
+                  transform: isClicked ? 'translateX(10px)' : 'translateX(0)',
+                  transition: 'transform 0.4s ease, background-color 0.4s ease',
+                }}
+              />
+            </Box>
           </IconButton>
 
           <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -202,10 +219,10 @@ async function handleLogout() {
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
+              onClick={(e) => handleProfileMenuOpen(e, setAnchorEl)}
               color="inherit"
             >
-              <AccountCircle sx={{ color: 'blue' }}/>
+              <AccountCircle sx={{ color: 'blue' }} />
             </IconButton>
           </Box>
 
@@ -215,7 +232,7 @@ async function handleLogout() {
               aria-label="show more"
               aria-controls={mobileMenuId}
               aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
+              onClick={(e) => handleMobileMenuOpen(e, setMobileMoreAnchorEl)}
               color="inherit"
             >
               <MoreIcon />

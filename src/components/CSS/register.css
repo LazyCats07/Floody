@@ -1,7 +1,6 @@
 .buttonSGP {
   display: flex;
   justify-content: flex-end;  /* Tombol Sign Up di kanan */
-  /* width: 100%;  Membuat container penuh */
   margin-top: -40px;
 }
 

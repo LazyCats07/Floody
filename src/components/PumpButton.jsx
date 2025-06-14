@@ -14,6 +14,7 @@ import { ref, set, onValue } from "firebase/database";
 import { database } from "./firebase-config";
 import Switch from '@mui/material/Switch';
 
+// CustomPumpSwitch - Styled switch component for pump toggle.
 const CustomPumpSwitch = styled((props) => <Switch {...props} />)(({ theme }) => ({
   width: 62,
   height: 34,
@@ -38,8 +39,8 @@ const CustomPumpSwitch = styled((props) => <Switch {...props} />)(({ theme }) =>
         fontSize: 12,
         fontWeight: 'bold',
         color: '#fff',
-        backgroundColor: '#4caf50', // hijau background
-        borderRadius: '50%',         // bulat di thumb
+        backgroundColor: '#4caf50',
+        borderRadius: '50%',
         userSelect: 'none',
       },
       '& + .MuiSwitch-track': {
@@ -48,7 +49,7 @@ const CustomPumpSwitch = styled((props) => <Switch {...props} />)(({ theme }) =>
     },
   },
   '& .MuiSwitch-thumb': {
-    backgroundColor: '#f44336', // merah background saat off
+    backgroundColor: '#f44336',
     width: 32,
     height: 32,
     position: 'relative',
@@ -64,8 +65,8 @@ const CustomPumpSwitch = styled((props) => <Switch {...props} />)(({ theme }) =>
       justifyContent: 'center',
       fontSize: 12,
       fontWeight: 'bold',
-      color: '#fff',              // tulisan putih saat off
-      backgroundColor: '#f44336', // merah background saat off
+      color: '#fff',
+      backgroundColor: '#f44336',
       borderRadius: '50%',
       userSelect: 'none',
     },
@@ -73,11 +74,11 @@ const CustomPumpSwitch = styled((props) => <Switch {...props} />)(({ theme }) =>
   '& .MuiSwitch-track': {
     opacity: 1,
     backgroundColor: '#8796A5',
-    borderRadius: 20 / 2,
+    borderRadius: 10,
   },
 }));
 
-// Buat styled component untuk paragraf responsif
+// ResponsiveParagraph - Styled component untuk paragraf responsif.
 const ResponsiveParagraph = styled('p')(({ theme }) => ({
   fontSize: '18px',
   marginTop: '-2px',
@@ -88,6 +89,7 @@ const ResponsiveParagraph = styled('p')(({ theme }) => ({
   },
 }));
 
+// PumpButton - Functional component yang menampilkan toggle switch untuk pompa.
 export default function PumpButton() {
   const [state, setState] = React.useState({
     pump1: false,
@@ -95,7 +97,7 @@ export default function PumpButton() {
     pump3: false,
   });
 
-  // Handle toggle dan update firebase
+  // handleChange - Handle toggle switch dan update Firebase.
   const handleChange = (event) => {
     const { name, checked } = event.target;
     setState((prev) => ({ ...prev, [name]: checked }));
@@ -110,6 +112,7 @@ export default function PumpButton() {
       });
   };
 
+  // useEffect - Sinkronisasi status pompa dari Firebase.
   React.useEffect(() => {
     ['pump1', 'pump2', 'pump3'].forEach((pump) => {
       const pumpRef = ref(database, `Kontrol/${pump}`);

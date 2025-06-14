@@ -16,7 +16,9 @@ import { RealTimeDataList } from './RealTimeDataList';
 import loading from '../../../icon/loading-unscreen.gif'; 
 import '../../../CSS/report.css';
 
+// Komponen DataList - Menampilkan data lingkungan polder dalam bentuk tabel dengan filter, sorting, dan pagination.
 export default function DataList() {
+  // State Management
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [curahHujanBSData, setCurahHujanBSData] = useState([]);
@@ -30,6 +32,7 @@ export default function DataList() {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [sortConfig, setSortConfig] = useState({ key: "timestamp", direction: "desc" });
 
+  // Fetch Data - Mengambil data realtime dari Firebase untuk tabel data
   useEffect(() => {
     const fetchData = debounce(async () => {
       const setters = {
@@ -42,7 +45,6 @@ export default function DataList() {
         tmaKolam: setTmaKolamData,
         tmaCitarum: setTmaCitarumData,
       };
-
       await RealTimeDataList(setters);
       setIsDataLoaded(true);
     }, 2000);
@@ -59,10 +61,12 @@ export default function DataList() {
     };
   }, []);
 
+  // handleChangePage - Mengubah halaman tabel data
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
+  // handleSort - Mengatur konfigurasi sorting berdasarkan kolom yang diklik
   const handleSort = (column) => {
     let newDirection = "asc";
     if (sortConfig.key === column && sortConfig.direction === "asc") {
@@ -71,23 +75,13 @@ export default function DataList() {
     setSortConfig({ key: column, direction: newDirection });
   };
 
+  // handleChangeRowsPerPage - Mengubah jumlah baris yang ditampilkan per halaman
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
-  // Format timestamp untuk tampil di tabel
-  // const formatTimestamp = (timestamp) => {
-  //   const date = new Date(timestamp);
-  //   const day = String(date.getDate()).padStart(2, '0');
-  //   const month = String(date.getMonth() + 1).padStart(2, '0');
-  //   const year = date.getFullYear();
-  //   const hours = String(date.getHours()).padStart(2, '0');
-  //   const minutes = String(date.getMinutes()).padStart(2, '0');
-  //   const seconds = String(date.getSeconds()).padStart(2, '0');
-  //   return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
-  // };
-
+  // formatIntervalKey - Memformat tanggal menjadi string untuk interval waktu
   const formatIntervalKey = (date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -98,123 +92,124 @@ export default function DataList() {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
 
+  // calculateAverage - Menghitung nilai rata-rata dari array data
   const calculateAverage = (data) => {
-  let sum = 0;
-  let count = 0;
-  data.forEach((value) => {
-    if (value !== null && value !== "null" && !isNaN(value)) {
-      sum += Number(value);
-      count++;
-    }
-  });
-  return count > 0 ? (sum / count).toFixed(2) : "null";
-};
-
-const aggregateDataFor15MinuteIntervals = () => {
-  if (!curahHujanBSData.length || !curahHujanDKData.length || !tmaCipalasariData.length) {
-    return [];
-  }
-
-  // Rounding ke bawah ke interval 15 menit
-  const roundTo15Minfloor = (date) =>
-    new Date(Math.floor(date.getTime() / (15 * 60 * 1000)) * (15 * 60 * 1000));
-
-  const groupedData = new Map();
-
-  const addToGroup = (intervalKey, key, value) => {
-    if (!groupedData.has(intervalKey)) {
-      groupedData.set(intervalKey, {
-        curahHujanBS: "null",
-        curahHujanDK: "null",
-        debitCipalasari: [],
-        debitHulu: [],
-        debitHilir: [],
-        tmaCipalasari: [],
-        tmaKolam: [],
-        tmaCitarum: [],
-      });
-    }
-    const group = groupedData.get(intervalKey);
-    if (Array.isArray(group[key])) {
-      group[key].push(value != null ? value : "null");
-    } else {
-      group[key] = value != null ? value : "null";
-    }
+    let sum = 0;
+    let count = 0;
+    data.forEach((value) => {
+      if (value !== null && value !== "null" && !isNaN(value)) {
+        sum += Number(value);
+        count++;
+      }
+    });
+    return count > 0 ? (sum / count).toFixed(2) : "null";
   };
 
-  // Map curah hujan per jam
-  const curahHujanBSPerJam = {};
-  const curahHujanDKPerJam = {};
+  // aggregateDataFor15MinuteIntervals - Mengelompokkan data berdasarkan interval 15 menit dan menghitung agregat tiap interval
+  const aggregateDataFor15MinuteIntervals = () => {
+    if (!curahHujanBSData.length || !curahHujanDKData.length || !tmaCipalasariData.length) {
+      return [];
+    }
 
-  curahHujanBSData.forEach(item => {
-    if (!item) return;
-    const date = new Date(item.timestamp);
-    if (isNaN(date)) return;
-    const hourKey = date.toLocaleString('sv-SE', { timeZone: 'Asia/Jakarta' }).slice(0, 13);
-    curahHujanBSPerJam[hourKey] = item.value ?? "null";
-  });
+    // FUNCTION: roundTo15Minfloor - Membulatkan tanggal ke bawah berdasarkan interval 15 menit
+    const roundTo15Minfloor = (date) =>
+      new Date(Math.floor(date.getTime() / (15 * 60 * 1000)) * (15 * 60 * 1000));
 
-  curahHujanDKData.forEach(item => {
-    if (!item) return;
-    const date = new Date(item.timestamp);
-    if (isNaN(date)) return;
-    const hourKey = date.toLocaleString('sv-SE', { timeZone: 'Asia/Jakarta' }).slice(0, 13);
-    curahHujanDKPerJam[hourKey] = item.value ?? "null";
-  });
+    const groupedData = new Map();
 
-  const processDataArray = (dataArray, keyName) => {
-    dataArray.forEach(item => {
+    // FUNCTION: addToGroup - Menambahkan data ke grup berdasarkan interval
+    const addToGroup = (intervalKey, key, value) => {
+      if (!groupedData.has(intervalKey)) {
+        groupedData.set(intervalKey, {
+          curahHujanBS: "null",
+          curahHujanDK: "null",
+          debitCipalasari: [],
+          debitHulu: [],
+          debitHilir: [],
+          tmaCipalasari: [],
+          tmaKolam: [],
+          tmaCitarum: [],
+        });
+      }
+      const group = groupedData.get(intervalKey);
+      if (Array.isArray(group[key])) {
+        group[key].push(value != null ? value : "null");
+      } else {
+        group[key] = value != null ? value : "null";
+      }
+    };
+
+    // Map curah hujan per jam menggunakan string jam UTC lokal Asia/Jakarta
+    const curahHujanBSPerJam = {};
+    const curahHujanDKPerJam = {};
+
+    curahHujanBSData.forEach(item => {
       if (!item) return;
       const date = new Date(item.timestamp);
       if (isNaN(date)) return;
-      const intervalDate = roundTo15Minfloor(date);
-      const intervalKey = formatIntervalKey(intervalDate);
-
-      addToGroup(intervalKey, keyName, item.value);
+      const hourKey = date.toLocaleString('sv-SE', { timeZone: 'Asia/Jakarta' }).slice(0, 13);
+      curahHujanBSPerJam[hourKey] = item.value ?? "null";
     });
+
+    curahHujanDKData.forEach(item => {
+      if (!item) return;
+      const date = new Date(item.timestamp);
+      if (isNaN(date)) return;
+      const hourKey = date.toLocaleString('sv-SE', { timeZone: 'Asia/Jakarta' }).slice(0, 13);
+      curahHujanDKPerJam[hourKey] = item.value ?? "null";
+    });
+
+    // FUNCTION: processDataArray - Mengelompokkan data per interval 15 menit untuk kolom tertentu
+    const processDataArray = (dataArray, keyName) => {
+      dataArray.forEach(item => {
+        if (!item) return;
+        const date = new Date(item.timestamp);
+        if (isNaN(date)) return;
+        const intervalDate = roundTo15Minfloor(date);
+        const intervalKey = formatIntervalKey(intervalDate);
+        addToGroup(intervalKey, keyName, item.value);
+      });
+    };
+
+    processDataArray(debitCipalasariData, "debitCipalasari");
+    processDataArray(debitHuluData, "debitHulu");
+    processDataArray(debitHilirData, "debitHilir");
+    processDataArray(tmaCipalasariData, "tmaCipalasari");
+    processDataArray(tmaKolamData, "tmaKolam");
+    processDataArray(tmaCitarumData, "tmaCitarum");
+
+    // Mengisi curah hujan per jam ke setiap interval
+    groupedData.forEach((group, intervalKey) => {
+      const hourKey = intervalKey.slice(0, 13);
+      group.curahHujanBS = curahHujanBSPerJam[hourKey] ?? "null";
+      group.curahHujanDK = curahHujanDKPerJam[hourKey] ?? "null";
+
+      // Jika semua nilai tmaCitarum adalah "null", tulis peringatan
+      if (group.tmaCitarum.every(v => v === "null")) {
+        console.warn(`Interval ${intervalKey} hanya ada nilai null di tmaCitarum`);
+      }
+    });
+
+    const aggregatedData = [];
+    groupedData.forEach((group, intervalKey) => {
+      aggregatedData.push({
+        timestamp: intervalKey,
+        curahHujanBS: group.curahHujanBS !== "null" ? Number(group.curahHujanBS).toFixed(2) : "null",
+        curahHujanDK: group.curahHujanDK !== "null" ? Number(group.curahHujanDK).toFixed(2) : "null",
+        debitCipalasari: calculateAverage(group.debitCipalasari),
+        debitHulu: calculateAverage(group.debitHulu),
+        debitHilir: calculateAverage(group.debitHilir),
+        tmaCipalasari: calculateAverage(group.tmaCipalasari),
+        tmaKolam: calculateAverage(group.tmaKolam),
+        tmaCitarum: calculateAverage(group.tmaCitarum),
+      });
+    });
+
+    return aggregatedData;
   };
 
-  processDataArray(debitCipalasariData, "debitCipalasari");
-  processDataArray(debitHuluData, "debitHulu");
-  processDataArray(debitHilirData, "debitHilir");
-  processDataArray(tmaCipalasariData, "tmaCipalasari");
-  processDataArray(tmaKolamData, "tmaKolam");
-  processDataArray(tmaCitarumData, "tmaCitarum");
-
-  // Isi curah hujan per jam ke setiap interval
-  groupedData.forEach((group, intervalKey) => {
-    const hourKey = intervalKey.slice(0, 13);
-    group.curahHujanBS = curahHujanBSPerJam[hourKey] ?? "null";
-    group.curahHujanDK = curahHujanDKPerJam[hourKey] ?? "null";
-
-    // DEBUG: cek apakah ada interval dengan nilai null di tmaCitarum
-    if (group.tmaCitarum.every(v => v === "null")) {
-      console.warn(`Interval ${intervalKey} hanya ada nilai null di tmaCitarum`);
-    }
-  });
-
-  const aggregatedData = [];
-  groupedData.forEach((group, intervalKey) => {
-    aggregatedData.push({
-      timestamp: intervalKey,
-      curahHujanBS: group.curahHujanBS !== "null" ? Number(group.curahHujanBS).toFixed(2) : "null",
-      curahHujanDK: group.curahHujanDK !== "null" ? Number(group.curahHujanDK).toFixed(2) : "null",
-      debitCipalasari: calculateAverage(group.debitCipalasari),
-      debitHulu: calculateAverage(group.debitHulu),
-      debitHilir: calculateAverage(group.debitHilir),
-      tmaCipalasari: calculateAverage(group.tmaCipalasari),
-      tmaKolam: calculateAverage(group.tmaKolam),
-      tmaCitarum: calculateAverage(group.tmaCitarum),
-    });
-  });
-
-  return aggregatedData;
-};
-
-
-
+  // Urutkan data berdasarkan konfigurasi sorting
   const rows = aggregateDataFor15MinuteIntervals();
-
   rows.sort((a, b) => {
     const { key, direction } = sortConfig;
     const dateA = new Date(a[key]);
@@ -224,6 +219,7 @@ const aggregateDataFor15MinuteIntervals = () => {
     return 0;
   });
 
+  // Render loading jika data belum diload
   if (!isDataLoaded) {
     return (
       <div className='con-loading'>
@@ -232,6 +228,7 @@ const aggregateDataFor15MinuteIntervals = () => {
     );
   }
 
+  // Render tabel data lingkungan polder
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden', borderRadius: '25px' }}>
       <Typography gutterBottom variant="h5" component="div" sx={{ padding: "20px", fontWeight: 'bold', fontFamily: 'Fira Sans' }}>

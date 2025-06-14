@@ -1,66 +1,66 @@
-import React, { useState, useRef } from 'react';
-import { ToastContainer, toast } from 'react-toastify'; // Pastikan ToastContainer diimport di sini
-import 'react-toastify/dist/ReactToastify.css'; // Pastikan Anda mengimpor CSS untuk toast
+import React, { useState, useRef, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../firebase-config";
 import { setDoc, doc } from "firebase/firestore";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Icons for password visibility
-// import { dropRight } from 'lodash';
-import '../../CSS/register.css'
-import Logo from "../../images/Log-Full-Color.png"
-import { useEffect } from 'react';
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import '../../CSS/register.css';
+import Logo from "../../images/Log-Full-Color.png";
 
 function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [fname, setFname ] = useState("");
-    const [lname, setLname ] = useState("");
+  // State Management for registration form
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
 
-    const passwordInputRef = useRef(null); // Create ref for password input
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false); // Only for toggling password visibility
+  // Ref and state for toggling password visibility
+  const passwordInputRef = useRef(null);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-    // Toggle password visibility without using state for showPassword
-    const togglePasswordVisibility = () => {
+  // togglePasswordVisibility - Toggle the type of password input between "text" and "password"
+  const togglePasswordVisibility = () => {
     setIsPasswordVisible((prevState) => !prevState);
     if (passwordInputRef.current) {
-        passwordInputRef.current.type = isPasswordVisible ? 'password' : 'text'; // Directly change the input type
+      passwordInputRef.current.type = isPasswordVisible ? 'password' : 'text';
     }
-    };
+  };
 
-  // Fungsi untuk handle submit dan menampilkan toast
-const handleRegister = async (e) => {
-        e.preventDefault();
-        try{
-            await createUserWithEmailAndPassword(auth, email, password);
-            const user = auth.currentUser;
-            console.log(user);
-            if(user){
-                await setDoc(doc(db, "Users", user.uid), {
-                    email: user.email,
-                    firstName: fname,
-                    lastName: lname,
-                    photo:""
-                });
-            }
-            console.log("user created successfully");
-            toast.success("User created successfully", {
-                position: "top-center",
-            })
-            window.location.href = "/Login";
-        } catch (error) {
-            console.log(error.message);
-            toast.success(error.message, {
-                position: "bottom-center",
-            })
-        }
-    };
+  // handleRegister - Handle user registration using Firebase Authentication and store user data in Firestore
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      const user = auth.currentUser;
+      console.log(user);
+      if (user) {
+        await setDoc(doc(db, "Users", user.uid), {
+          email: user.email,
+          firstName: fname,
+          lastName: lname,
+          photo: ""
+        });
+      }
+      console.log("user created successfully");
+      toast.success("User created successfully", {
+        position: "top-center",
+      });
+      window.location.href = "/Login";
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message, {
+        position: "bottom-center",
+      });
+    }
+  };
 
-
+  // Set Document Title on component mount
   useEffect(() => {
     document.title = "Floody - Register";
   }, []);
 
+  // Render registration form
   return (
     <div className='App'>
       <div className='auth-wrapper'>
@@ -69,11 +69,10 @@ const handleRegister = async (e) => {
             <div className="FloodyLogo">
               <img src={Logo} alt="Logo Floody" className="Logo" />
             </div>
-            <h1 style={{color: "black"}}>Sign up</h1>
-            
+            <h1 style={{ color: "black" }}>Sign up</h1>
             <div className="mb-3">
-                <label>First Name</label>
-                <input
+              <label>First Name</label>
+              <input
                 type="text"
                 className="form-control"
                 placeholder="First Name"
@@ -81,12 +80,11 @@ const handleRegister = async (e) => {
                 value={fname}
                 onChange={(e) => setFname(e.target.value)}
                 required
-            />
+              />
             </div>
-    
             <div className="mb-3">
-                <label>Last Name</label>
-                <input
+              <label>Last Name</label>
+              <input
                 type="text"
                 className="form-control"
                 placeholder="Last Name"
@@ -94,9 +92,8 @@ const handleRegister = async (e) => {
                 value={lname}
                 onChange={(e) => setLname(e.target.value)}
                 required
-            />
+              />
             </div>
-
             <div>
               <label htmlFor="email">Email Address</label>
               <input 
@@ -105,16 +102,17 @@ const handleRegister = async (e) => {
                 id="email" 
                 placeholder='Enter email' 
                 value={email} 
-                onChange={(e) => setEmail(e.target.value)} />
+                onChange={(e) => setEmail(e.target.value)} 
+                required
+              />
             </div>
-
             {/* Password Input with Show/Hide Feature */}
             <div className="mb-3 password-container">
               <label>Password</label>
               <div className="password-box">
                 <input
-                  ref={passwordInputRef} // Reference for the password input
-                  type={isPasswordVisible ? "text" : "password"} // Toggle password visibility
+                  ref={passwordInputRef}
+                  type={isPasswordVisible ? "text" : "password"}
                   className="form-control"
                   placeholder="Enter password"
                   value={password}
@@ -126,7 +124,6 @@ const handleRegister = async (e) => {
                 </span>
               </div>
             </div>
-
             <div>
               <p className="Login">
                 Already have an account? <a href="/Login" className='LoginLink'>Login Here</a>
@@ -137,13 +134,12 @@ const handleRegister = async (e) => {
                 </button>
               </div>
             </div>
-
           </form>
           <ToastContainer />
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Login;

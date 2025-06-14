@@ -12,6 +12,7 @@ const ApexLineChartCurahHujan = () => {
   const [viewMode, setViewMode] = useState('perJam');
   const [isPaused, setIsPaused] = useState(false);
 
+  // updateChartData - Mengupdate data chart berdasarkan keys dan dataset yang diberikan.
   const updateChartData = (bojongData, dayeuhData, keys) => {
     const labelsArr = [];
     const bojongArr = [];
@@ -31,6 +32,7 @@ const ApexLineChartCurahHujan = () => {
     ]);
   };
 
+  // groupAndAverage - Mengelompokkan dan menghitung rata-rata data berdasarkan parameter groupBy.
   const groupAndAverage = (rawData, groupBy) => {
     const grouped = {};
     Object.entries(rawData || {}).forEach(([key, value]) => {
@@ -51,6 +53,7 @@ const ApexLineChartCurahHujan = () => {
     return avgGrouped;
   };
 
+  // fetchData - Mengambil data dari Firebase dan memperbarui chart sesuai viewMode.
   const fetchData = () => {
     const refBojong = ref(database, "Polder/bojongsoang");
     const refDayeuh = ref(database, "Polder/dayeuhkolot");
@@ -123,6 +126,7 @@ const ApexLineChartCurahHujan = () => {
     };
   }, [viewMode, isPaused]);
 
+  // chartOptions - Konfigurasi opsi chart Apex.
   const chartOptions = {
     chart: {
       id: 'rain-chart',
@@ -211,7 +215,6 @@ const ApexLineChartCurahHujan = () => {
   return (
     <div>
       <h5>📍Kecamatan Bojongsoang & Kecamatan Dayeuhkolot</h5>
-
       <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '20px' }}>
         <button
           onClick={() => setIsPaused(prev => !prev)}
@@ -239,7 +242,6 @@ const ApexLineChartCurahHujan = () => {
         >
           {isPaused ? '▶️ Resume Update' : '⏸️ Pause Update'}
         </button>
-
         <select
           value={viewMode}
           onChange={e => setViewMode(e.target.value)}
@@ -253,6 +255,8 @@ const ApexLineChartCurahHujan = () => {
             backgroundColor: '#fff',
             cursor: 'pointer',
           }}
+          onFocus={e => (e.target.style.borderColor = '#3f51b5')}
+          onBlur={e => (e.target.style.borderColor = '#888')}
         >
           <option value="perJam">Per Jam</option>
           <option value="perMinggu">Per Minggu</option>
@@ -260,7 +264,6 @@ const ApexLineChartCurahHujan = () => {
           <option value="perTahun">Per Tahun</option>
         </select>
       </div>
-
       <Chart options={chartOptions} series={series} type="line" height={420} />
     </div>
   );

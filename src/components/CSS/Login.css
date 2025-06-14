@@ -4,7 +4,6 @@
   box-sizing: border-box;
 }
 body {
-  /* background: #1c8ef9 !important; */
   min-height: 100;
   display: flex;
   font-weight: 400;
@@ -181,8 +180,7 @@ input[type="email"], input[type="password"], input[type="text"] {
   color: gray;
   z-index: 0; 
   margin-bottom: 15px;
-  /* margin-top: -10; */
-  /* Adjust the z-index to ensure it's above the input field*/
+
 }
 
 
