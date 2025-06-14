@@ -25,7 +25,6 @@ import sliderIcon from '../icon/slider.gif';
 import button from '../icon/button.gif';
 import process from '../icon/process.gif';
 
-
 // CSS
 import "../CSS/Dash.css";
 
@@ -54,7 +53,6 @@ export default function Home() {
   const [curahHujanDK, setCurahHujanDK] = useState(null);
   const [pompa, setPompa] = useState(null);
   const [statusBanjir, setStatusBanjir] = useState(null);
-
 
   // State untuk Jam Saat Ini
   const [currentTime, setCurrentTime] = useState('');
@@ -809,7 +807,12 @@ export default function Home() {
                             '& .MuiSlider-markLabel': {
                               fontSize: '0.75rem',
                               color: '#000',
-                              marginLeft: 5,
+                              marginLeft:{
+                                xs: 12,
+                                sm: 10,
+                                md: 8,
+                                lg: 6
+                              },
                             },
 
                             '& .MuiSlider-valueLabel': {
