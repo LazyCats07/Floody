@@ -748,7 +748,7 @@ export default function Home() {
                         >
                         <Slider
                           orientation="vertical"
-                          track="normal"
+                          track="inverted"
                           aria-label="Bukaan Pintu Air"
                           value={typeof pintuAir === 'number' ? pintuAir : 0}
                           onChange={(e, newValue) => {
