@@ -124,7 +124,7 @@ return (
         <Grid container spacing={2}>
           {/* Kontrol Pintu Air */}
           <Grid size={8}>
-            <Card sx={{ height: 50 + "vh", maxWidth: 1100, borderRadius: '25px', minWidth: 99.75 + "%"}}>
+            <Card sx={{ maxWidth: 1100, borderRadius: '25px', minWidth: 99.75 + "%"}}>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 'bold'}}>
                   Kontrol Pintu Air
@@ -138,7 +138,7 @@ return (
           </Grid>
 
           <Grid size={4}>
-            <Card sx={{ height:  50 + "vh", borderRadius: '25px'}}>
+            <Card sx={{ borderRadius: '25px'}}>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 'bold'}}>
                   Kontrol Pompa

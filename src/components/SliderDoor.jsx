@@ -2,8 +2,16 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import MuiInput from '@mui/material/Input';
+import Typography from '@mui/material/Typography'; // Import Typography
+import { red } from '@mui/material/colors';       // Import warna red
+import CampaignIcon from '@mui/icons-material/Campaign'; // Import CampaignIcon
 import { ref, set, onValue } from "firebase/database";
 import { database } from "./firebase-config";
+
+// ResponsiveParagraph didefinisikan secara inline di sini
+function ResponsiveParagraph({ children }) {
+    return <p style={{ fontSize: '1rem', lineHeight: 1.5 }}>{children}</p>;
+}
 
 const marks = [
     { value: 0, label: '0%' },
@@ -91,6 +99,7 @@ export default function SliderDoor() {
     }, []);
 
     return (
+      <>
         <Box
             sx={{
                 width: '100%',
@@ -185,5 +194,18 @@ export default function SliderDoor() {
                 }}
             />
         </Box>
+        <br />
+        <Typography variant="h6" sx={{ color: red[500], fontWeight: 'bold' }}>
+            <CampaignIcon sx={{ color: red[500], marginRight: '5px' }} />
+            Danger Alert
+        </Typography>
+        <Typography variant="body2">
+            <span className='note-alert'>
+                <ResponsiveParagraph>
+                    Dihimbau berhati-hati dalam menggeser <i>slider</i> berikut karena dapat menggerakan pintu air secara <u><b>OTOMATIS</b></u>
+                </ResponsiveParagraph>
+            </span>
+        </Typography>
+      </>
     );
 }

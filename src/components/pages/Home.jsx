@@ -810,7 +810,7 @@ export default function Home() {
                               marginLeft:{
                                 xs: 12,
                                 sm: 10,
-                                md: 8,
+                                md: 7,
                                 lg: 6
                               },
                             },

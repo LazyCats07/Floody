@@ -80,8 +80,8 @@ const CustomPumpSwitch = styled((props) => <Switch {...props} />)(({ theme }) =>
 
 // ResponsiveParagraph - Styled component untuk paragraf responsif.
 const ResponsiveParagraph = styled('p')(({ theme }) => ({
-  fontSize: '18px',
-  marginTop: '-2px',
+  fontSize: '1rem',
+  lineHeight: 1.5,
   textAlign: 'justify',
   [theme.breakpoints.down('sm')]: {
     fontSize: '14px',
@@ -170,7 +170,7 @@ export default function PumpButton() {
       <Typography variant="body2">
         <span className='note-alert'>
           <ResponsiveParagraph>
-            Dihimbau berhati-hati dalam menekan tombol berikut karena dapat menyalakan pompa secara <u><b>OTOMATIS</b></u>
+              Dihimbau berhati-hati dalam menekan tombol berikut karena dapat menyalakan pompa secara <u><b>OTOMATIS</b></u>
           </ResponsiveParagraph>
         </span>
       </Typography>
