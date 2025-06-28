@@ -8,6 +8,7 @@ import '../../SliderDoor'
 import '../../CSS/report.css'
 import Footer from '../../Footer';
 import { useEffect, useState } from 'react';
+// import Notification from '../../notification';
 
 
 import React from 'react'
@@ -66,6 +67,7 @@ export default function Kolam() {
     marginLeft: { xs: 0, sm: -10  }, // geser ke kiri
           }}
         >
+          {/* <Notification /> */}
           <Box height={50} />
           <h1>Report Data Lingkungan Polder</h1>
           <p style={{ color: 'white', fontWeight: 'bold', marginTop: '-20px' }}>

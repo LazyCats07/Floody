@@ -10,7 +10,11 @@ import { database } from "./firebase-config";
 
 // ResponsiveParagraph didefinisikan secara inline di sini
 function ResponsiveParagraph({ children }) {
-    return <p style={{ fontSize: '1rem', lineHeight: 1.5 }}>{children}</p>;
+  return (
+    <p style={{ fontSize: '1rem', lineHeight: 1.5, textAlign: 'justify', margin: 0 }}>
+      {children}
+    </p>
+  );
 }
 
 const marks = [

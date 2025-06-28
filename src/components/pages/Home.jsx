@@ -27,6 +27,7 @@ import process from '../icon/process.gif';
 
 // CSS
 import "../CSS/Dash.css";
+import "../CSS/Controller.css";
 
 // CountUp Component
 import CountUp from 'react-countup';
@@ -41,6 +42,9 @@ import PumpButton from '../../components/PumpButton';
 import Footer from '../Footer';
 import Notification from '../notification';
 import ProcedureCard from '../../components/ProcedureCard'; 
+import { red } from '@mui/material/colors';       // Import warna red
+import CampaignIcon from '@mui/icons-material/Campaign'; // Import CampaignIcon
+
 
 export default function Home() {
   const [tmaCipalasari, setTmaCipalasari] = useState(null);
@@ -53,6 +57,14 @@ export default function Home() {
   const [curahHujanDK, setCurahHujanDK] = useState(null);
   const [pompa, setPompa] = useState(null);
   const [statusBanjir, setStatusBanjir] = useState(null);
+
+function ResponsiveParagraph({ children }) {
+  return (
+    <p style={{ fontSize: '1rem', lineHeight: 1.5, textAlign: 'justify', margin: 0 }}>
+      {children}
+    </p>
+  );
+}
 
   // State untuk Jam Saat Ini
   const [currentTime, setCurrentTime] = useState('');
@@ -874,7 +886,26 @@ export default function Home() {
                           }}
                         />
                         <span className="watersubValue" style={{ marginTop: '10px' }} >Bukaan Pintu Air</span>
+                        <span style={{marginLeft: '-50px', textJustify: 'justify'}}>
+                          <Typography variant="h6" sx={{ color: red[500], fontWeight: 'bold' }}>
+                            <CampaignIcon sx={{ color: red[500], marginRight: '5px' }} />
+                            Danger Alert
+                          </Typography>
+                          <Typography variant="body2">
+                            <span className='note-alert'>
+                              <ResponsiveParagraph>
+                                  Dihimbau berhati-hati dalam menggeser <i>slider</i> berikut karena dapat menggerakan pintu air secara <u><b>OTOMATIS</b></u>
+                              </ResponsiveParagraph>
+                            </span>
+                          </Typography>
+                        </span>
+                
                       </div>
+
+
+
+
+
 
                     </Stack>
                   </CardContent>

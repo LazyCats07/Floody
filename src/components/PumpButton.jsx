@@ -79,15 +79,13 @@ const CustomPumpSwitch = styled((props) => <Switch {...props} />)(({ theme }) =>
 }));
 
 // ResponsiveParagraph - Styled component untuk paragraf responsif.
-const ResponsiveParagraph = styled('p')(({ theme }) => ({
-  fontSize: '1rem',
-  lineHeight: 1.5,
-  textAlign: 'justify',
-  [theme.breakpoints.down('sm')]: {
-    fontSize: '14px',
-    marginTop: '-4px',
-  },
-}));
+function ResponsiveParagraph({ children }) {
+  return (
+    <p style={{ fontSize: '1rem', lineHeight: 1.5, textAlign: 'justify', margin: 0 }}>
+      {children}
+    </p>
+  );
+}
 
 // PumpButton - Functional component yang menampilkan toggle switch untuk pompa.
 export default function PumpButton() {

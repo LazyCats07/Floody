@@ -29,7 +29,7 @@ export function RealTimeData(setters) {
 
         // Ensure the value is numeric
         const numericValue = !isNaN(value) ? parseFloat(value) : 0;
-
+        // Log the last key and its numeric value
         console.log(`[${key}] Last Key: ${lastKey}, Value: ${numericValue}`);
 
         // Update the state with the parsed numeric value

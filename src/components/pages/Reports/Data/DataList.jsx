@@ -184,10 +184,10 @@ export default function DataList() {
       group.curahHujanBS = curahHujanBSPerJam[hourKey] ?? "null";
       group.curahHujanDK = curahHujanDKPerJam[hourKey] ?? "null";
 
-      // Jika semua nilai tmaCitarum adalah "null", tulis peringatan
-      if (group.tmaCitarum.every(v => v === "null")) {
-        console.warn(`Interval ${intervalKey} hanya ada nilai null di tmaCitarum`);
-      }
+      // // Jika semua nilai tmaCitarum adalah "null", tulis peringatan
+      // if (group.tmaCitarum.every(v => v === "null")) {
+      //   console.warn(`Interval ${intervalKey} hanya ada nilai null di tmaCitarum`);
+      // }
     });
 
     const aggregatedData = [];

@@ -9,6 +9,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from
 import notes from '../icon/notes.gif';
 import { useEffect, useState } from 'react';
 import ProcedureCard from '../ProcedureCard';
+// import Notification from '../notification';
 
 
 // Component
@@ -67,6 +68,8 @@ return (
     minHeight: '100vh', // tinggi minimum 100% viewport
   }}
 >
+      {/* <Notification /> */}
+
     <Navbar />
     <Box height={50} />
     <Box sx={{ display: 'flex' }} className='bg'>

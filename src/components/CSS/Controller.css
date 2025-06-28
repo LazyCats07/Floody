@@ -55,7 +55,7 @@ h1{
   .note-alert {
     font-size: 14px;
     padding-top: 8px;
-    color: #f44336;
+    /* color: #f44336; */
     word-wrap: break-word;
   }
 
